@@ -5,7 +5,11 @@ binary_sensor.cube_158d00027984b3:
   friendly_name: Cubo Magico
   icon: mdi:cube-outline
   
-  
+
+sensor.bruno:
+  icon: mdi:crosshairs-gps
+sensor.bruno_bateria_tlm:
+  icon: mdi:battery
   
 #Sensores Janela
 binary_sensor.door_window_sensor_158d00022b3ad2:
