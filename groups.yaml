@@ -1,0 +1,48 @@
+default_view:
+  view: yes
+  icon: mdi:home
+  entities:
+    - group.radio
+    - group.sensores
+    - group.luzes
+    - group.portao
+    - group.jardim
+    - group.zanzito
+    
+sensores:
+  name: Sensores de Casa
+  entities:
+    - binary_sensor.switch_158d00015aa37d
+    - sensor.time
+
+
+luzes:
+  name: Lâmpadas de Casa
+  entities:
+    - light.yeelight_rgb_7811dce0fe41
+    - light.yeelight_rgb_7811dc6b9b10
+    - light.yeelight_rgb_7811dc6b98cb
+    - light.despensa
+    - light.yeelight_rgb_7811dce12676
+    - light.gateway_light_7811dcb38555
+    
+Automação porta entrada:
+  entities:
+    - automation.liga_luz_gateway
+    - automation.desliga_luz_gateway
+    - automation.porta_aberta
+    - automation.porta_fechada
+
+Automação Quarto Mafalda:
+  entities:
+    - automation.mudar_fraldas_quarto_on
+    - automation.mudar_fraldas_quarto_off
+
+Cubo Mágico:
+  entities:
+    - automation.cubo_90_graus
+    - automation.cubo_180_graus
+    - automation.cubo_2_batidas
+    - automation.cubo_empurrar
+    - automation.cubo_all_off
+    

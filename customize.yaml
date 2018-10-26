@@ -1,0 +1,67 @@
+
+#sensores cubo
+
+binary_sensor.cube_158d00027984b3:
+  friendly_name: Cubo Magico
+  icon: mdi:cube-outline
+  
+  
+  
+#Sensores Janela
+binary_sensor.door_window_sensor_158d00022b3ad2:
+  friendly_name: Sensor porta da rua
+  icon: mdi:door
+
+#Sensores Movimento
+binary_sensor.motion_sensor_158d0001f9d417:
+  friendly_name: Sensor de Movimento Sala
+  icon: mdi:run
+sensor.illumination_158d0001f9d417:
+  friendly_name: Sensor LX
+  icon: mdi:brightness-4
+sensor.illumination_7811dcb38555:
+  friendly_name: Sensor LM
+  icon: mdi:brightness-1
+
+#Interruptores
+  
+binary_sensor.switch_158d00015aa37d:
+  friendly_name: Interruptor
+  icon: mdi:light-switch
+
+#lampadas
+light.yeelight_rgb_7811dce0fe41:
+  friendly_name: Lampada Quarto Mafalda
+light.yeelight_rgb_7811dc6b9b10:
+  friendly_name: Aplique Direito
+light.yeelight_rgb_7811dc6b98cb:
+  friendly_name: Aplique Esquerdo
+light.despensa:
+  friendly_name: Aplique Despensa
+light.yeelight_rgb_7811dce12676:
+  friendly_name: Luz da rua
+  
+  
+  
+#gateway
+light.gateway_light_7811dcb38555:
+  friendly_name: Led Gateway
+
+  
+#sensores de temperatura e humidade
+sensor.humidity_158d00023203e4:
+  friendly_name: Sensor de Humidade sala
+  icon: mdi:water-percent
+sensor.temperature_158d00023203e4:
+  friendly_name: Sensor de Temperatura sala
+  icon: mdi:temperature-celsius
+  
+#multimedia
+media_player.tv_sala_estar_ue40d6500:
+  friendly_name: TV Samsung
+media_player.mediaroom_07202f72fb474561a6565a29fb396000:
+  friendly_name: Box quarto mãe
+media_player.mediaroom_47160dec34ca412bb87c083625d264de:
+  friendly_name: Box sala Bruno
+media_player.mediaroom_f8c286c0cf3445e69af94cf034d34c4a:
+  friendly_name: Box cozinha mãe
