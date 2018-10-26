@@ -1,0 +1,2 @@
+# home-assistant
+configuração hassio
