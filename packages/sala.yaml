@@ -1,0 +1,505 @@
+homeassistant:
+
+###############################################################################
+
+#                                                                             #
+
+#                           C U S T O M I Z E                                 #
+
+#                                                                             #
+
+###############################################################################   
+
+        
+
+#  customize:
+
+
+
+
+###############################################################################
+#                                                                             #
+#                         INPUT   BOOLEAN                                     #
+#                                                                             #
+###############################################################################      
+
+###############################################################################
+#                                                                             #
+#                           A U T O M A Ç Õ E S                               #
+#                                                                             #
+###############################################################################   
+automation:
+
+#Automaçóes cubo
+
+
+  - alias: Cubo 90 graus
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: cube_action
+      event_data:
+        entity_id: binary_sensor.cube_158d00027984b3
+        action_type: flip90
+    action:
+      - service: automation.turn_off
+        entity_id: automation.iluminacao_sala_17h0019h30
+      - service: automation.turn_off
+        entity_id: automation.iluminacao_sala_19h3020h30
+      - service: automation.turn_off
+        entity_id: automation.iluminacao_sala_20h3021h30
+      - service: automation.turn_off
+        entity_id: automation.iluminacao_sala_21h3022h30
+      - service: automation.turn_off
+        entity_id: automation.mudar_fraldas_sala_on
+      - service: light.turn_on
+        entity_id: light.yeelight_rgb_7811dc6b9b10
+        data:
+          brightness: 255
+          kelvin: 6500
+      - service: light.turn_on
+        entity_id: light.yeelight_rgb_7811dc6b98cb
+        data:
+          brightness: 255
+          kelvin: 6500
+
+          
+  - alias: Cubo 180 graus
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: cube_action
+      event_data:
+        entity_id: binary_sensor.cube_158d00027984b3
+        action_type: flip180
+    action:
+      - service: automation.turn_off
+        entity_id: automation.iluminacao_sala_17h0019h30
+      - service: automation.turn_off
+        entity_id: automation.iluminacao_sala_19h3020h30
+      - service: automation.turn_off
+        entity_id: automation.iluminacao_sala_20h3021h30
+      - service: automation.turn_off
+        entity_id: automation.iluminacao_sala_21h3022h30
+      - service: automation.turn_off
+        entity_id: automation.mudar_fraldas_sala_on
+      - service: light.turn_on
+        entity_id: group.salagrupo
+        data:
+          brightness: 150
+          kelvin: 3000
+
+
+  - alias: Cubo All OFF
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: cube_action
+      event_data:
+        entity_id: binary_sensor.cube_158d00027984b3
+        action_type: shake_air
+    action:
+      - service: automation.turn_on
+        entity_id: automation.iluminacao_sala_17h0019h30
+      - service: automation.turn_on
+        entity_id: automation.iluminacao_sala_19h3020h30
+      - service: automation.turn_on
+        entity_id: automation.iluminacao_sala_20h3021h30
+      - service: automation.turn_on
+        entity_id: automation.iluminacao_sala_21h3022h30
+      - service: automation.turn_on
+        entity_id: automation.mudar_fraldas_sala_on
+      - service: light.turn_off
+        entity_id: light.yeelight_rgb_7811dc6b9b10
+      - service: light.turn_off
+        entity_id: light.yeelight_rgb_7811dc6b98cb
+
+
+  - alias: Cubo Empurrar
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: cube_action
+      event_data:
+        entity_id: binary_sensor.cube_158d00027984b3
+        action_type: move
+    action:
+      - service: automation.turn_off
+        entity_id: automation.iluminacao_sala_17h0019h30
+      - service: automation.turn_off
+        entity_id: automation.iluminacao_sala_19h3020h30
+      - service: automation.turn_off
+        entity_id: automation.iluminacao_sala_20h3021h30
+      - service: automation.turn_off
+        entity_id: automation.iluminacao_sala_21h3022h30
+      - service: automation.turn_off
+        entity_id: automation.mudar_fraldas_sala_on
+      - service: light.turn_on
+        entity_id: group.salagrupo
+        data:
+          brightness: 150
+          color_name: orangered
+
+
+  - alias: Cubo 2 batidas
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: cube_action
+      event_data:
+        entity_id: binary_sensor.cube_158d00027984b3
+        action_type: tap_twice
+    action:
+      - service: automation.turn_off
+        entity_id: automation.iluminacao_sala_17h0019h30
+      - service: automation.turn_off
+        entity_id: automation.iluminacao_sala_19h3020h30
+      - service: automation.turn_off
+        entity_id: automation.iluminacao_sala_20h3021h30
+      - service: automation.turn_off
+        entity_id: automation.iluminacao_sala_21h3022h30
+      - service: automation.turn_off
+        entity_id: automation.mudar_fraldas_sala_on
+      - service: light.turn_on
+        entity_id: group.salagrupo
+        data:
+          brightness: 100
+          color_name: cornflowerblue
+
+#automaçóes Sala
+ 
+  - alias: Iluminação Sala 17h00-19h30
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      from: 'off'
+      to: 'on'
+    condition:
+    - condition: time
+      after: '17:00:00'
+      before: '19:30:00'
+    - condition: numeric_state
+      entity_id: sensor.illumination_158d0001f9d417
+      below: 10
+    action:
+      - service: light.turn_on
+        entity_id: light.yeelight_rgb_7811dc6b98cb
+        data:
+          brightness: 255
+          kelvin: 6500
+      - service: light.turn_on
+        entity_id: light.yeelight_rgb_7811dc6b9b10
+        data:
+          brightness: 255
+          kelvin: 6500
+      - service: light.turn_on
+        data:
+          entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      - service: light.turn_off
+        entity_id: light.yeelight_rgb_7811dce0fe41
+
+  - alias: Sala OFF 17h-19h30
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      from: 'on'
+      to: 'off'
+      for:
+        minutes: 10
+    condition:
+    - condition: time
+      after: '17:00:00'
+      before: '19:30:00'
+    action:
+      - service: light.turn_off
+        entity_id: light.yeelight_rgb_7811dc6b9b10
+      - service: light.turn_off
+        entity_id: light.yeelight_rgb_7811dc6b98cb
+      - service: light.turn_off
+        data:
+          entity_id: binary_sensor.motion_sensor_158d0001f9d417
+
+
+  - alias: Iluminação Sala 19h30-20h30
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      from: 'off'
+      to: 'on'
+    condition:
+    - condition: time
+      after: '19:30:00'
+      before: '20:30:00'
+    - condition: numeric_state
+      entity_id: sensor.illumination_158d0001f9d417
+      below: 10
+    action:
+      - service: light.turn_on
+        entity_id: light.yeelight_rgb_7811dc6b98cb
+        data:
+          brightness: 200
+          kelvin: 4300
+      - service: light.turn_on
+        entity_id: light.yeelight_rgb_7811dc6b9b10
+        data:
+          brightness: 200
+          kelvin: 4300
+      - service: light.turn_on
+        data:
+          entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      - service: light.turn_off
+        entity_id: light.yeelight_rgb_7811dce0fe41
+
+  - alias: Sala OFF 19h30-20h30
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      from: 'on'
+      to: 'off'
+      for:
+        minutes: 10
+    condition:
+    - condition: time
+      after: '19:30:00'
+      before: '20:30:00'
+    action:
+      - service: light.turn_off
+        entity_id: light.yeelight_rgb_7811dc6b9b10
+      - service: light.turn_off
+        entity_id: light.yeelight_rgb_7811dc6b98cb
+      - service: light.turn_off
+        data:
+          entity_id: binary_sensor.motion_sensor_158d0001f9d417
+
+  - alias: Iluminação Sala 20h30-21h30
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      from: 'off'
+      to: 'on'
+    condition:
+    - condition: time
+      after: '20:30:00'
+      before: '21:30:00'
+    - condition: numeric_state
+      entity_id: sensor.illumination_158d0001f9d417
+      below: 10
+    action:
+      - service: light.turn_on
+        entity_id: light.yeelight_rgb_7811dc6b98cb
+        data:
+          brightness: 100
+          kelvin: 3400
+      - service: light.turn_on
+        entity_id: light.yeelight_rgb_7811dc6b9b10
+        data:
+          brightness: 100
+          kelvin: 3400
+      - service: light.turn_on
+        data:
+          entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      - service: light.turn_off
+        entity_id: light.yeelight_rgb_7811dce0fe41
+
+  - alias: Sala OFF 20h30-21h30
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      from: 'on'
+      to: 'off'
+      for:
+        minutes: 10
+    condition:
+    - condition: time
+      after: '20:30:00'
+      before: '21:30:00'
+    action:
+      - service: light.turn_off
+        entity_id: light.yeelight_rgb_7811dc6b9b10
+      - service: light.turn_off
+        entity_id: light.yeelight_rgb_7811dc6b98cb
+      - service: light.turn_off
+        data:
+          entity_id: binary_sensor.motion_sensor_158d0001f9d417
+          
+  - alias: Iluminação Sala 21h30-22h30
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      from: 'off'
+      to: 'on'
+    condition:
+    - condition: time
+      after: '21:30:00'
+      before: '22:30:00'
+    - condition: numeric_state
+      entity_id: sensor.illumination_158d0001f9d417
+      below: 10
+    action:
+      - service: light.turn_on
+        entity_id: light.yeelight_rgb_7811dc6b98cb
+        data:
+          brightness: 76
+          color_name: aqua
+      - service: light.turn_on
+        entity_id: light.yeelight_rgb_7811dc6b9b10
+        data:
+          brightness: 76
+          color_name: aqua
+      - service: light.turn_on
+        data:
+          entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      - service: light.turn_off
+        entity_id: light.yeelight_rgb_7811dce0fe41
+
+  - alias: Sala OFF 21h30-22h30
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      from: 'on'
+      to: 'off'
+      for:
+        minutes: 10
+    condition:
+    - condition: time
+      after: '21:30:00'
+      before: '22:30:00'
+    action:
+      - service: light.turn_off
+        entity_id: light.yeelight_rgb_7811dc6b9b10
+      - service: light.turn_off
+        entity_id: light.yeelight_rgb_7811dc6b98cb
+      - service: light.turn_off
+        data:
+          entity_id: binary_sensor.motion_sensor_158d0001f9d417
+
+
+
+  - alias: Mudar fraldas sala ON
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      from: 'off'
+      to: 'on'
+    condition:
+    - condition: time
+      after: '22:30:00'
+      before: '06:50:00'
+    - condition: numeric_state
+      entity_id: sensor.illumination_158d0001f9d417
+      below: 10
+    action:
+      - service: light.turn_on
+        entity_id: light.yeelight_rgb_7811dc6b98cb
+        data:
+          brightness: 85
+          color_name: green
+      - service: light.turn_on
+        data:
+          entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      - service: light.turn_off
+        entity_id: light.yeelight_rgb_7811dc6b9b10
+
+  - alias: Mudar fraldas sala OFF
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      from: 'on'
+      to: 'off'
+      for:
+        minutes: 4
+    condition:
+    - condition: time
+      after: '22:30:00'
+      before: '06:50:00'
+    action:
+      - service: light.turn_off
+        entity_id: light.yeelight_rgb_7811dc6b98cb
+      - service: light.turn_off
+        entity_id: light.yeelight_rgb_7811dc6b9b10
+      - service: light.turn_off
+        data:
+          entity_id: binary_sensor.motion_sensor_158d0001f9d417
+
+  - alias: Desligar luz a cima 20 lx
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      to: 'off'
+      for: 
+        seconds: 20
+    condition:
+    - condition: time
+      after: '17:00:00'
+      before: '06:50:00'
+    - condition: numeric_state
+      entity_id: sensor.illumination_158d0001f9d417
+      above: 20
+    action:
+      - service: light.turn_off
+        entity_id: light.yeelight_rgb_7811dc6b98cb
+      - service: light.turn_off
+        entity_id: light.yeelight_rgb_7811dc6b9b10
+          
+#Sunrise
+
+###############################################################################
+#                                                                             #
+#                           L U Z E S                                         #
+#                                                                             #
+###############################################################################  
+
+#lights:
+
+
+
+###############################################################################
+#                                                                             #
+#                         G R O U P S                                         #
+#                                                                             
+###############################################################################      
+
+group:
+
+  sala:
+    view: yes
+    name: sala
+    entities:
+      - group.salagrupo
+
+      
+
+  salagrupo:
+    control: hidden
+    name: Sala
+    entities:
+      - light.yeelight_rgb_7811dc6b9b10
+      - light.yeelight_rgb_7811dc6b98cb
+      - binary_sensor.motion_sensor_158d0001f9d417
+      - sensor.illumination_158d0001f9d417
+      - sensor.illumination_7811dcb38555
+      - binary_sensor.cube_158d00027984b3
+      - sensor.humidity_158d00023203e4
+      - sensor.temperature_158d00023203e4
+      - automation.iluminacao_sala_17h0019h30
+      - automation.iluminacao_sala_19h3020h30
+      - automation.iluminacao_sala_20h3021h30
+      - automation.iluminacao_sala_21h3022h30
+      - automation.mudar_fraldas_sala_on
+      - automation.sala_off_17h19h30
+      - automation.sala_off_19h3020h30
+      - automation.sala_off_20h3021h30
+      - automation.sala_off_21h3022h30
+      - automation.mudar_fraldas_sala_off
+      - automation.desligar_luz_a_cima_20_lx

@@ -1,0 +1,96 @@
+homeassistant:
+
+###############################################################################
+
+#                                                                             #
+
+#                           C U S T O M I Z E                                 #
+
+#                                                                             #
+
+###############################################################################   
+
+        
+
+#  customize:
+
+
+
+
+###############################################################################
+#                                                                             #
+#                         INPUT   BOOLEAN                                     #
+#                                                                             #
+###############################################################################      
+
+###############################################################################
+#                                                                             #
+#                           A U T O M A Ç Õ E S                               #
+#                                                                             #
+###############################################################################   
+automation:
+
+#Automações para notificações
+
+  - alias: Porta Aberta
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
+      from: 'off'
+      to: 'on'
+    action:
+      service: notify.Telegram
+      data:
+        message: 'Porta da rua foi aberta'
+       
+
+  - alias: Porta Fechada
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
+      from: 'on'
+      to: 'off'
+    action:
+      service: notify.Telegram
+      data:
+        message: 'Porta da rua foi fechada'
+
+
+  - alias: Sensor movimento
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      from: 'off'
+      to: 'on'
+    action:
+      service: notify.Telegram
+      data:
+        message: 'Movimento detectado'
+
+###############################################################################
+#                                                                             #
+#                           S W I T C H E S                                   #
+#                                                                             #
+###############################################################################  
+
+
+
+
+###############################################################################
+#                                                                             #
+#                           N O T I F I E R S                                 #
+#                                                                             #
+###############################################################################  
+notify:
+  - name: telegram
+    platform: telegram
+    chat_id: !secret chat_ids_bruno
+
+telegram_bot:
+  - platform: polling
+    api_key: !secret api_key_bruno
+    allowed_chat_ids:
+      - !secret chat_ids_bruno

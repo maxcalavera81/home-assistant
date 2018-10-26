@@ -1,0 +1,92 @@
+homeassistant:
+
+###############################################################################
+
+#                                                                             #
+
+#                           C U S T O M I Z E                                 #
+
+#                                                                             #
+
+###############################################################################   
+
+        
+
+#  customize:
+
+
+
+
+###############################################################################
+#                                                                             #
+#                         INPUT   BOOLEAN                                     #
+#                                                                             #
+###############################################################################      
+
+###############################################################################
+#                                                                             #
+#                           A U T O M A Ç Õ E S                               #
+#                                                                             #
+###############################################################################   
+automation:
+
+#automaçóes refentes ao gatewayy
+
+  - alias: liga luz gateway
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
+      to: 'on'
+    condition:
+      condition: time
+      after: '19:00:00'
+      before: '07:30:00'
+    action:
+      - service: light.turn_on
+        data_template:
+          entity_id: light.gateway_light_7811dcb38555
+          brightness: 100
+          color_name: deepskyblue
+  - alias: desliga luz gateway
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
+      to: 'off'
+      for:
+        minutes: 2
+    action:
+      - service: light.turn_off
+        data_template:
+          entity_id: light.gateway_light_7811dcb38555
+
+###############################################################################
+#                                                                             #
+#                           l U Z E S                                         #
+#                                                                             #
+###############################################################################  
+
+
+#lights:
+
+###############################################################################
+#                                                                             #
+#                         G R O U P S                                         #
+#                                                                             #
+###############################################################################      
+
+group:
+
+  hall:
+    view: yes
+    name: hall
+    entities:
+      - group.hallgrupo
+
+  hallgrupo:
+    control: hidden
+    name: Hall
+    entities:
+      - light.gateway_light_7811dcb38555
+      - binary_sensor.door_window_sensor_158d00022b3ad2

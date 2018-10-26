@@ -1,0 +1,65 @@
+homeassistant:
+
+zone:
+
+  - name: home
+    latitude: !secret latitude_casa
+    longitude: !secret longitude_casa
+    radius: 60
+    icon: mdi:home
+
+  - name: notrabalho
+    latitude: !secret latitude_trabalho_bruno
+    longitude: !secret longitude_trabalho_bruno
+    radius: 600
+    icon: mdi:worker
+
+device_tracker:
+  
+  - platform: mqtt_json
+    devices:
+     bruno: zanzito/bruno/location
+    track_new_devices: True
+    interval_seconds: 10
+    consider_home: 20
+
+sensor:
+  
+  - platform: mqtt
+    state_topic: "zanzito/bruno/battery_level"
+    name: "Bruno bateria tlm"
+    unit_of_measurement: '%'
+    retain: true
+       
+  - platform: template
+    sensors:       
+      bruno:
+        friendly_name: 'Estado Bruno'
+        value_template: > 
+          {%- if is_state('device_tracker.bruno', 'not_home') -%}
+             Ausente
+          {%- endif -%}
+          {%- if is_state('device_tracker.bruno', 'home') -%}
+             Em Casa
+          {%- endif -%}      
+          {%- if is_state('device_tracker.bruno', 'notrabalho') -%} 
+             No Trabalho
+          {%- endif -%}               
+
+camera:
+  
+  - name: bruno_cam
+    platform: generic
+    still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.bruno.attributes.latitude }},{{ states.device_tracker.bruno.attributes.longitude }}&zoom=16&size=500x500&maptype=roadmap&markers=color:green%7Clabel:JA%7C{{ states.device_tracker.bruno.attributes.latitude }},{{ states.device_tracker.bruno.attributes.longitude }}
+    limit_refetch_to_url_change: true  
+
+
+
+group:
+
+  zanzito:
+    name: Zanzito Familia
+    entities:
+      - sensor.bruno
+      - sensor.bruno_bateria_tlm
+      - camera.bruno_cam

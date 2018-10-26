@@ -1,0 +1,97 @@
+homeassistant:
+
+###############################################################################
+
+#                                                                             #
+
+#                           C U S T O M I Z E                                 #
+
+#                                                                             #
+
+###############################################################################   
+
+        
+
+#  customize:
+
+
+
+
+###############################################################################
+#                                                                             #
+#                         INPUT   BOOLEAN                                     #
+#                                                                             #
+###############################################################################      
+
+###############################################################################
+#                                                                             #
+#                           A U T O M A Ç Õ E S                               #
+#                                                                             #
+###############################################################################   
+automation:
+
+#automação luz rua
+
+  - alias: liga luz rua
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
+      to: 'on'
+    condition:
+      condition: time
+      after: '19:00:00'
+      before: '07:30:00'
+    action:
+      - service: light.turn_on
+        data_template:
+          entity_id: light.yeelight_rgb_7811dce12676
+          brightness: 255
+          kelvin: 6500
+
+  - alias: desliga luz rua
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
+      to: 'off'
+      for:
+        minutes: 5
+    action:
+      - service: light.turn_off
+        data_template:
+          entity_id: light.yeelight_rgb_7811dce12676
+
+
+
+###############################################################################
+#                                                                             #
+#                           L U Z E S                                         #
+#                                                                             #
+###############################################################################  
+
+#lights:
+
+
+
+###############################################################################
+#                                                                             #
+#                         G R O U P S                                         #
+#                                                                             
+###############################################################################      
+
+group:
+
+  rua:
+    view: yes
+    name: Rua
+    entities:
+      - group.ruagrupo
+
+      
+
+  ruagrupo:
+    control: hidden
+    name: Rua
+    entities:
+      - light.yeelight_rgb_7811dce12676

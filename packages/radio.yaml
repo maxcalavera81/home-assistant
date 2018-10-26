@@ -1,0 +1,351 @@
+homeassistant:
+
+
+  
+  
+###############################################################################
+#                                                                             #
+#                           C U S T O M I Z E                                 #
+#                                                                             #
+###############################################################################   
+        
+  customize:
+ 
+    script.radio_play:
+      friendly_name: Tocar na zona selecionada
+      icon: mdi:play
+    script.radio_play_geral:
+      friendly_name: Tocar na casa Toda
+      icon: mdi:play
+    script.radio_pause:
+      friendly_name: Parar na zona Selecionada
+      icon: mdi:stop
+    script.radio_pause_geral:
+      friendly_name: Parar em todas as zonas
+      icon: mdi:stop
+    sensor.radio:
+      icon: mdi:surround-sound
+      
+###############################################################################
+#                                                                             #
+#                          M E D I A  P L A Y E R                             #
+#                                                                             #
+###############################################################################
+
+media_player:
+  - platform: kodi
+    name: Radio
+    host: !secret host_kodi
+    port: !secret port_kodi
+    username: !secret username_kodi
+    password: !secret password_kodi
+    turn_off_action: hibernate 
+###############################################################################
+#                                                                             #
+#                           A U T O M A Ç Õ E S                               #
+#                                                                             #
+###############################################################################   
+automation:
+  - alias: 'Ajustar o Volume'
+    trigger:
+      platform: state
+      entity_id: input_number.volume_radio
+    action:
+      service: media_player.volume_set
+      data_template:
+        entity_id: media_player.Radio
+        volume_level: '{{states.input_number.volume_radio.state}}'
+        
+      
+  
+###############################################################################
+#                                                                             #
+#                           S C R I P T S                                     #
+#                                                                             #
+###############################################################################  
+
+script:
+
+  radio_play:
+    alias: Tocar o rádio na zona seleccionada
+    sequence:
+      - service: media_player.media_stop
+        data_template:
+          entity_id: >
+            {%- if is_state('input_select.zona_onde_toca', 'Zona Central') -%}
+                media_player.Radio
+            {%- elif is_state('input_select.zona_onde_toca', 'Sala') -%}
+                media_player.Sala
+            {%- endif -%}
+      - service: media_player.play_media
+        data_template:
+          entity_id: >
+             {%- if is_state('input_select.zona_onde_toca', 'Zona Central') -%}
+                media_player.Radio
+             {%- elif is_state('input_select.zona_onde_toca', 'Sala') -%}
+                media_player.Sala
+             {%- endif -%}
+          media_content_id: >
+              {%- if is_state('input_select.estacoes_de_radio', 'Orbital') -%}
+                 http://stream.radio.com.pt/ROLI-ENC-401
+              {%- elif is_state('input_select.estacoes_de_radio', 'Oxigenio') -%}
+                 http://stream.radio.com.pt/ROLI-ENC-498
+              {%- elif is_state('input_select.estacoes_de_radio', 'Meo Sudoeste') -%}   
+                 http://stream.radio.com.pt/ROLI-ENC-495
+              {%- elif is_state('input_select.estacoes_de_radio', 'Mega Hits') -%}  
+                 http://19553.live.streamtheworld.com:80/MEGA_HITS_SC
+              {%- elif is_state('input_select.estacoes_de_radio', 'Cidade FM') -%}  
+                 http://mcrscast.mcr.iol.pt/cidadefm
+              {%- elif is_state('input_select.estacoes_de_radio', 'Comercial') -%}  
+                 http://mcrscast.mcr.iol.pt/comercial.mp3
+              {%- elif is_state('input_select.estacoes_de_radio', 'Nova Era') -%}
+                 http://centova.radios.pt:9478/stream/1/  
+              {%- elif is_state('input_select.estacoes_de_radio', 'Rfm') -%}                 
+                 http://19553.live.streamtheworld.com:3690/RFM_SC    
+              {%- elif is_state('input_select.estacoes_de_radio', 'Renascença') -%}
+                 http://19593.live.streamtheworld.com:80/RADIO_RENASCENCA_SC     
+              {%- elif is_state('input_select.estacoes_de_radio', 'Oceano Pacífico') -%}   
+                 http://19553.live.streamtheworld.com:80/OCEANPACIFIC_SC  
+              {%- elif is_state('input_select.estacoes_de_radio', 'TSF') -%}
+                http://tsfdirecto.tsf.pt/tsfdirecto.mp3 
+              {%- elif is_state('input_select.estacoes_de_radio', 'Antena 1') -%} 
+                http://radiocast.rtp.pt/antena180a.mp3   
+              {%- elif is_state('input_select.estacoes_de_radio', 'Antena 2') -%} 
+                http://radiocast.rtp.pt/antena2jazzin80a.mp3                 
+              {%- elif is_state('input_select.estacoes_de_radio', 'Antena 3') -%} 
+                 http://radiocast.rtp.pt/antena380a.mp3  
+              {%- elif is_state('input_select.estacoes_de_radio', 'M80') -%} 
+                 http://mcrscast.mcr.iol.pt/m80  
+              {%- elif is_state('input_select.estacoes_de_radio', 'Tropical FM') -%} 
+                 http://suaradio1.dyndns.ws:10308/stream  
+              {%- elif is_state('input_select.estacoes_de_radio', 'Musica Anos 80') -%}
+                 http://stm15.conectastm.com:30890/live
+              {%- elif is_state('input_select.estacoes_de_radio', 'Smooth FM') -%}  
+                 http://mcrscast.mcr.iol.pt/smoothfm
+              {%- elif is_state('input_select.estacoes_de_radio', 'Radio Radar') -%}     
+                 http://centova.radios.pt:8497/stream/1/
+              {%- endif -%}
+          media_content_type: 'audio/mp3'
+
+
+  radio_stop:
+    alias: Parar o rádio na zona seleccionada
+    sequence:
+      - service: media_player.media_stop
+        data_template:
+          entity_id: >
+            {%- if is_state('input_select.zona_onde_toca', 'Zona Central') -%}
+                media_player.Radio
+            {%- elif is_state('input_select.zona_onde_toca', 'Sala') -%}
+                media_player.Sala
+            {%- endif -%}
+          
+  radio_play_geral:
+    alias: Tocar o rádio em todas as zonas
+    sequence:
+      - service: media_player.play_media
+        data_template:
+          entity_id: media_player.Radio
+          media_content_id: >
+              {%- if is_state('input_select.estacoes_de_radio', 'Orbital') -%}
+                 http://stream.radio.com.pt/ROLI-ENC-401
+              {%- elif is_state('input_select.estacoes_de_radio', 'Oxigenio') -%}
+                 http://stream.radio.com.pt/ROLI-ENC-498
+              {%- elif is_state('input_select.estacoes_de_radio', 'Meo Sudoeste') -%}   
+                 http://stream.radio.com.pt/ROLI-ENC-495
+              {%- elif is_state('input_select.estacoes_de_radio', 'Mega Hits') -%}  
+                 http://19553.live.streamtheworld.com:80/MEGA_HITS_SC
+              {%- elif is_state('input_select.estacoes_de_radio', 'Cidade FM') -%}  
+                 http://mcrscast.mcr.iol.pt/cidadefm
+              {%- elif is_state('input_select.estacoes_de_radio', 'Comercial') -%}  
+                 http://mcrscast.mcr.iol.pt/comercial.mp3
+              {%- elif is_state('input_select.estacoes_de_radio', 'Nova Era') -%}
+                 http://centova.radios.pt:9478/stream/1/  
+              {%- elif is_state('input_select.estacoes_de_radio', 'Rfm') -%}                 
+                 http://19553.live.streamtheworld.com:3690/RFM_SC    
+              {%- elif is_state('input_select.estacoes_de_radio', 'Renascença') -%}
+                 http://19593.live.streamtheworld.com:80/RADIO_RENASCENCA_SC     
+              {%- elif is_state('input_select.estacoes_de_radio', 'Oceano Pacífico') -%}   
+                 http://19553.live.streamtheworld.com:80/OCEANPACIFIC_SC  
+              {%- elif is_state('input_select.estacoes_de_radio', 'TSF') -%}
+                http://tsfdirecto.tsf.pt/tsfdirecto.mp3 
+              {%- elif is_state('input_select.estacoes_de_radio', 'Antena 1') -%} 
+                http://radiocast.rtp.pt/antena180a.mp3   
+              {%- elif is_state('input_select.estacoes_de_radio', 'Antena 2') -%} 
+                http://radiocast.rtp.pt/antena2jazzin80a.mp3                 
+              {%- elif is_state('input_select.estacoes_de_radio', 'Antena 3') -%} 
+                 http://radiocast.rtp.pt/antena380a.mp3  
+              {%- elif is_state('input_select.estacoes_de_radio', 'M80') -%} 
+                 http://mcrscast.mcr.iol.pt/m80  
+              {%- elif is_state('input_select.estacoes_de_radio', 'Tropical FM') -%} 
+                 http://suaradio1.dyndns.ws:10308/stream  
+              {%- elif is_state('input_select.estacoes_de_radio', 'Musica Anos 80') -%}
+                 http://stm15.conectastm.com:30890/live                 
+              {%- endif -%}
+          media_content_type: 'audio/mp3'
+      - service: media_player.play_media
+        data_template:
+          entity_id: media_player.sala
+          media_content_id: >
+              {%- if is_state('input_select.estacoes_de_radio', 'Orbital') -%}
+                 http://stream.radio.com.pt/ROLI-ENC-401
+              {%- elif is_state('input_select.estacoes_de_radio', 'Oxigenio') -%}
+                 http://stream.radio.com.pt/ROLI-ENC-498
+              {%- elif is_state('input_select.estacoes_de_radio', 'Meo Sudoeste') -%}   
+                 http://stream.radio.com.pt/ROLI-ENC-495
+              {%- elif is_state('input_select.estacoes_de_radio', 'Mega Hits') -%}  
+                 http://19553.live.streamtheworld.com:80/MEGA_HITS_SC
+              {%- elif is_state('input_select.estacoes_de_radio', 'Cidade FM') -%}  
+                 http://mcrscast.mcr.iol.pt/cidadefm
+              {%- elif is_state('input_select.estacoes_de_radio', 'Comercial') -%}  
+                 http://mcrscast.mcr.iol.pt/comercial.mp3
+              {%- elif is_state('input_select.estacoes_de_radio', 'Nova Era') -%}
+                 http://centova.radios.pt:9478/stream/1/  
+              {%- elif is_state('input_select.estacoes_de_radio', 'Rfm') -%}                 
+                 http://19553.live.streamtheworld.com:3690/RFM_SC    
+              {%- elif is_state('input_select.estacoes_de_radio', 'Renascença') -%}
+                 http://19593.live.streamtheworld.com:80/RADIO_RENASCENCA_SC     
+              {%- elif is_state('input_select.estacoes_de_radio', 'Oceano Pacífico') -%}   
+                 http://19553.live.streamtheworld.com:80/OCEANPACIFIC_SC  
+              {%- elif is_state('input_select.estacoes_de_radio', 'TSF') -%}
+                http://tsfdirecto.tsf.pt/tsfdirecto.mp3 
+              {%- elif is_state('input_select.estacoes_de_radio', 'Antena 1') -%} 
+                http://radiocast.rtp.pt/antena180a.mp3   
+              {%- elif is_state('input_select.estacoes_de_radio', 'Antena 2') -%} 
+                http://radiocast.rtp.pt/antena2jazzin80a.mp3                 
+              {%- elif is_state('input_select.estacoes_de_radio', 'Antena 3') -%} 
+                 http://radiocast.rtp.pt/antena380a.mp3  
+              {%- elif is_state('input_select.estacoes_de_radio', 'M80') -%} 
+                 http://mcrscast.mcr.iol.pt/m80  
+              {%- elif is_state('input_select.estacoes_de_radio', 'Tropical FM') -%} 
+                 http://suaradio1.dyndns.ws:10308/stream  
+              {%- elif is_state('input_select.estacoes_de_radio', 'Musica Anos 80') -%}
+                 http://stm15.conectastm.com:30890/live                 
+              {%- endif -%}
+          media_content_type: 'audio/mp3'
+         
+        
+  radio_stop_geral:
+    alias: Parar o rádio em todas as zonas
+    sequence:
+      - service: media_player.media_stop
+        data:
+          entity_id: media_player.Radio
+      - service: media_player.media_stop
+        data:
+          entity_id: media_player.Sala
+          
+          
+
+
+        
+
+###############################################################################
+#                                                                             #
+#                           S E N S O R S                                     #
+#                                                                             #
+###############################################################################  
+
+sensor:
+
+  - platform: template
+    sensors:
+      radio:  
+        friendly_name: 'Sistema de Som'
+        value_template: >    
+         {%- if is_state('media_player.radio', 'off') -%}
+         Sistema Desactivado
+         {%- elif is_state('media_player.radio', 'idle') -%}
+         Pronto para reproduzir
+         {%- elif is_state('media_player.radio', 'playing') -%}
+         A reproduzir         
+         {%- endif -%}
+###############################################################################
+#                                                                             #
+#                           I N P U T  N U M B E R S                          #
+#                                                                             #
+###############################################################################  
+
+  
+input_number:
+
+  volume_radio:
+    name: Volume
+    icon: mdi:volume-high
+    initial: 0.4
+    min: 0
+    max: 1
+    step: 0.01
+    
+   
+###############################################################################
+#                                                                             #
+#                           I N P U T   S E L E C T                           #
+#                                                                             #
+###############################################################################  
+
+
+input_select:
+  
+  estacoes_de_radio:
+    name: 'Seleciona a estacao de Radio:'
+    options:
+      - Orbital
+      - Oxigenio
+      - Mega Hits
+      - RFM
+      - Meo Sudoeste
+      - Cidade FM
+      - Comercial
+      - Nova Era
+      - Rfm
+      - Renascença
+      - Oceano Pacífico
+      - TSF
+      - Antena 1
+      - Antena 2
+      - Antena 3
+      - M80
+      - Tropical FM
+      - Musica Anos 80
+      - Smooth FM
+      - Radio Radar
+      
+  zona_onde_toca:
+    name: 'Seleciona a zona onde toca:'
+    options:
+      - Zona Central
+      - Sala
+    icon: mdi:speaker-wireless
+
+
+
+###############################################################################
+#                                                                             #
+#                           G R O U P S                                       #
+#                                                                             #
+###############################################################################  
+
+
+group:
+
+  radio:
+    name: Rádio
+    entities:
+      - sensor.Radio
+      - input_select.estacoes_de_radio
+      - input_select.zona_onde_toca
+      - input_number.volume_radio
+      - script.radio_play
+      - script.radio_stop
+      - script.radio_play_geral
+      - script.radio_stop_geral
+      
+      
+     
+
+      
+
+
+
+  
