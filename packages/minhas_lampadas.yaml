@@ -28,9 +28,7 @@ homeassistant:
 #                           A U T O M A Ç Õ E S                               #
 #                                                                             #
 ###############################################################################   
-automation:
 
-#automação despensa
 
 ###############################################################################
 #                                                                             #
@@ -38,26 +36,50 @@ automation:
 #                                                                             #
 ###############################################################################  
 
+#lights:
+
 
 
 ###############################################################################
 #                                                                             #
 #                         G R O U P S                                         #
-#                                                                             #
+#                                                                             
 ###############################################################################      
 
 group:
 
-  despensa:
-    view: yes
-    name: despensa
-    entities:
-      - group.despensagrupo
-
-      
-
-  despensagrupo:
+  Lâmpadas Sala:
     control: hidden
-    name: Despensa
+    entities:
+      - light.yeelight_rgb_7811dc6b98cb
+      - light.yeelight_rgb_7811dc6b9b10
+    
+  Lâmpada Quarto Mafalda:
+    control: hidden
+    entities:
+      - light.yeelight_rgb_7811dce0fe41
+      
+  Lâmpada Despensa:
+    control: hidden
     entities:
       - light.despensa
+      
+  Lâmpada Rua:
+    control: hidden
+    entities:
+      - light.yeelight_rgb_7811dce12676
+
+  Led Gateway:
+    control: hidden
+    entities:
+      - light.gateway_light_7811dcb38555
+      
+  lampadas:
+    view: yes
+    name: Lâmpadas
+    entities:
+      - group.lampadas_sala
+      - group.lampada_quarto_mafalda
+      - group.lampada_despensa
+      - group.lampada_rua
+      - group.led_gateway

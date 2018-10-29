@@ -40,7 +40,7 @@ automation:
       to: 'on'
     condition:
       condition: time
-      after: '19:00:00'
+      after: '17:30:00'
       before: '07:30:00'
     action:
       - service: light.turn_on

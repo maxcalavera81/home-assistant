@@ -5,14 +5,26 @@ zone:
   - name: home
     latitude: !secret latitude_casa
     longitude: !secret longitude_casa
-    radius: 60
+    radius: 50
     icon: mdi:home
 
-  - name: notrabalho
+  - name: notrabalhobruno
     latitude: !secret latitude_trabalho_bruno
     longitude: !secret longitude_trabalho_bruno
-    radius: 600
-    icon: mdi:worker
+    radius: 100
+    icon: mdi:seat-recline-normal
+    
+  - name: noginasiobruno
+    latitude: !secret latitude_ginasio_bruno
+    longitude: !secret longitude_ginasio_bruno
+    radius: 30
+    icon: mdi:google-fit
+
+  - name: notrabalhoarmanda
+    latitude: !secret latitude_trabalho_armanda
+    longitude: !secret longitude_trabalho_armanda
+    radius: 70
+    icon: mdi:doctor
 
 device_tracker:
   
@@ -34,7 +46,7 @@ sensor:
   - platform: template
     sensors:       
       bruno:
-        friendly_name: 'Estado Bruno'
+        friendly_name: 'Localização Bruno'
         value_template: > 
           {%- if is_state('device_tracker.bruno', 'not_home') -%}
              Ausente
@@ -42,9 +54,12 @@ sensor:
           {%- if is_state('device_tracker.bruno', 'home') -%}
              Em Casa
           {%- endif -%}      
-          {%- if is_state('device_tracker.bruno', 'notrabalho') -%} 
-             No Trabalho
-          {%- endif -%}               
+          {%- if is_state('device_tracker.bruno', 'notrabalhobruno') -%} 
+             Na Santa Casa
+          {%- endif -%}
+          {%- if is_state('device_tracker.bruno', 'noginasiobruno') -%} 
+             No Ginásio
+          {%- endif -%}
 
 camera:
   
@@ -53,13 +68,12 @@ camera:
     still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.bruno.attributes.latitude }},{{ states.device_tracker.bruno.attributes.longitude }}&zoom=16&size=500x500&maptype=roadmap&markers=color:green%7Clabel:JA%7C{{ states.device_tracker.bruno.attributes.latitude }},{{ states.device_tracker.bruno.attributes.longitude }}
     limit_refetch_to_url_change: true  
 
-
-
 group:
 
   zanzito:
-    name: Zanzito Familia
+    name: Minha Localização
     entities:
       - sensor.bruno
       - sensor.bruno_bateria_tlm
       - camera.bruno_cam
+      - sensor.bruno_melo

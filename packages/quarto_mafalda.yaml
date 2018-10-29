@@ -105,5 +105,3 @@ group:
     name: Quarto Mafalda
     entities:
       - light.yeelight_rgb_7811dce0fe41
-      - automation.mudar_fraldas_quarto_on
-      - automation.mudar_fraldas_quarto_off

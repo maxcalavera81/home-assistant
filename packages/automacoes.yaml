@@ -28,9 +28,6 @@ homeassistant:
 #                           A U T O M A Ç Õ E S                               #
 #                                                                             #
 ###############################################################################   
-automation:
-
-#automação despensa
 
 ###############################################################################
 #                                                                             #
@@ -38,26 +35,46 @@ automation:
 #                                                                             #
 ###############################################################################  
 
+#lights:
+
 
 
 ###############################################################################
 #                                                                             #
 #                         G R O U P S                                         #
-#                                                                             #
+#                                                                             
 ###############################################################################      
 
 group:
 
-  despensa:
-    view: yes
-    name: despensa
-    entities:
-      - group.despensagrupo
-
-      
-
-  despensagrupo:
+  Ligar Automações:
     control: hidden
-    name: Despensa
     entities:
-      - light.despensa
+      - automation.iluminacao_sala_17h0019h30
+      - automation.iluminacao_sala_19h3020h30
+      - automation.iluminacao_sala_20h3021h30
+      - automation.iluminacao_sala_21h3022h30
+      - automation.mudar_fraldas_sala_on
+      - automation.mudar_fraldas_quarto_on
+      - automation.liga_luz_rua
+      - automation.liga_luz_gateway
+
+  Desligar Automações:
+    control: hidden
+    entities:
+      - automation.sala_off_17h19h30
+      - automation.sala_off_19h3020h30
+      - automation.sala_off_20h3021h30
+      - automation.sala_off_21h3022h30
+      - automation.mudar_fraldas_sala_off
+      - automation.mudar_fraldas_quarto_off
+      - automation.desliga_luz_rua
+      - automation.desliga_luz_gateway
+      - automation.desligar_luz_a_cima_20_lx
+      
+  automacoes:
+    view: yes
+    name: Automações
+    entities:
+      - group.ligar_automacoes
+      - group.desligar_automacoes

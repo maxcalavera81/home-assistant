@@ -438,7 +438,7 @@ automation:
       entity_id: binary_sensor.motion_sensor_158d0001f9d417
       to: 'off'
       for: 
-        seconds: 20
+        minutes: 1
     condition:
     - condition: time
       after: '17:00:00'
@@ -472,34 +472,25 @@ automation:
 
 group:
 
-  sala:
-    view: yes
-    name: sala
-    entities:
-      - group.salagrupo
-
-      
-
-  salagrupo:
+  Lâmpadas da Sala:
     control: hidden
-    name: Sala
     entities:
       - light.yeelight_rgb_7811dc6b9b10
       - light.yeelight_rgb_7811dc6b98cb
+      
+  Sensores da Sala:
+    control: hidden
+    entities:
       - binary_sensor.motion_sensor_158d0001f9d417
       - sensor.illumination_158d0001f9d417
       - sensor.illumination_7811dcb38555
       - binary_sensor.cube_158d00027984b3
       - sensor.humidity_158d00023203e4
       - sensor.temperature_158d00023203e4
-      - automation.iluminacao_sala_17h0019h30
-      - automation.iluminacao_sala_19h3020h30
-      - automation.iluminacao_sala_20h3021h30
-      - automation.iluminacao_sala_21h3022h30
-      - automation.mudar_fraldas_sala_on
-      - automation.sala_off_17h19h30
-      - automation.sala_off_19h3020h30
-      - automation.sala_off_20h3021h30
-      - automation.sala_off_21h3022h30
-      - automation.mudar_fraldas_sala_off
-      - automation.desligar_luz_a_cima_20_lx
+
+  sala:
+    view: yes
+    name: sala
+    entities:
+      - group.lampadas_da_sala
+      - group.sensores_da_sala

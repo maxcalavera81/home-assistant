@@ -48,19 +48,21 @@ homeassistant:
 
 group:
 
-  multimedia:
-    view: yes
-    name: multimedia
-    entities:
-      - group.multimediagrupo
-
-      
-
-  multimediagrupo:
+  TV Samsung:
     control: hidden
-    name: Multimedia
     entities:
       - media_player.tv_sala_estar_ue40d6500
+      
+  Boxs Vodafone:
+    control: hidden
+    entities:
       - media_player.mediaroom_07202f72fb474561a6565a29fb396000
       - media_player.mediaroom_47160dec34ca412bb87c083625d264de
       - media_player.mediaroom_f8c286c0cf3445e69af94cf034d34c4a
+      
+  multimedia:
+    view: yes
+    name: Multimedia
+    entities:
+      - group.tv_samsung
+      - group.boxs_vodafone
