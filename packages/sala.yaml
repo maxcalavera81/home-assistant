@@ -516,5 +516,6 @@ group:
     name: sala
     entities:
       - group.lampadas_da_sala
+      - group.sensor_de_movimento
       - group.sensor_de_temperatura
       - group.cubo_magico
