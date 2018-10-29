@@ -2,7 +2,7 @@
 #sensores cubo
 
 binary_sensor.cube_158d00027984b3:
-  friendly_name: Cubo Magico
+  friendly_name: Cubo Mágico
   icon: mdi:cube-outline
   
 
@@ -15,7 +15,7 @@ sensor.bruno_melo:
   
 #Sensores Janela
 binary_sensor.door_window_sensor_158d00022b3ad2:
-  friendly_name: Sensor porta da rua
+  friendly_name: Sensor Porta de Entrada
   icon: mdi:door
 
 #Sensores Movimento
@@ -37,29 +37,29 @@ binary_sensor.switch_158d00015aa37d:
 
 #lampadas
 light.yeelight_rgb_7811dce0fe41:
-  friendly_name: Lampada Quarto Mafalda
+  friendly_name: Candeeiro Quarto da Mafalda
 light.yeelight_rgb_7811dc6b9b10:
-  friendly_name: Aplique Direito
+  friendly_name: Candeeiro Direito
 light.yeelight_rgb_7811dc6b98cb:
-  friendly_name: Aplique Esquerdo
-light.despensa:
-  friendly_name: Aplique Despensa
+  friendly_name: Candeeiro Esquerdo
+light.yeelight_rgb_7811dc6b09nm:
+  friendly_name: Aplique da Despensa
 light.yeelight_rgb_7811dce12676:
-  friendly_name: Luz da rua
+  friendly_name: Luz Exterior da Porta 
   
   
   
 #gateway
 light.gateway_light_7811dcb38555:
-  friendly_name: Led Gateway
+  friendly_name: Led do Gateway
 
   
 #sensores de temperatura e humidade
 sensor.humidity_158d00023203e4:
-  friendly_name: Sensor de Humidade sala
+  friendly_name: Sensor de Humidade da Sala
   icon: mdi:water-percent
 sensor.temperature_158d00023203e4:
-  friendly_name: Sensor de Temperatura sala
+  friendly_name: Sensor de Temperatura da Sala
   icon: mdi:temperature-celsius
   
 #multimedia

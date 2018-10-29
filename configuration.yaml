@@ -52,7 +52,7 @@ light:
   - platform: yeelight
     devices:
       192.168.1.197:
-        name: Despensa
+        name: yeelight_rgb_7811dc6b09nm
 
 mqtt:
   broker: core-mosquitto
