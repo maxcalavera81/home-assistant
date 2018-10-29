@@ -4,27 +4,13 @@ default_view:
   entities:
     - group.radio
     - group.sensores
-    - group.luzes
-    - group.portao
-    - group.jardim
     - group.zanzito
     
 sensores:
-  name: Sensores de Casa
+  name: Sensores
   entities:
     - binary_sensor.switch_158d00015aa37d
     - sensor.time
-
-
-luzes:
-  name: Lâmpadas de Casa
-  entities:
-    - light.yeelight_rgb_7811dce0fe41
-    - light.yeelight_rgb_7811dc6b9b10
-    - light.yeelight_rgb_7811dc6b98cb
-    - light.despensa
-    - light.yeelight_rgb_7811dce12676
-    - light.gateway_light_7811dcb38555
     
 Automação porta entrada:
   entities:
