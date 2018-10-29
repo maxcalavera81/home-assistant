@@ -28,61 +28,12 @@ homeassistant:
 #                           A U T O M A Ç Õ E S                               #
 #                                                                             #
 ###############################################################################   
-automation:
-
-#automação mudar fraldas quarto
-
-  - alias: Mudar fraldas quarto ON
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: binary_sensor.motion_sensor_158d0001f9d417
-      from: 'off'
-      to: 'on'
-    condition:
-    - condition: time
-      after: '22:30:00'
-      before: '06:50:00'
-    - condition: numeric_state
-      entity_id: sensor.illumination_158d0001f9d417
-      below: 10
-    action:
-      - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dce0fe41
-        data:
-          brightness: 70
-          color_name: orangered
-      - service: light.turn_on
-        data:
-          entity_id: binary_sensor.motion_sensor_158d0001f9d417
-
-  - alias: Mudar fraldas quarto OFF
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: binary_sensor.motion_sensor_158d0001f9d417
-      from: 'on'
-      to: 'off'
-      for:
-        minutes: 4
-    condition:
-    - condition: time
-      after: '22:30:00'
-      before: '06:50:00'
-    action:
-      - service: light.turn_off
-        entity_id: light.yeelight_rgb_7811dce0fe41
-      - service: light.turn_off
-        data:
-          entity_id: binary_sensor.motion_sensor_158d0001f9d417
 
 ###############################################################################
 #                                                                             #
-#                           S W I T C H E S                                   #
+#                           L U Z E S                                         #
 #                                                                             #
 ###############################################################################  
-
-#lights:
 
 ###############################################################################
 #                                                                             #
@@ -92,16 +43,19 @@ automation:
 
 group:
 
-  quartomafalda:
-    view: yes
-    name: quarto mafalda
+  Jardim da Frente:
+    control: hidden
     entities:
-      - group.quartomafaldagrupo
-
       
 
-  quartomafaldagrupo:
+  Jardim de Trás:
     control: hidden
-    name: Quarto da Mafalda
     entities:
-      - light.yeelight_rgb_7811dce0fe41
+      
+    
+  iluminacao jardins:
+    view: yes
+    name: Iluminação dos Jardins
+    entities:
+      - group.jardim_da_frente
+      - group.jardim_de_tras

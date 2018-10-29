@@ -60,4 +60,4 @@ group:
     control: hidden
     name: Despensa
     entities:
-      - light.despensa
+      - light.yeelight_rgb_7811dc6b09nm

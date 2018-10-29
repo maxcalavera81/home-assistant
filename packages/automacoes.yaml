@@ -56,8 +56,9 @@ group:
       - automation.iluminacao_sala_21h3022h30
       - automation.mudar_fraldas_sala_on
       - automation.mudar_fraldas_quarto_on
-      - automation.liga_luz_rua
-      - automation.liga_luz_gateway
+      - automation.liga_luz_do_exterior
+      - automation.liga_luz_do_gateway
+      
 
   Desligar Automações:
     control: hidden
@@ -68,9 +69,9 @@ group:
       - automation.sala_off_21h3022h30
       - automation.mudar_fraldas_sala_off
       - automation.mudar_fraldas_quarto_off
-      - automation.desliga_luz_rua
-      - automation.desliga_luz_gateway
-      - automation.desligar_luz_a_cima_20_lx
+      - automation.desliga_luz_do_gateway
+      - automation.desliga_luz_do_exterior
+      - automation.desligar_candeeiros_a_cima_dos_20_lx
       
   automacoes:
     view: yes

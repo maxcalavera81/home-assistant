@@ -30,78 +30,102 @@ homeassistant:
 ###############################################################################   
 automation:
 
-#automação mudar fraldas quarto
+#automaçóes gatewayy
 
-  - alias: Mudar fraldas quarto ON
+  - alias: Liga Luz do Gateway
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d0001f9d417
-      from: 'off'
+      entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
       to: 'on'
     condition:
-    - condition: time
-      after: '22:30:00'
-      before: '06:50:00'
-    - condition: numeric_state
-      entity_id: sensor.illumination_158d0001f9d417
-      below: 10
+      condition: time
+      after: '17:30:00'
+      before: '06:30:00'
     action:
       - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dce0fe41
-        data:
-          brightness: 70
-          color_name: orangered
-      - service: light.turn_on
-        data:
-          entity_id: binary_sensor.motion_sensor_158d0001f9d417
-
-  - alias: Mudar fraldas quarto OFF
+        data_template:
+          entity_id: light.gateway_light_7811dcb38555
+          brightness: 100
+          color_name: deepskyblue
+  - alias: Desliga Luz do Gateway
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d0001f9d417
-      from: 'on'
+      entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
       to: 'off'
       for:
-        minutes: 4
-    condition:
-    - condition: time
-      after: '22:30:00'
-      before: '06:50:00'
+        minutes: 2
     action:
       - service: light.turn_off
-        entity_id: light.yeelight_rgb_7811dce0fe41
+        data_template:
+          entity_id: light.gateway_light_7811dcb38555
+          
+#automação luz rua
+
+  - alias: Liga Luz do Exterior
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
+      to: 'on'
+    condition:
+      condition: time
+      after: '17:30:00'
+      before: '06:30:00'
+    action:
+      - service: light.turn_on
+        data_template:
+          entity_id: light.yeelight_rgb_7811dce12676
+          brightness: 255
+          kelvin: 6500
+
+  - alias: Desliga Luz do Exterior
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
+      to: 'off'
+      for:
+        minutes: 5
+    action:
       - service: light.turn_off
-        data:
-          entity_id: binary_sensor.motion_sensor_158d0001f9d417
+        data_template:
+          entity_id: light.yeelight_rgb_7811dce12676
 
 ###############################################################################
 #                                                                             #
-#                           S W I T C H E S                                   #
+#                           l U Z E S                                         #
 #                                                                             #
 ###############################################################################  
+
 
 #lights:
 
 ###############################################################################
 #                                                                             #
 #                         G R O U P S                                         #
-#                                                                             
+#                                                                             #
 ###############################################################################      
 
 group:
 
-  quartomafalda:
-    view: yes
-    name: quarto mafalda
+  Hall Entrada:
+    control: hidden
     entities:
-      - group.quartomafaldagrupo
+      - light.gateway_light_7811dcb38555
+      - light.yeelight_rgb_7811dce12676
 
       
-
-  quartomafaldagrupo:
+  Hall Sensor:
     control: hidden
-    name: Quarto da Mafalda
     entities:
-      - light.yeelight_rgb_7811dce0fe41
+      - binary_sensor.door_window_sensor_158d00022b3ad2
+      
+
+  hall:
+    view: yes
+    name: Hall
+    entities:
+      - group.hall_entrada
+      - group.hall_sensor

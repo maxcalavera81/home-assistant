@@ -55,7 +55,7 @@ sensor:
              Em Casa
           {%- endif -%}      
           {%- if is_state('device_tracker.bruno', 'notrabalhobruno') -%} 
-             Na Santa Casa
+             No Trabalho
           {%- endif -%}
           {%- if is_state('device_tracker.bruno', 'noginasiobruno') -%} 
              No Ginásio
@@ -71,7 +71,7 @@ camera:
 group:
 
   zanzito:
-    name: Minha Localização
+    name: Localização
     entities:
       - sensor.bruno
       - sensor.bruno_bateria_tlm

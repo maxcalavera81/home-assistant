@@ -48,28 +48,28 @@ homeassistant:
 
 group:
 
-  Lâmpadas Sala:
+  Lâmpadas da Sala:
     control: hidden
     entities:
       - light.yeelight_rgb_7811dc6b98cb
       - light.yeelight_rgb_7811dc6b9b10
     
-  Lâmpada Quarto Mafalda:
+  Lâmpada Quarto da Mafalda:
     control: hidden
     entities:
       - light.yeelight_rgb_7811dce0fe41
       
-  Lâmpada Despensa:
+  Lâmpada da Despensa:
     control: hidden
     entities:
-      - light.despensa
+      - light.yeelight_rgb_7811dc6b09nm
       
-  Lâmpada Rua:
+  Lâmpada Exterior da Porta:
     control: hidden
     entities:
       - light.yeelight_rgb_7811dce12676
 
-  Led Gateway:
+  Led do Gateway:
     control: hidden
     entities:
       - light.gateway_light_7811dcb38555
@@ -78,8 +78,8 @@ group:
     view: yes
     name: Lâmpadas
     entities:
-      - group.lampadas_sala
-      - group.lampada_quarto_mafalda
-      - group.lampada_despensa
-      - group.lampada_rua
-      - group.led_gateway
+      - group.lampadas_da_sala
+      - group.lampada_quarto_da_mafalda
+      - group.lampada_da_despensa
+      - group.lampada_exterior_da_porta
+      - group.led_do_gateway

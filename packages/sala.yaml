@@ -150,7 +150,7 @@ automation:
           color_name: orangered
 
 
-  - alias: Cubo 2 batidas
+  - alias: Cubo 2 Batidas
     initial_state: true
     trigger:
       platform: event
@@ -445,7 +445,7 @@ automation:
         data:
           entity_id: binary_sensor.motion_sensor_158d0001f9d417
 
-  - alias: Desligar luz a cima 20 lx
+  - alias: Desligar Candeeiros a Cima dos 20 lx
     initial_state: true
     trigger:
       platform: state
@@ -492,19 +492,29 @@ group:
       - light.yeelight_rgb_7811dc6b9b10
       - light.yeelight_rgb_7811dc6b98cb
       
-  Sensores da Sala:
+  Sensor de Movimento:
     control: hidden
     entities:
       - binary_sensor.motion_sensor_158d0001f9d417
       - sensor.illumination_158d0001f9d417
       - sensor.illumination_7811dcb38555
-      - binary_sensor.cube_158d00027984b3
-      - sensor.humidity_158d00023203e4
+      
+  Sensor de Temperatura:
+    control: hidden
+    entities:
       - sensor.temperature_158d00023203e4
+      - sensor.humidity_158d00023203e4
+
+      
+  Cubo Mágico:
+    control: hidden
+    entities:
+      - binary_sensor.cube_158d00027984b3
 
   sala:
     view: yes
     name: sala
     entities:
       - group.lampadas_da_sala
-      - group.sensores_da_sala
+      - group.sensor_de_temperatura
+      - group.cubo_magico
