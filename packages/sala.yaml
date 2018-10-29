@@ -84,11 +84,15 @@ automation:
       - service: automation.turn_off
         entity_id: automation.mudar_fraldas_sala_on
       - service: light.turn_on
-        entity_id: group.salagrupo
+        entity_id: light.yeelight_rgb_7811dc6b9b10
         data:
           brightness: 150
           kelvin: 3000
-
+      - service: light.turn_on
+        entity_id: light.yeelight_rgb_7811dc6b98cb
+        data:
+          brightness: 150
+          kelvin: 3000
 
   - alias: Cubo All OFF
     initial_state: true
@@ -135,7 +139,12 @@ automation:
       - service: automation.turn_off
         entity_id: automation.mudar_fraldas_sala_on
       - service: light.turn_on
-        entity_id: group.salagrupo
+        entity_id: light.yeelight_rgb_7811dc6b9b10
+        data:
+          brightness: 150
+          color_name: orangered
+      - service: light.turn_on
+        entity_id: light.yeelight_rgb_7811dc6b98cb
         data:
           brightness: 150
           color_name: orangered
@@ -161,7 +170,12 @@ automation:
       - service: automation.turn_off
         entity_id: automation.mudar_fraldas_sala_on
       - service: light.turn_on
-        entity_id: group.salagrupo
+        entity_id: light.yeelight_rgb_7811dc6b9b10
+        data:
+          brightness: 100
+          color_name: cornflowerblue
+      - service: light.turn_on
+        entity_id: light.yeelight_rgb_7811dc6b98cb
         data:
           brightness: 100
           color_name: cornflowerblue
