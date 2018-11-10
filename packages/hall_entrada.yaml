@@ -1,21 +1,10 @@
 homeassistant:
 
 ###############################################################################
-
 #                                                                             #
-
 #                           C U S T O M I Z E                                 #
-
 #                                                                             #
-
 ###############################################################################   
-
-        
-
-#  customize:
-
-
-
 
 ###############################################################################
 #                                                                             #
@@ -40,14 +29,15 @@ automation:
       to: 'on'
     condition:
       condition: time
-      after: '17:30:00'
+      after: '18:00:00'
       before: '06:30:00'
     action:
       - service: light.turn_on
         data_template:
           entity_id: light.gateway_light_7811dcb38555
-          brightness: 100
+          brightness: 200
           color_name: deepskyblue
+
   - alias: Desliga Luz do Gateway
     initial_state: true
     trigger:
@@ -71,14 +61,14 @@ automation:
       to: 'on'
     condition:
       condition: time
-      after: '17:30:00'
+      after: '18:15:00'
       before: '06:30:00'
     action:
       - service: light.turn_on
         data_template:
           entity_id: light.yeelight_rgb_7811dce12676
           brightness: 255
-          kelvin: 6500
+          kelvin: 5000
 
   - alias: Desliga Luz do Exterior
     initial_state: true
@@ -99,9 +89,6 @@ automation:
 #                                                                             #
 ###############################################################################  
 
-
-#lights:
-
 ###############################################################################
 #                                                                             #
 #                         G R O U P S                                         #
@@ -115,14 +102,12 @@ group:
     entities:
       - light.gateway_light_7811dcb38555
       - light.yeelight_rgb_7811dce12676
-
       
   Hall Sensor:
     control: hidden
     entities:
       - binary_sensor.door_window_sensor_158d00022b3ad2
-      
-
+ 
   hall:
     view: yes
     name: Hall

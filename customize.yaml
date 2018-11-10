@@ -23,11 +23,23 @@ binary_sensor.motion_sensor_158d0001f9d417:
   friendly_name: Sensor de Movimento Sala
   icon: mdi:run
 sensor.illumination_158d0001f9d417:
-  friendly_name: Sensor LX
+  friendly_name: Sensor LX Sala
   icon: mdi:brightness-4
 sensor.illumination_7811dcb38555:
-  friendly_name: Sensor LM
+  friendly_name: Sensor LM Sala
   icon: mdi:brightness-1
+binary_sensor.motion_sensor_158d000272b7c0:
+  friendly_name: Sensor de Movimento Quarto da Mafalda
+  icon: mdi:run
+sensor.illumination_158d000272b7c0:
+  friendly_name: Sensor LX Quarto da Mafalda
+  icon: mdi:brightness-4
+binary_sensor.motion_sensor_158d00029be9c3:
+  friendly_name: Sensor de Movimento Cozinha
+  icon: mdi:run
+sensor.illumination_158d00029be9c3:
+  friendly_name: Sensor LX Cozinha
+  icon: mdi:brightness-4
 
 #Interruptores
   
@@ -45,8 +57,12 @@ light.yeelight_rgb_7811dc6b98cb:
 light.yeelight_rgb_7811dc6b09nm:
   friendly_name: Aplique da Despensa
 light.yeelight_rgb_7811dce12676:
-  friendly_name: Luz Exterior da Porta 
-  
+  friendly_name: Luz Exterior da Porta
+light.xiaomi_philips_zhirui:
+  friendly_name: Downlight Cozinha
+light.xiaomi_philips_zhirui_2:
+  friendly_name: Downlight Cozinha 2
+
   
   
 #gateway

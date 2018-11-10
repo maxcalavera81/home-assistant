@@ -5,7 +5,7 @@ zone:
   - name: home
     latitude: !secret latitude_casa
     longitude: !secret longitude_casa
-    radius: 50
+    radius: 70
     icon: mdi:home
 
   - name: notrabalhobruno
@@ -39,7 +39,7 @@ sensor:
   
   - platform: mqtt
     state_topic: "zanzito/bruno/battery_level"
-    name: "Bruno bateria tlm"
+    name: "Bateria tlm Bruno"
     unit_of_measurement: '%'
     retain: true
        
@@ -65,8 +65,8 @@ camera:
   
   - name: bruno_cam
     platform: generic
-    still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.bruno.attributes.latitude }},{{ states.device_tracker.bruno.attributes.longitude }}&zoom=16&size=500x500&maptype=roadmap&markers=color:green%7Clabel:JA%7C{{ states.device_tracker.bruno.attributes.latitude }},{{ states.device_tracker.bruno.attributes.longitude }}
-    limit_refetch_to_url_change: true  
+    still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.bruno.attributes.latitude }},{{ states.device_tracker.bruno.attributes.longitude }}&zoom=16&size=500x500&maptype=satellite&markers=color:green%7Clabel:JA%7C{{ states.device_tracker.bruno.attributes.latitude }},{{ states.device_tracker.bruno.attributes.longitude }}&key=!secret geocode_api_key
+    limit_refetch_to_url_change: true 
 
 group:
 
@@ -74,6 +74,6 @@ group:
     name: Localização
     entities:
       - sensor.bruno
-      - sensor.bruno_bateria_tlm
+      - sensor.bateria_tlm_bruno
       - camera.bruno_cam
       - sensor.bruno_melo

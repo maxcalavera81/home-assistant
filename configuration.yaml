@@ -51,13 +51,54 @@ telegram_bot:
 light:
   - platform: yeelight
     devices:
-      192.168.1.197:
+      !secret yeelight_ip:
         name: yeelight_rgb_7811dc6b09nm
+  - platform: xiaomi_miio
+    name: Xiaomi Philips zhirui
+    host: !secret xiaomi_philips_zhirui_ip
+    token: !secret xiaomi_philips_zhirui_token
+    model: philips.light.bulb
+  - platform: xiaomi_miio
+    name: Xiaomi Philips zhirui 2
+    host: !secret xiaomi_philips_zhirui_2_ip
+    token: !secret xiaomi_philips_zhirui_2_token
+    model: philips.light.bulb
 
 mqtt:
   broker: core-mosquitto
   username: !secret mqtt_username
   password: !secret mqtt_password
+  
+switch:
+  - platform: mqtt
+    name: "Abrir portão grande"
+    state_topic: "stat/comandoportao/POWER"
+    command_topic: "cmnd/comandoportao/power"
+    availability_topic: "tele/comandoportao/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+
+  - platform: mqtt
+    name: "Abrir portão pequeno"
+    state_topic: "stat/comandoportao/POWER2"
+    command_topic: "cmnd/comandoportao/power2"
+    availability_topic: "tele/comandoportao/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    
+binary_sensor:
+
+  - platform: mqtt
+    name: "Sonoff portao automatico"
+    state_topic: "cmnd/comandoportao/POWER1"
+    payload_on: "ON"
+    payload_off: "OFF"
 
 http:
   base_url: !secret duckdnsbase_url

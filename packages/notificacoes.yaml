@@ -1,21 +1,10 @@
 homeassistant:
 
 ###############################################################################
-
 #                                                                             #
-
 #                           C U S T O M I Z E                                 #
-
 #                                                                             #
-
 ###############################################################################   
-
-        
-
-#  customize:
-
-
-
 
 ###############################################################################
 #                                                                             #
@@ -69,7 +58,43 @@ automation:
       service: notify.Telegram
       data:
         message: 'Movimento detectado'
-
+        
+  - alias: Bruno chegou a casa
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: device_tracker.bruno
+      from: 'not_home'
+      to: 'home'
+    action:     
+    - service: notify.telegram
+      data:
+        message: 'Bruno chegou a casa'
+        
+  - alias: Bruno saiu de casa
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: device_tracker.bruno
+      from: 'home'
+      to: 'not_home'
+    action:     
+    - service: notify.telegram
+      data:
+        message: 'Bruno saiu de casa'
+        
+  - alias: Abertura do portão
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: script.portao_pequeno
+      from: 'off'
+      to: 'on'
+    action:
+      service: notify.Telegram
+      data:
+        message: 'Portão foi Aberto'
+        
 ###############################################################################
 #                                                                             #
 #                           S W I T C H E S                                   #
@@ -94,3 +119,27 @@ telegram_bot:
     api_key: !secret api_key_bruno
     allowed_chat_ids:
       - !secret chat_ids_bruno
+      
+###############################################################################
+#                                                                             #
+#                         G R O U P S                                         #
+#                                                                             
+###############################################################################      
+
+group:
+      
+  notificações presencas:
+    control: hidden
+    entities:
+      - automation.porta_aberta
+      - automation.porta_fechada
+      - automation.sensor_movimento
+      - automation.bruno_chegou_a_casa
+      - automation.bruno_saiu_de_casa
+      - automation.abertura_do_portao
+     
+  Presencas:
+    view: yes
+    name: Notificações
+    entities:
+      - group.notificacoes_presencas

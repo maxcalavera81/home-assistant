@@ -1,41 +1,72 @@
 homeassistant:
 
 ###############################################################################
-
 #                                                                             #
-
 #                           C U S T O M I Z E                                 #
-
 #                                                                             #
-
 ###############################################################################   
-
-        
-
-#  customize:
-
-
-
 
 ###############################################################################
 #                                                                             #
-#                         INPUT   BOOLEAN                                     #
+#                         S C R I P T S                                       #
 #                                                                             #
 ###############################################################################      
-
+script:
+  portao_grande:
+    sequence:
+      - service: switch.turn_on
+        entity_id: switch.abrir_portao_grande
+      - delay: '00:00:40'
+      - service: switch.turn_on
+        entity_id: switch.abrir_portao_grande
+        
+  portao_pequeno:
+    sequence:
+      - service: switch.turn_on
+        entity_id: switch.abrir_portao_pequeno
+      - delay: '00:00:40'
+      - service: switch.turn_on
+        entity_id: switch.abrir_portao_pequeno
 ###############################################################################
 #                                                                             #
 #                           A U T O M A Ç Õ E S                               #
 #                                                                             #
 ###############################################################################   
+automation:
 
+#automation zigbee switch
+
+  - alias: Interruptor para abrir portao pequeno single
+    trigger:
+      - platform: event
+        event_type: click
+        event_data:
+          entity_id: binary_sensor.switch_158d00015aa37d
+          click_type: single
+    action:
+      - service: switch.toggle
+        data:
+          entity_id: switch.abrir_portao_pequeno
+
+
+  - alias: Interruptor para abrir portao grande double
+    trigger:
+      - platform: event
+        event_type: click
+        event_data:
+          entity_id: binary_sensor.switch_158d00015aa37d
+          click_type: double
+    action:
+      - service: switch.toggle
+        data:
+          entity_id: switch.abrir_portao_grande
+          
 ###############################################################################
 #                                                                             #
 #                           L U Z E S                                         #
 #                                                                             #
 ###############################################################################  
 
-#lights:
 
 
 
@@ -47,15 +78,24 @@ homeassistant:
 
 group:
 
+  Switch Abrir Fechar Portão:
+    control: hidden
+    entities:
+       - switch.abrir_portao_grande
+       - switch.abrir_portao_pequeno
+       - script.portao_grande
+       - script.portao_pequeno
+
+  Interruptor Abrir Fechar Portão:
+    control: hidden
+    entities:
+      - automation.interruptor_para_abrir_portao_pequeno_single
+      - automation.interruptor_para_abrir_portao_grande_double
+      
   portao:
     view: yes
+    icon: mdi:gate
     name: Portão
     entities:
-      - group.portaogrupo
-
-      
-
-  portaogrupo:
-    control: hidden
-    name: Portão
-    entities:
+      - group.switch_abrir_fechar_portao
+      - group.interruptor_abrir_fechar_portao

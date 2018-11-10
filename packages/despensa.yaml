@@ -10,13 +10,6 @@ homeassistant:
 
 ###############################################################################   
 
-        
-
-#  customize:
-
-
-
-
 ###############################################################################
 #                                                                             #
 #                         INPUT   BOOLEAN                                     #
@@ -30,7 +23,8 @@ homeassistant:
 ###############################################################################   
 automation:
 
-#automação despensa
+# automação despensa
+
 
 ###############################################################################
 #                                                                             #
@@ -48,16 +42,22 @@ automation:
 
 group:
 
-  despensa:
-    view: yes
-    name: despensa
-    entities:
-      - group.despensagrupo
-
-      
-
-  despensagrupo:
+  iluminacao despensa:
     control: hidden
-    name: Despensa
+    name: Iluminação da Despensa
     entities:
       - light.yeelight_rgb_7811dc6b09nm
+      
+  automacao:
+    control: hidden
+    name: Automações da Despensa
+    entities:
+      - automation.ligar_despensa
+      - automation.desligar_despensa
+
+  despensa:
+    view: yes
+    name: Despensa
+    entities:
+      - group.iluminacao_despensa
+      - group.automacao

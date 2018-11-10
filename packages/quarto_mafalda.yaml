@@ -1,21 +1,10 @@
 homeassistant:
 
 ###############################################################################
-
 #                                                                             #
-
 #                           C U S T O M I Z E                                 #
-
 #                                                                             #
-
 ###############################################################################   
-
-        
-
-#  customize:
-
-
-
 
 ###############################################################################
 #                                                                             #
@@ -30,59 +19,142 @@ homeassistant:
 ###############################################################################   
 automation:
 
-#automação mudar fraldas quarto
+#automação quarto mafalda
 
-  - alias: Mudar fraldas quarto ON
+  - alias: Ligar Candeeiro 18h00 20h00
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      entity_id: binary_sensor.motion_sensor_158d000272b7c0
+      from: 'off'
+      to: 'on'
+    condition:
+    - condition: time
+      after: '18:00:00'
+      before: '20:00:00'
+    - condition: numeric_state
+      entity_id: sensor.illumination_158d000272b7c0
+      below: 15
+    action:
+      - service: light.turn_on
+        entity_id: light.yeelight_rgb_7811dce0fe41
+        data:
+          brightness: 255
+          kelvin: 5000
+      - service: light.turn_on
+        data:
+          entity_id: binary_sensor.motion_sensor_158d000272b7c0
+          
+  - alias: Ligar Candeeiro 20h00 22h30
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d000272b7c0
+      from: 'off'
+      to: 'on'
+    condition:
+    - condition: time
+      after: '20:00:00'
+      before: '22:30:00'
+    - condition: numeric_state
+      entity_id: sensor.illumination_158d000272b7c0
+      below: 15
+    action:
+      - service: light.turn_on
+        entity_id: light.yeelight_rgb_7811dce0fe41
+        data:
+          brightness: 50
+          kelvin: 3400
+      - service: light.turn_on
+        data:
+          entity_id: binary_sensor.motion_sensor_158d000272b7c0
+
+  - alias: Desligar Candeeiro 18h00 22h30
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d000272b7c0
+      from: 'on'
+      to: 'off'
+      for:
+        minutes: 3
+    condition:
+    - condition: time
+      after: '18:00:00'
+      before: '22:30:00'
+    action:
+      - service: light.turn_off
+        entity_id: light.yeelight_rgb_7811dce0fe41
+
+
+#automação mudar fraldas quarto
+
+  - alias: Mudar Fraldas Quarto 22h30 07h00
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d000272b7c0
       from: 'off'
       to: 'on'
     condition:
     - condition: time
       after: '22:30:00'
-      before: '06:50:00'
+      before: '07:00:00'
     - condition: numeric_state
-      entity_id: sensor.illumination_158d0001f9d417
+      entity_id: sensor.illumination_158d000272b7c0
       below: 10
     action:
       - service: light.turn_on
         entity_id: light.yeelight_rgb_7811dce0fe41
         data:
-          brightness: 70
+          brightness: 50
           color_name: orangered
       - service: light.turn_on
         data:
-          entity_id: binary_sensor.motion_sensor_158d0001f9d417
+          entity_id: binary_sensor.motion_sensor_158d000272b7c0
 
-  - alias: Mudar fraldas quarto OFF
+  - alias: Desligar Mudar Fraldas Quarto 22h30 07h00
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      entity_id: binary_sensor.motion_sensor_158d000272b7c0
       from: 'on'
       to: 'off'
       for:
-        minutes: 4
+        minutes: 2
     condition:
     - condition: time
-      after: '22:30:00'
-      before: '06:50:00'
+      after: '22:00:00'
+      before: '07:00:00'
     action:
       - service: light.turn_off
         entity_id: light.yeelight_rgb_7811dce0fe41
+
+        
+  - alias: Desligar Candeeiro Mafalda a Cima dos 20 lx
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d000272b7c0
+      to: 'off'
+      for: 
+        seconds: 10
+    condition:
+    - condition: time
+      after: '18:00:00'
+      before: '07:00:00'
+    - condition: numeric_state
+      entity_id: sensor.illumination_158d000272b7c0
+      above: 30
+    action:
       - service: light.turn_off
-        data:
-          entity_id: binary_sensor.motion_sensor_158d0001f9d417
+        entity_id: light.yeelight_rgb_7811dce0fe41
 
 ###############################################################################
 #                                                                             #
 #                           S W I T C H E S                                   #
 #                                                                             #
 ###############################################################################  
-
-#lights:
 
 ###############################################################################
 #                                                                             #
@@ -91,17 +163,21 @@ automation:
 ###############################################################################      
 
 group:
-
-  quartomafalda:
-    view: yes
-    name: quarto mafalda
-    entities:
-      - group.quartomafaldagrupo
-
       
-
-  quartomafaldagrupo:
+  Lâmpada Quarto da Mafalda:
     control: hidden
-    name: Quarto da Mafalda
     entities:
       - light.yeelight_rgb_7811dce0fe41
+      
+  Sensor de Movimento Mafalda:
+    control: hidden
+    entities:
+      - binary_sensor.motion_sensor_158d000272b7c0
+      - sensor.illumination_158d000272b7c0
+     
+  Quarto da Mafalda:
+    view: yes
+    name: Quarto da Mafalda
+    entities:
+      - group.lampada_quarto_da_mafalda
+      - group.sensor_de_movimento_mafalda

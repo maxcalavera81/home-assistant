@@ -1,21 +1,10 @@
 homeassistant:
 
 ###############################################################################
-
 #                                                                             #
-
 #                           C U S T O M I Z E                                 #
-
 #                                                                             #
-
 ###############################################################################   
-
-        
-
-#  customize:
-
-
-
 
 ###############################################################################
 #                                                                             #
@@ -36,14 +25,10 @@ homeassistant:
 #                                                                             #
 ###############################################################################  
 
-#lights:
-
-
-
 ###############################################################################
 #                                                                             #
 #                         G R O U P S                                         #
-#                                                                             
+#                                                                             #
 ###############################################################################      
 
 group:
@@ -74,6 +59,12 @@ group:
     entities:
       - light.gateway_light_7811dcb38555
       
+  Downlights da Cozinha:
+    control: hidden
+    entities:
+      - light.xiaomi_philips_zhirui
+      - light.xiaomi_philips_zhirui_2
+      
   lampadas:
     view: yes
     name: Lâmpadas
@@ -83,3 +74,4 @@ group:
       - group.lampada_da_despensa
       - group.lampada_exterior_da_porta
       - group.led_do_gateway
+      - group.downlights_da_cozinha

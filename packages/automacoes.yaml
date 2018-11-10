@@ -1,21 +1,10 @@
 homeassistant:
 
 ###############################################################################
-
 #                                                                             #
-
 #                           C U S T O M I Z E                                 #
-
 #                                                                             #
-
 ###############################################################################   
-
-        
-
-#  customize:
-
-
-
 
 ###############################################################################
 #                                                                             #
@@ -35,47 +24,69 @@ homeassistant:
 #                                                                             #
 ###############################################################################  
 
-#lights:
-
-
-
 ###############################################################################
 #                                                                             #
 #                         G R O U P S                                         #
-#                                                                             
+#                                                                             #
 ###############################################################################      
 
 group:
 
-  Ligar Automações:
+  Ligar Automações Hall:
     control: hidden
     entities:
-      - automation.iluminacao_sala_17h0019h30
-      - automation.iluminacao_sala_19h3020h30
-      - automation.iluminacao_sala_20h3021h30
-      - automation.iluminacao_sala_21h3022h30
-      - automation.mudar_fraldas_sala_on
-      - automation.mudar_fraldas_quarto_on
-      - automation.liga_luz_do_exterior
       - automation.liga_luz_do_gateway
-      
+      - automation.liga_luz_do_exterior
 
-  Desligar Automações:
+  Desligar Automações Hall:
     control: hidden
     entities:
-      - automation.sala_off_17h19h30
-      - automation.sala_off_19h3020h30
-      - automation.sala_off_20h3021h30
-      - automation.sala_off_21h3022h30
-      - automation.mudar_fraldas_sala_off
-      - automation.mudar_fraldas_quarto_off
       - automation.desliga_luz_do_gateway
       - automation.desliga_luz_do_exterior
-      - automation.desligar_candeeiros_a_cima_dos_20_lx
       
+  Ligar Automações da Sala:
+    control: hidden
+    entities:
+      - automation.ligar_candeeiros_sala_17h00_19h30
+      - automation.ligar_candeeiros_sala_19h30_20h30
+      - automation.ligar_candeeiros_sala_20h30_21h30
+      - automation.ligar_candeeiros_sala_21h30_22h30
+      - automation.ligar_candeeiros_sala_22h30_00h00
+      - automation.ligar_candeeiros_sala_00h00_06h50
+
+  Desligar Automações da Sala:
+    control: hidden
+    entities:
+      - automation.desligar_candeeiros_sala_17h_19h30
+      - automation.desligar_candeeiros_sala_19h30_20h30
+      - automation.desligar_candeeiros_sala_20h30_21h30
+      - automation.desligar_candeeiros_sala_21h30_22h30
+      - automation.desligar_candeeiros_sala_22h30_00h00
+      - automation.desligar_candeeiros_sala_00h00_06h50
+      - automation.desligar_candeeiros_a_cima_dos_20_lx
+
+  Ligar Automações Quarto da Mafalda:
+    control: hidden
+    entities:
+      - automation.ligar_candeeiro_18h00_20h00
+      - automation.ligar_candeeiro_20h00_22h30
+      - automation.mudar_fraldas_quarto_22h30_07h00
+      
+  Desligar Automações Quarto da Mafalda:
+    control: hidden
+    entities:
+      - automation.desligar_candeeiro_18h00_22h30
+      - automation.desligar_mudar_fraldas_quarto_22h30_07h00
+      - automation.desligar_candeeiro_mafalda_a_cima_dos_20_lx
+
   automacoes:
     view: yes
     name: Automações
     entities:
-      - group.ligar_automacoes
-      - group.desligar_automacoes
+      - group.ligar_automacoes_hall
+      - group.desligar_automacoes_hall
+      - group.ligar_automacoes_da_Sala
+      - group.desligar_automacoes_da_Sala
+      - group.ligar_automacoes_quarto_da_mafalda
+      - group.desligar_automacoes_quarto_da_mafalda
+      - group.portao
