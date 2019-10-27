@@ -1,9 +1,18 @@
 homeassistant:
+
+#Authentication
+  auth_providers:
+    - type: homeassistant
+    - type: trusted_networks
+      trusted_networks:
+        #- 127.0.0.1
+        - 192.168.1.0/24
+
   # Name of the location where Home Assistant is running
-  name: Automação Casa
+  name: Casa Inteligente
   # Location required to calculate the time the sun rises and sets
-  latitude: !secret latitude
-  longitude: !secret longitude
+  latitude: !secret latitude_casa
+  longitude: !secret longitude_casa
   # Impacts weather/sunrise data (altitude above sea level in meters)
   elevation: 10
   # metric for Metric, imperial for Imperial
@@ -11,7 +20,7 @@ homeassistant:
   ## C FOR CELCIUS, F FOR FAHRENHEIT
   temperature_unit: C
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-  time_zone: Europe/Lisbon
+  time_zone: !secret time_zone
   # Customization file
   customize: !include customize.yaml
   # Packages
@@ -23,6 +32,26 @@ homeassistant:
 # Enables the frontend
 frontend:
 
+webhook:
+ 
+zigbee2mqtt_networkmap:
+#topic: your topic (optional, default zigbee2mqtt)
+panel_iframe:
+  networkmap:
+    title: 'Zigbee Map'
+    url: '/local/community/zigbee2mqtt_networkmap/map.html'
+    icon: 'mdi:graphql'
+
+  tasmoadmin:
+    title: TasmoAdmin
+    icon: mdi:lightbulb-on
+    url: !secret url_tasmoadmin
+
+  mdiindex:
+    title: MDI icons
+    icon: mdi:vector-square
+    url: https://cdn.rawgit.com/james-fry/home-assistant-mdi/efd95d7a/home-assistant-mdi.html
+
 # Enables configuration UI
 config:
 
@@ -33,80 +62,127 @@ xiaomi_aqara:
       key: !secret xiaomi_key
       host: !secret xiaomi_host
 
-media_player:
-  - platform: mediaroom
-    name: Vodafone Bruno
+mqtt:
+  broker: !secret mqtt_broker_ip
+  port: 1883
+  client_id: armhassio
+  keepalive: 60
+  username: !secret mqtt_username
+  password: !secret mqtt_password
+  protocol: 3.1.1
+  discovery: true
+
 
 notify:
   - name: telegram
     platform: telegram
     chat_id: !secret chat_ids_bruno
 
+  - platform: nfandroidtv
+    name: TV Sala
+    host: !secret ip_formuler_android_tv
+    duration: 10
+    fontsize: large
+    position: top-right
+
+  - platform: nfandroidtv
+    name: Mi box s
+    host: !secret ip_mibox_android_tv
+    duration: 10
+    fontsize: large
+    position: top-right
+    
 telegram_bot:
   - platform: polling
     api_key: !secret api_key_bruno
     allowed_chat_ids:
       - !secret chat_ids_bruno
-      
-light:
-  - platform: yeelight
-    devices:
-      !secret yeelight_ip:
-        name: yeelight_rgb_7811dc6b09nm
-  - platform: xiaomi_miio
-    name: Xiaomi Philips zhirui
-    host: !secret xiaomi_philips_zhirui_ip
-    token: !secret xiaomi_philips_zhirui_token
-    model: philips.light.bulb
-  - platform: xiaomi_miio
-    name: Xiaomi Philips zhirui 2
-    host: !secret xiaomi_philips_zhirui_2_ip
-    token: !secret xiaomi_philips_zhirui_2_token
-    model: philips.light.bulb
 
-mqtt:
-  broker: core-mosquitto
-  username: !secret mqtt_username
-  password: !secret mqtt_password
-  
-switch:
-  - platform: mqtt
-    name: "Abrir portão grande"
-    state_topic: "stat/comandoportao/POWER"
-    command_topic: "cmnd/comandoportao/power"
-    availability_topic: "tele/comandoportao/LWT"
-    payload_available: "Online"
-    payload_not_available: "Offline"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
+device_tracker:
+  - platform: nmap_tracker
+    hosts: 192.168.1.1-254
+    home_interval: 6
 
-  - platform: mqtt
-    name: "Abrir portão pequeno"
-    state_topic: "stat/comandoportao/POWER2"
-    command_topic: "cmnd/comandoportao/power2"
-    availability_topic: "tele/comandoportao/LWT"
-    payload_available: "Online"
-    payload_not_available: "Offline"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    
-binary_sensor:
-
-  - platform: mqtt
-    name: "Sonoff portao automatico"
-    state_topic: "cmnd/comandoportao/POWER1"
-    payload_on: "ON"
-    payload_off: "OFF"
+  - platform: ping
+    hosts:
+      bruno_melo: !secret bruno_melo_ip
+      armanda_rodrigues: !secret armanda_rodrigues_ip
+      armando_melo: !secret armando_melo_ip
+      samsung_smart_tv: ! secret ip_samsung_tv
+      xiaomi_mi_box_s_2: !secret ip_mibox_android_tv
+      count: 2
 
 http:
-  base_url: !secret duckdnsbase_url
-  api_password: !secret duckdnsapi_password
+  api_password: !secret api_password
   ssl_certificate: /ssl/fullchain.pem
   ssl_key: /ssl/privkey.pem
   ip_ban_enabled: True
   login_attempts_threshold: 3
+
+media_player:
+
+  - platform: samsungtv
+    name: Samsung Smart TV
+    host: !secret ip_samsung_tv
+
+  - platform: androidtv
+    name: Mi Box S
+    host: !secret ip_mibox_android_tv
+    device_class: androidtv
+    adb_server_ip: 127.0.0.1
+    adb_server_port: 5037
+
+  - platform: androidtv
+    name: Formuler z7plus
+    host: !secret ip_formuler_android_tv
+    device_class: androidtv
+    adb_server_ip: 127.0.0.1
+    adb_server_port: 5037
+
+  - platform: mediaroom
+    host: !secret ip_box_cozinha
+    name: "vodafone Cozinha"
+
+  - platform: mediaroom
+    host: !secret ip_box_bruno
+    name: "vodafone Bruno"
+
+  - platform: mediaroom
+    host: !secret ip_box_sala_pai
+    name: "vodafone Quarto"
+
+#Google Home Mini Integration
+google_assistant:
+  project_id: !secret project_id
+  api_key: !secret ghm_api_key
+  expose_by_default: true
+  exposed_domains:
+    - switch
+    - light
+    - group
+    - cover
+    - vacuum
+    - script
+
+#### GOOGLE CAST
+cast:
+  media_player:
+    - host: !secret ip_google_home_mini
+    - host: !secret ip_mibox_android_tv
+
+# hacs #
+hacs:
+  token: !secret hacs_token
+
+#breaking changes HA
+breaking_changes:
+  name: Potenciais alterações
+  scan_interval: 60
+
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
 
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 # http:
@@ -122,7 +198,7 @@ updater:
   # include_used_components: true
 
 # Discover some devices automatically
-discovery:
+#discovery:
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
@@ -148,20 +224,17 @@ sensor:
   - platform: time_date
     display_options:
       - 'time'
- 
-  - platform: google_geocode
-    name: Bruno Melo
-    origin: device_tracker.bruno
-    options: street, city
-    display_zone: hide
-    api_key: !secret geocode_api_key
-
-# Text to speech
-tts:
-  - platform: google
 
 # Cloud
 cloud:
+
+# Text to speech
+tts:
+  - platform: google_translate
+    service_name: google_say
+    language: 'pt'
+    cache: true
+    base_url: !secret duckdnsbase_url
 
 group: !include groups.yaml
 #automation: !include automations.yaml

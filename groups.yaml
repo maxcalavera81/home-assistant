@@ -2,11 +2,26 @@ default_view:
   view: yes
   icon: mdi:home
   entities:
-    - group.sensores
-    - group.zanzito
-    
-sensores:
-  name: Sensores
+    - group.sun_timer
+    - group.ipma
+    - group.tracker
+    - group.cameras
+
+sun timer:
+  name: Pôr e narcer do sol
   entities:
-    - binary_sensor.switch_158d00015aa37d
-    - sensor.time
+    - sensor.sunrise_time
+    - sensor.sunset_time
+
+tracker:
+  name: Família
+  entities:
+    - device_tracker.bruno_melo
+    - device_tracker.armanda_rodrigues
+    - device_tracker.armando_melo
+
+wifipresencas:     
+  name: casa
+  entities: 
+    - device_tracker.bruno_melo  
+    - device_tracker.armanda_rodrigues
