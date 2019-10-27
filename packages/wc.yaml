@@ -1,0 +1,66 @@
+homeassistant:
+
+###############################################################################
+#                                                                             #
+#                           C U S T O M I Z E                                 #
+#                                                                             #
+###############################################################################
+  customize:
+    light.teto_casa_de_banho:
+      icon: mdi:lightbulb-on
+    light.espelho_casa_de_banho:
+      icon: mdi:lightbulb-on
+
+###############################################################################
+#                                                                             #
+#                               L I G H T S                                   #
+#                                                                             #
+###############################################################################
+light:
+
+  - platform: mqtt
+    name: "Teto Casa de Banho"
+    state_topic: "shellies/shellyswitch25-691DA5/relay/0"
+    command_topic: "shellies/shellyswitch25-691DA5/relay/0/command"
+    payload_on: "on"
+    payload_off: "off"
+    retain: false
+
+  - platform: mqtt
+    name: "Espelho Casa de Banho"
+    state_topic: "shellies/shellyswitch25-691DA5/relay/1"
+    command_topic: "shellies/shellyswitch25-691DA5/relay/1/command"
+    payload_on: "on"
+    payload_off: "off"
+    retain: false
+
+#######################################################################
+#                                                                     #
+#                            S E N S O R S                            #
+#                                                                     #
+#######################################################################
+sensor:
+  - platform: mqtt
+    state_topic : "shellies/shellyswitch25-691DA5/temperature"
+    unit_of_measurement: "°C"
+    name: "Shelly WC"
+
+  - platform: mqtt
+    name: "Teto Casa de Banho Watts"
+    state_topic: "shellies/shellyswitch25-691DA5/relay/0/power"    
+    unit_of_measurement: "Watts"
+    
+  - platform: mqtt
+    name: "Teto Casa de Banho Kwh"
+    state_topic: "shellies/shellyswitch25-691DA5/relay/0/energy"    
+    unit_of_measurement: "Kwh"
+
+  - platform: mqtt
+    name: "Espelho Casa de Banho Watts"
+    state_topic: "shellies/shellyswitch25-691DA5/relay/1/power"    
+    unit_of_measurement: "Watts"
+    
+  - platform: mqtt
+    name: "Espelho Casa de Banho Kwh"
+    state_topic: "shellies/shellyswitch25-691DA5/relay/1/energy"    
+    unit_of_measurement: "KWh"

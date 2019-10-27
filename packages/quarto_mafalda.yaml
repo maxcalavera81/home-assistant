@@ -4,14 +4,55 @@ homeassistant:
 #                                                                             #
 #                           C U S T O M I Z E                                 #
 #                                                                             #
-###############################################################################   
+###############################################################################
+  customize:
+    light.yeelight_color1_7811dce0fe41:
+      friendly_name: Candeeiro
+      icon: mdi:lightbulb-on
+    binary_sensor.motion_sensor_158d000272b7c0:
+      friendly_name: Sensor de Movimento Mafalda
+      icon: mdi:run
+    sensor.illumination_158d000272b7c0:
+      friendly_name: Sensor LX Mafalda
+      icon: mdi:brightness-4
+    light.Teto_quarto_afalda:
+      icon: mdi:lightbulb-on
 
 ###############################################################################
 #                                                                             #
-#                         INPUT   BOOLEAN                                     #
+#                           L U Z E S                                         #
 #                                                                             #
-###############################################################################      
+###############################################################################
+yeelight:
+  devices:
+    !secret yeelight_q_mafalda_ip:
+      name: yeelight_color1_7811dce0fe41
+      model: color1
 
+light:
+  - platform: mqtt
+    name: "Teto Quarto Mafalda"
+    state_topic: "shellies/shelly1-944B35/relay/0"
+    command_topic: "shellies/shelly1-944B35/relay/0/command"
+    payload_on: "on"
+    payload_off: "off"
+    retain: true
+
+###############################################################################
+#                                                                             #
+#                              S H E L L Y                                    #
+#                                                                             #
+###############################################################################   
+#switch:
+# - platform: rest
+#    name: "Shelly Mafalda"
+#    scan_interval: 2
+#    resource: http://192.168.1.104/relay/0
+#    body_on: 'turn=on'
+#    body_off: 'turn=off'
+#    is_on_template: '{{ value_json.ison == true}}'
+#    headers:
+#      content-type: application/x-www-form-urlencoded
 ###############################################################################
 #                                                                             #
 #                           A U T O M A Ç Õ E S                               #
@@ -19,9 +60,48 @@ homeassistant:
 ###############################################################################   
 automation:
 
-#automação quarto mafalda
 
-  - alias: Ligar Candeeiro 18h00 20h00
+#automações leds tecto fim de semana e feriados Mafalda
+
+  - alias: Ligar luzes teto Mafalda
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: light.Teto_quarto_afalda
+      from: 'off'
+      to: 'on'
+    condition:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+    action:
+      - service: light.turn_off
+        entity_id: light.yeelight_color1_7811dce0fe41
+
+  - alias: Desligar luzes teto mafalda 17h 22h
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: light.ceiling_lights_living_room
+      from: 'on'
+      to: 'off'
+    condition:
+    - condition: time
+      after: '17:00:00'
+      before: '22:00:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+    action:
+      - service: light.turn_on
+        entity_id: light.yeelight_color1_7811dce0fe41
+        data:
+          brightness: 200
+          kelvin: 5000
+
+#automação quarto mafalda durante a semana
+
+  - alias: Ligar Candeeiro 17h00 20h00
     initial_state: true
     trigger:
       platform: state
@@ -29,23 +109,23 @@ automation:
       from: 'off'
       to: 'on'
     condition:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
     - condition: time
-      after: '18:00:00'
+      after: '17:00:00'
       before: '20:00:00'
     - condition: numeric_state
       entity_id: sensor.illumination_158d000272b7c0
-      below: 15
+      below: 20
     action:
       - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dce0fe41
+        entity_id: light.yeelight_color1_7811dce0fe41
         data:
           brightness: 255
           kelvin: 5000
-      - service: light.turn_on
-        data:
-          entity_id: binary_sensor.motion_sensor_158d000272b7c0
-          
-  - alias: Ligar Candeeiro 20h00 22h30
+
+  - alias: Ligar Candeeiro 20h00 22h00
     initial_state: true
     trigger:
       platform: state
@@ -53,23 +133,23 @@ automation:
       from: 'off'
       to: 'on'
     condition:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
     - condition: time
       after: '20:00:00'
-      before: '22:30:00'
+      before: '22:00:00'
     - condition: numeric_state
       entity_id: sensor.illumination_158d000272b7c0
-      below: 15
+      below: 20
     action:
       - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dce0fe41
+        entity_id: light.yeelight_color1_7811dce0fe41
         data:
           brightness: 50
-          kelvin: 3400
-      - service: light.turn_on
-        data:
-          entity_id: binary_sensor.motion_sensor_158d000272b7c0
+          kelvin: 3000
 
-  - alias: Desligar Candeeiro 18h00 22h30
+  - alias: Desligar Candeeiro 17h00 22h00
     initial_state: true
     trigger:
       platform: state
@@ -79,17 +159,20 @@ automation:
       for:
         minutes: 3
     condition:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
     - condition: time
-      after: '18:00:00'
-      before: '22:30:00'
+      after: '17:00:00'
+      before: '22:00:00'
     action:
       - service: light.turn_off
-        entity_id: light.yeelight_rgb_7811dce0fe41
+        entity_id: light.yeelight_color1_7811dce0fe41
 
 
-#automação mudar fraldas quarto
+#automação mudar fraldas quarto durante a semana
 
-  - alias: Mudar Fraldas Quarto 22h30 07h00
+  - alias: Mudar Fraldas Quarto 22h00 07h00
     initial_state: true
     trigger:
       platform: state
@@ -97,23 +180,47 @@ automation:
       from: 'off'
       to: 'on'
     condition:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
     - condition: time
-      after: '22:30:00'
+      after: '22:00:00'
       before: '07:00:00'
     - condition: numeric_state
       entity_id: sensor.illumination_158d000272b7c0
-      below: 10
+      below: 20
     action:
       - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dce0fe41
+        entity_id: light.yeelight_color1_7811dce0fe41
         data:
           brightness: 50
           color_name: orangered
-      - service: light.turn_on
-        data:
-          entity_id: binary_sensor.motion_sensor_158d000272b7c0
 
-  - alias: Desligar Mudar Fraldas Quarto 22h30 07h00
+  - alias: Mudar Fraldas Quarto 07h00 08h00
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d000272b7c0
+      from: 'off'
+      to: 'on'
+    condition:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    - condition: time
+      after: '07:00:00'
+      before: '08:00:00'
+    - condition: numeric_state
+      entity_id: sensor.illumination_158d000272b7c0
+      below: 20
+    action:
+      - service: light.turn_on
+        entity_id: light.yeelight_color1_7811dce0fe41
+        data:
+          brightness: 200
+          color_name: orangered
+
+  - alias: Desligar Mudar Fraldas Quarto 22h00 08h00
     initial_state: true
     trigger:
       platform: state
@@ -123,38 +230,105 @@ automation:
       for:
         minutes: 2
     condition:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
     - condition: time
       after: '22:00:00'
-      before: '07:00:00'
+      before: '08:00:00'
     action:
       - service: light.turn_off
-        entity_id: light.yeelight_rgb_7811dce0fe41
+        entity_id: light.yeelight_color1_7811dce0fe41
 
-        
-  - alias: Desligar Candeeiro Mafalda a Cima dos 20 lx
+#automação mudar fraldas quarto durante o fim de seamana
+
+  - alias: Ligar Candeeiro fim de semana 17h 22h
     initial_state: true
     trigger:
       platform: state
       entity_id: binary_sensor.motion_sensor_158d000272b7c0
-      to: 'off'
-      for: 
-        seconds: 10
+      from: 'off'
+      to: 'on'
     condition:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
     - condition: time
-      after: '18:00:00'
-      before: '07:00:00'
+      after: '17:00:00'
+      before: '22:00:00'
     - condition: numeric_state
       entity_id: sensor.illumination_158d000272b7c0
-      above: 30
+      below: 40
+    action:
+      - service: light.turn_on
+        entity_id: light.yeelight_color1_7811dce0fe41
+        data:
+          brightness: 200
+          kelvin: 5000
+
+  - alias: Ligar Candeeiro fim de semana 22h 9h
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d000272b7c0
+      from: 'off'
+      to: 'on'
+    condition:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+    - condition: time
+      after: '22:00:00'
+      before: '09:00:00'
+    - condition: numeric_state
+      entity_id: sensor.illumination_158d000272b7c0
+      below: 20
+    action:
+      - service: light.turn_on
+        entity_id: light.yeelight_color1_7811dce0fe41
+        data:
+          brightness: 150
+          color_name: orangered
+
+  - alias: Desligar candeeiro fim de semana 17h 22h
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d000272b7c0
+      from: 'on'
+      to: 'off'
+      for:
+        minutes: 3
+    condition:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+    - condition: time
+      after: '17:00:00'
+      before: '22:00:00'
     action:
       - service: light.turn_off
-        entity_id: light.yeelight_rgb_7811dce0fe41
+        entity_id: light.yeelight_color1_7811dce0fe41
 
-###############################################################################
-#                                                                             #
-#                           S W I T C H E S                                   #
-#                                                                             #
-###############################################################################  
+  - alias: Desligar candeeiro fim de semana 22h 09h
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d000272b7c0
+      from: 'on'
+      to: 'off'
+      for:
+        minutes: 2
+    condition:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+    - condition: time
+      after: '22:00:00'
+      before: '09:00:00'
+    action:
+      - service: light.turn_off
+        entity_id: light.yeelight_color1_7811dce0fe41
 
 ###############################################################################
 #                                                                             #
@@ -163,21 +337,38 @@ automation:
 ###############################################################################      
 
 group:
-      
-  Lâmpada Quarto da Mafalda:
+
+  Lâmpada Quarto Mafalda:
     control: hidden
     entities:
-      - light.yeelight_rgb_7811dce0fe41
-      
+      - light.yeelight_color1_7811dce0fe41
+
   Sensor de Movimento Mafalda:
     control: hidden
     entities:
       - binary_sensor.motion_sensor_158d000272b7c0
       - sensor.illumination_158d000272b7c0
-     
+
+  Ligar Automações Mafalda:
+    control: hidden
+    entities:
+      - automation.ligar_candeeiro_17h00_20h00
+      - automation.ligar_candeeiro_20h00_22h30
+      - automation.mudar_fraldas_quarto_22h30_07h00
+      - automation.mudar_fraldas_quarto_07h00_09h00
+
+  Desligar Automações Mafalda:
+    control: hidden
+    entities:
+      - automation.desligar_candeeiro_17h00_22h30
+      - automation.desligar_mudar_fraldas_quarto_22h30_09h00
+      - automation.desligar_candeeiro_mafalda_a_cima_dos_31_lx
+
   Quarto da Mafalda:
     view: yes
     name: Quarto da Mafalda
     entities:
-      - group.lampada_quarto_da_mafalda
+      - group.lampada_quarto_mafalda
       - group.sensor_de_movimento_mafalda
+      - group.ligar_automacoes_mafalda
+      - group.desligar_automacoes_mafalda

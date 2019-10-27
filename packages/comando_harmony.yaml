@@ -1,0 +1,288 @@
+homeassistant:
+
+###############################################################################
+#                                                                             #
+#                           A U T O M A Ç Õ E S                               #
+#                                                                             #
+###############################################################################   
+automation:
+
+  - alias: Acender apagar apliques
+    initial_state: true
+    trigger:
+      platform: mqtt
+      topic: tele/wemos/RESULT
+    condition:
+      condition: template
+      value_template: '{{ trigger.payload_json.IrReceived.Data == "20DFE01F" }}'      
+    action:
+      service_template: >
+       {% if is_state('group.apliques_da_sala', 'off') %}
+       light.turn_on  
+       {%- elif is_state('group.apliques_da_sala', 'on') -%}
+       light.turn_off
+       {% endif %}
+      entity_id: group.apliques_da_sala
+
+  - alias: Acender apagar tecto sala
+    initial_state: true
+    trigger:
+      platform: mqtt
+      topic: tele/wemos/RESULT
+    condition:
+      condition: template
+      value_template: '{{ trigger.payload_json.IrReceived.Data == "20DF02FD" }}'      
+    action:
+      service_template: >
+       {% if is_state('light.teto_da_sala', 'off') %}
+       light.turn_on  
+       {%- elif is_state('light.teto_da_sala', 'on') -%}
+       light.turn_off
+       {% endif %}
+      entity_id: light.teto_da_sala
+
+  - alias: Acender apagar tecto mafalda
+    initial_state: true
+    trigger:
+      platform: mqtt
+      topic: tele/wemos/RESULT
+    condition:
+      condition: template
+      value_template: '{{ trigger.payload_json.IrReceived.Data == "20DF33CC" }}'      
+    action:
+      service_template: >
+       {% if is_state('light.teto_quarto_mafalda', 'off') %}
+       light.turn_on  
+       {%- elif is_state('light.teto_quarto_mafalda', 'on') -%}
+       light.turn_off
+       {% endif %}
+      entity_id: light.teto_quarto_mafalda
+
+  - alias: Acender apagar candeeiro Mafalda
+    initial_state: true
+    trigger:
+      platform: mqtt
+      topic: tele/wemos/RESULT
+    condition:
+      condition: template
+      value_template: '{{ trigger.payload_json.IrReceived.Data == "20DF0DF2" }}'      
+    action:
+      service_template: >
+       {% if is_state('light.yeelight_color1_7811dce0fe41', 'off') %}
+       light.turn_on  
+       {%- elif is_state('light.yeelight_color1_7811dce0fe41', 'on') -%}
+       light.turn_off
+       {% endif %}
+      entity_id: light.yeelight_color1_7811dce0fe41
+
+
+  - alias: Acender apagar 2 candeeiros pátio
+    initial_state: true
+    trigger:
+      platform: mqtt
+      topic: tele/wemos/RESULT
+    condition:
+      condition: template
+      value_template: '{{ trigger.payload_json.IrReceived.Data == "20DF5DA2" }}'      
+    action:
+      service_template: >
+       {% if is_state('group.duas_lampadas_do_patio', 'off') %}
+       light.turn_on  
+       {%- elif is_state('group.duas_lampadas_do_patio', 'on') -%}
+       light.turn_off
+       {% endif %}
+      entity_id: group.duas_lampadas_do_patio
+
+  - alias: Acender apagar candeeiros pátio
+    initial_state: true
+    trigger:
+      platform: mqtt
+      topic: tele/wemos/RESULT
+    condition:
+      condition: template
+      value_template: '{{ trigger.payload_json.IrReceived.Data == "20DFE817" }}'      
+    action:
+      service_template: >
+       {% if is_state('group.lampadas_do_patio', 'off') %}
+       light.turn_on  
+       {%- elif is_state('group.lampadas_do_patio', 'on') -%}
+       light.turn_off
+       {% endif %}
+      entity_id: group.lampadas_do_patio
+
+  - alias: Abrir fechar portão grande
+    initial_state: true
+    trigger:
+      platform: mqtt
+      topic: tele/wemos/RESULT
+    condition:
+      condition: template
+      value_template: '{{ trigger.payload_json.IrReceived.Data == "20DF9768" }}'      
+    action:
+      - service: switch.toggle
+        data:
+          entity_id: switch.abrir_portao_grande
+
+  - alias: Abrir fechar portão pequeno
+    initial_state: true
+    trigger:
+      platform: mqtt
+      topic: tele/wemos/RESULT
+    condition:
+      condition: template
+      value_template: '{{ trigger.payload_json.IrReceived.Data == "20DF5BA4" }}'      
+    action:
+      - service: switch.toggle
+        data:
+          entity_id: switch.abrir_portao_pequeno
+
+  - alias: Abrir fechar portão pequeno metade
+    initial_state: true
+    trigger:
+      platform: mqtt
+      topic: tele/wemos/RESULT
+    condition:
+      condition: template
+      value_template: '{{ trigger.payload_json.IrReceived.Data == "20DF8679" }}'      
+    action:
+      - service: script.turn_on
+        data:
+          entity_id: script.portao_30
+
+  - alias: Estores em modo TV
+    initial_state: true
+    trigger:
+      platform: mqtt
+      topic: tele/wemos/RESULT
+    condition:
+      condition: template
+      value_template: '{{ trigger.payload_json.IrReceived.Data == "20DF738C" }}'
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_sala
+            - cover.estore_mafalda
+          position: 22
+
+  - alias: Fecha Estore Mafalda 50
+    initial_state: true
+    trigger:
+      platform: mqtt
+      topic: tele/wemos/RESULT
+    condition:
+      condition: template
+      value_template: '{{ trigger.payload_json.IrReceived.Data == "20DF609F" }}'
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: cover.estore_mafalda
+          position: 63
+
+  - alias: Fecha Estore sala 50
+    initial_state: true
+    trigger:
+      platform: mqtt
+      topic: tele/wemos/RESULT
+    condition:
+      condition: template
+      value_template: '{{ trigger.payload_json.IrReceived.Data == "20DF827D" }}'
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: cover.estore_sala
+          position: 63
+
+  - alias: Abrir Estores
+    initial_state: true
+    trigger:
+      platform: mqtt
+      topic: tele/wemos/RESULT
+    condition:
+      condition: template
+      value_template: '{{ trigger.payload_json.IrReceived.Data == "20DF8E71" }}'
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_sala
+            - cover.estore_mafalda
+          position: 100
+
+  - alias: Aspirar a casa toda
+    initial_state: true
+    trigger:
+      platform: mqtt
+      topic: tele/wemos/RESULT
+    condition:
+      condition: template
+      value_template: '{{ trigger.payload_json.IrReceived.Data == "20DF8877" }}'      
+    action:
+      - service: script.turn_on
+        data:
+          entity_id: script.aspirar_casa_toda
+
+  - alias: Aspirar Hall
+    initial_state: true
+    trigger:
+      platform: mqtt
+      topic: tele/wemos/RESULT
+    condition:
+      condition: template
+      value_template: '{{ trigger.payload_json.IrReceived.Data == "20DF48B7" }}'      
+    action:
+      - service: script.turn_on
+        data:
+          entity_id: script.aspirar_hall
+
+  - alias: Aspirar WC
+    initial_state: true
+    trigger:
+      platform: mqtt
+      topic: tele/wemos/RESULT
+    condition:
+      condition: template
+      value_template: '{{ trigger.payload_json.IrReceived.Data == "20DFC837" }}'      
+    action:
+      - service: script.turn_on
+        data:
+          entity_id: script.aspirar_casa_de_banho
+
+  - alias: Aspirar Cozinha
+    initial_state: true
+    trigger:
+      platform: mqtt
+      topic: tele/wemos/RESULT
+    condition:
+      condition: template
+      value_template: '{{ trigger.payload_json.IrReceived.Data == "20DF28D7" }}'      
+    action:
+      - service: script.turn_on
+        data:
+          entity_id: script.aspirar_cozinha
+
+  - alias: Aspirar a sala
+    initial_state: true
+    trigger:
+      platform: mqtt
+      topic: tele/wemos/RESULT
+    condition:
+      condition: template
+      value_template: '{{ trigger.payload_json.IrReceived.Data == "20DFA857" }}'      
+    action:
+      - service: script.turn_on
+        data:
+          entity_id: script.aspirar_sala
+
+  - alias: Aspirar Quarto da Mafalda
+    initial_state: true
+    trigger:
+      platform: mqtt
+      topic: tele/wemos/RESULT
+    condition:
+      condition: template
+      value_template: '{{ trigger.payload_json.IrReceived.Data == "20DF6897" }}'      
+    action:
+      - service: script.turn_on
+        data:
+          entity_id: script.aspirar_quarto_da_mafalda

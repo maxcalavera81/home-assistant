@@ -1,0 +1,346 @@
+homeassistant:
+
+###############################################################################
+#                                                                             #
+#                           C U S T O M I Z E                                 #
+#                                                                             #
+###############################################################################
+  customize:
+    switch.zona_1:
+      friendly_name: Rega da Zona 1
+      icon: mdi:power
+    switch.zona_2:
+      friendly_name: Rega da Zona 2
+      icon: mdi:power
+    switch.zona_3:
+      friendly_name: Rega da Zona 3
+      icon: mdi:power
+    switch.zona_4:
+      friendly_name: Rega da Zona 4
+      icon: mdi:power
+    script.zona_rega_1:
+      friendly_name: Rega Zona 1 7 mim
+      icon: mdi:pipe
+    script.zona_rega_2:
+      friendly_name: Rega Zona 2 7 mim
+      icon: mdi:pipe
+    script.zona_rega_3:
+      friendly_name: Rega Zona 3 7 mim
+      icon: mdi:pipe
+    script.zona_rega_4:
+      friendly_name: Rega Zona 4 5 mim
+      icon: mdi:pipe
+
+###############################################################################
+#                                                                             #
+#                           S W I T C H  S O N O F F                          #
+#                                                                             #
+###############################################################################
+switch: 
+  - platform: mqtt
+    name: "zona 1"
+    state_topic: "stat/rega/POWER1"
+    command_topic: "cmnd/rega/power1"
+    availability_topic: "tele/rega/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+
+  - platform: mqtt
+    name: "zona 2"
+    state_topic: "stat/rega/POWER2"
+    command_topic: "cmnd/rega/power2"
+    availability_topic: "tele/rega/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+
+  - platform: mqtt
+    name: "zona 3"
+    state_topic: "stat/rega/POWER3"
+    command_topic: "cmnd/rega/power3"
+    availability_topic: "tele/rega/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+
+  - platform: mqtt
+    name: "zona 4"
+    state_topic: "stat/rega/POWER4"
+    command_topic: "cmnd/rega/power4"
+    availability_topic: "tele/rega/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+
+###############################################################################
+#                                                                             #
+#                           S C R I P T S                                     #
+#                                                                             #
+###############################################################################
+script:
+  zona_rega_1:
+    sequence:
+      - service: switch.turn_on
+        entity_id: switch.zona_1
+      - delay: '00:07:00'
+      - service: switch.turn_off
+        entity_id: switch.zona_1
+
+  zona_rega_2:
+    sequence:
+      - service: switch.turn_on
+        entity_id: switch.zona_2
+      - delay: '00:07:00'
+      - service: switch.turn_off
+        entity_id: switch.zona_2
+
+  zona_rega_3:
+    sequence:
+      - service: switch.turn_on
+        entity_id: switch.zona_3
+      - delay: '00:07:00'
+      - service: switch.turn_off
+        entity_id: switch.zona_3
+
+  zona_rega_4:
+    sequence:
+      - service: switch.turn_on
+        entity_id: switch.zona_4
+      - delay: '00:05:00'
+      - service: switch.turn_off
+        entity_id: switch.zona_4
+
+###############################################################################
+#                                                                             #
+#                           A U T O M A Ç Õ E S                               #
+#                                                                             #
+###############################################################################   
+automation:
+
+  - alias: Regar Zona 1 Manhã
+    initial_state: false
+    trigger:
+      - platform: time
+        at: '05:00:00'
+    condition:
+      - condition: time
+        weekday:
+          - mon
+          - wed
+          - fri
+          - sun
+    action:
+      - service: script.turn_on
+        data:
+          entity_id: script.zona_rega_1
+
+  - alias: Regar Zona 2 Manhã
+    initial_state: false
+    trigger:
+      - platform: time
+        at: '05:07:03'
+    condition:
+      - condition: time
+        weekday:
+          - mon
+          - wed
+          - fri
+          - sun
+    action:
+      - service: script.turn_on
+        data:
+          entity_id: script.zona_rega_2
+
+  - alias: Regar Zona 3 Manhã
+    initial_state: false
+    trigger:
+      - platform: time
+        at: '05:14:06'
+    condition:
+      - condition: time
+        weekday:
+          - mon
+          - wed
+          - fri
+          - sun
+    action:
+      - service: script.turn_on
+        data:
+          entity_id: script.zona_rega_3
+
+  - alias: Regar Zona 4 Manhã
+    initial_state: false
+    trigger:
+      - platform: time
+        at: '05:21:09'
+    condition:
+      - condition: time
+        weekday:
+          - mon
+          - wed
+          - fri
+          - sun
+    action:
+      - service: script.turn_on
+        data:
+          entity_id: script.zona_rega_4
+
+  - alias: Regar Zona 1 Noite
+    initial_state: false
+    trigger:
+      - platform: time
+        at: '23:00:00'
+    condition:
+      - condition: time
+        weekday:
+          - mon
+          - wed
+          - fri
+          - sun
+    action:
+      - service: script.turn_on
+        data:
+          entity_id: script.zona_rega_1
+
+  - alias: Regar Zona 2 Noite
+    initial_state: false
+    trigger:
+      - platform: time
+        at: '23:07:03'
+    condition:
+      - condition: time
+        weekday:
+          - mon
+          - wed
+          - fri
+          - sun
+    action:
+      - service: script.turn_on
+        data:
+          entity_id: script.zona_rega_2
+
+  - alias: Regar Zona 3 Noite
+    initial_state: false
+    trigger:
+      - platform: time
+        at: '23:14:06'
+    condition:
+      - condition: time
+        weekday:
+          - mon
+          - wed
+          - fri
+          - sun
+    action:
+      - service: script.turn_on
+        data:
+          entity_id: script.zona_rega_3
+
+  - alias: Regar Zona 4 Noite
+    initial_state: false
+    trigger:
+      - platform: time
+        at: '23:21:09'
+    condition:
+      - condition: time
+        weekday:
+          - mon
+          - wed
+          - fri
+          - sun
+    action:
+      - service: script.turn_on
+        data:
+          entity_id: script.zona_rega_4
+
+#automacoes para sensor de chuva
+
+  - alias: Ligar rega quando pára de chover
+    initial_state: false
+    trigger:
+      platform: state
+      entity_id: binary_sensor.water_leak_sensor_158d00024bc707
+      from: 'on'
+      to: 'off'
+    action:
+      - service: automation.turn_on
+        entity_id:
+          - automation.Regar_Zona_1
+          - automation.Regar_Zona_2
+          - automation.Regar_Zona_3
+          - automation.Regar_Zona_4
+
+  - alias: Desligar rega em dias chuva
+    initial_state: false
+    trigger:
+      platform: state
+      entity_id: binary_sensor.water_leak_sensor_158d00024bc707
+      from: 'off'
+      to: 'on'
+    action:
+      - service: automation.turn_off
+        entity_id:
+          - automation.Regar_Zona_1
+          - automation.Regar_Zona_2
+          - automation.Regar_Zona_3
+          - automation.Regar_Zona_4
+
+###############################################################################
+#                                                                             #
+#                         G R O U P S                                         #
+#                                                                             #
+###############################################################################
+group:
+
+  Switch Rega:
+    control: hidden
+    entities:
+      - switch.zona_1
+      - switch.zona_2
+      - switch.zona_3
+      - switch.zona_4
+
+  Scripts Rega:
+    control: hidden
+    entities:
+      - script.zona_rega_1
+      - script.zona_rega_2
+      - script.zona_rega_3
+      - script.zona_rega_4
+
+  Sensor de Chuva:
+    control: hidden
+    entities:
+      - binary_sensor.water_leak_sensor_158d00024bc707
+
+  Automações da Rega:
+    control: hidden
+    entities:
+      - automation.regar_zona_1_manha
+      - automation.regar_zona_2_manha
+      - automation.regar_zona_3_manha
+      - automation.regar_zona_4_manha
+      - automation.regar_zona_1_noite
+      - automation.regar_zona_2_noite
+      - automation.regar_zona_3_noite
+      - automation.regar_zona_4_noite
+      - automation.ligar_rega_quando_para_de_chover
+      - automation.desligar_rega_em_dias_chuva
+
+  Rega do jardim:
+    view: yes
+    name: Rega do Jardim
+    entities:
+      - group.switch_rega
+      - group.scripts_rega
+      - group.sensor_de_chuva
+      - group.automacoes_da_rega

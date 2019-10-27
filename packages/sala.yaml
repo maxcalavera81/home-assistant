@@ -2,16 +2,107 @@ homeassistant:
 
 ###############################################################################
 #                                                                             #
-#                           C U S T O M I Z E                                 #
+#                         C U S T O M I Z E                                   #
 #                                                                             #
-###############################################################################   
+###############################################################################      
+  customize:
+    light.yeelight_color1_7811dc6b9b10:
+      friendly_name: Candeeiro Direito
+      icon: mdi:lightbulb-on
+    light.yeelight_color1_7811dc6b98cb:
+      friendly_name: Candeeiro Esquerdo
+      icon: mdi:lightbulb-on
+    light.teto_da_sala:
+      icon: mdi:lightbulb-on
+    binary_sensor.movimento_sala:
+      friendly_name: Sensor de Movimento Sala
+      icon: mdi:run
+    sensor.lx_sala:
+      friendly_name: Sensor LX Sala
+      icon: mdi:brightness-4
+    sensor.humidity_158d00023203e4:
+      friendly_name: Sensor de Humidade da Sala
+      icon: mdi:water-percent
+    sensor.temperature_158d00023203e4:
+      friendly_name: Sensor de Temperatura da Sala
+      icon: mdi:temperature-celsius
+    binary_sensor.cube_158d00027984b3:
+      friendly_name: Cubo Mágico
+      icon: mdi:cube-outline
+    script.message_temperature:
+      friendly_name: Temperatura da Sala
+      icon: mdi:temperature-celsius
 
 ###############################################################################
 #                                                                             #
-#                         INPUT   BOOLEAN                                     #
+#                           L U Z E S                                         #
 #                                                                             #
-###############################################################################      
+###############################################################################
+light:
 
+  - platform: mqtt
+    name: "Teto da sala"
+    state_topic: "shellies/shelly1-944EA4/relay/0"
+    command_topic: "shellies/shelly1-944EA4/relay/0/command"
+    payload_on: "on"
+    payload_off: "off"
+    retain: true
+
+yeelight:
+  devices: 
+    !secret yeelight_sala_direito:
+      name: yeelight_color1_7811dc6b9b10
+      model: color1
+    !secret yeelight_sala_esquerdo:
+      name: yeelight_color1_7811dc6b98cb
+      model: color1
+  custom_effects:
+    - name: 'Sunrise'
+      flow_params:
+        count: 1
+        action: stay
+        transitions:
+          - RGBTransition: [255, 0, 0, 50, 1]
+          - TemperatureTransition: [1700, 180000, 10]
+          - TemperatureTransition: [2700, 180000, 11]
+          - TemperatureTransition: [3700, 180000, 12]
+          - TemperatureTransition: [4700, 180000, 13]
+          - TemperatureTransition: [6500, 180000, 100]
+
+    - name: 'Fire Flicker'
+      flow_params:
+        count: 0
+        transitions:
+          - TemperatureTransition: [1900, 1000, 80]
+          - TemperatureTransition: [1900, 2000, 60]
+          - SleepTransition:       [1000]
+###############################################################################
+#                                                                             #
+#                              S H E L L Y                                    #
+#                                                                             #
+###############################################################################   
+#switch:
+#  - platform: rest
+#    name: "shelly sala"
+#    scan_interval: 2
+#    resource: http://192.168.1.108/relay/0
+#    body_on: 'turn=on'
+#    body_off: 'turn=off'
+#    is_on_template: '{{ value_json.ison == true}}'
+#    headers:
+#      content-type: application/x-www-form-urlencoded
+
+###############################################################################
+#                                                                             #
+#                              S C R I P T S                                  #
+#                                                                             #
+############################################################################### 
+#script:
+#  message_temperature:
+#    sequence:
+#      - service: notify.telegram
+#        data_template:
+#          message: A temperatura da sala é de {{ states('sensor.temperature_158d00023203e4') }} °C e a húmidade é de {{ states('sensor.humidity_158d00023203e4') }} %.
 ###############################################################################
 #                                                                             #
 #                           A U T O M A Ç Õ E S                               #
@@ -21,92 +112,94 @@ automation:
 
 #Automaçóes cubo
 
-
   - alias: Cubo 90 graus
     initial_state: true
     trigger:
       platform: event
-      event_type: cube_action
+      event_type: xiaomi_aqara.cube_action
       event_data:
         entity_id: binary_sensor.cube_158d00027984b3
         action_type: flip90
     action:
       - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_17h00_19h30
-      - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_19h30_20h30
-      - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_20h30_21h30
-      - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_21h30_22h30
-      - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_22h30_00h00
-      - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_00h00_06h50
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_17h_19h30
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_19h30_20h30
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_20h30_21h30
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_21h30_22h30
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_22h30_00h00
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_00h00_06h50
+        entity_id: 
+          - automation.ligar_candeeiros_sala_00h00_06h50
+          - automation.ligar_candeeiros_sala_00h00_06h50
+          - automation.ligar_candeeiros_sala_17h00_20h30
+          - automation.desligar_candeeiros_sala_17h_20h30
+          - automation.ligar_candeeiros_sala_20h30_22h00
+          - automation.desligar_candeeiros_sala_20h30_22h00
+          - automation.ligar_candeeiros_sala_22h00_22h30
+          - automation.desligar_candeeiros_sala_22h00_22h30
+          - automation.ligar_candeeiros_sala_22h30_00h00
+          - automation.desligar_candeeiros_sala_22h30_00h00
+          - automation.sunrise_sala
+          - automation.ligar_candeeiros_sala_fim_semana_00h_07h
+          - automation.desligar_candeeiros_sala_fim_semana_00h_07h
+          - automation.ligar_candeeiros_sala_fim_semana_07h_18h
+          - automation.desligar_candeeiros_sala_fim_semana_07h_18h
+          - automation.ligar_candeeiros_sala_fim_semana_18h_22h
+          - automation.desligar_candeeiros_sala_fim_semana_18h_22h
+          - automation.ligar_candeeiros_sala_fim_semana_22h_00h
+          - automation.desligar_candeeiros_sala_fim_semana_22h_00h
+          - automation.ligar_candeeiros_sala_fim_semana_00h_07h
+          - automation.desligar_candeeiros_sala_fim_semana_00h_07h
+          - automation.ligar_candeeiros_sala_fim_semana_07h_18h
+          - automation.desligar_candeeiros_sala_fim_semana_07h_18h
+          - automation.ligar_candeeiros_sala_fim_semana_18h_22h
+          - automation.desligar_candeeiros_sala_fim_semana_18h_22h
+          - automation.ligar_candeeiros_sala_fim_semana_22h_00h
+          - automation.desligar_candeeiros_sala_fim_semana_22h_00h
       - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dc6b9b10
+        entity_id: 
+          - light.yeelight_color1_7811dc6b9b10
+          - light.yeelight_color1_7811dc6b98cb
         data:
           brightness: 255
-          kelvin: 6500
-      - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dc6b98cb
-        data:
-          brightness: 255
-          kelvin: 6500
+          kelvin: 5000
 
-          
   - alias: Cubo 180 graus
     initial_state: true
     trigger:
       platform: event
-      event_type: cube_action
+      event_type: xiaomi_aqara.cube_action
       event_data:
         entity_id: binary_sensor.cube_158d00027984b3
         action_type: flip180
     action:
       - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_17h00_19h30
-      - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_19h30_20h30
-      - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_20h30_21h30
-      - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_21h30_22h30
-      - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_22h30_00h00
-      - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_00h00_06h50
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_17h_19h30
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_19h30_20h30
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_20h30_21h30
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_21h30_22h30
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_22h30_00h00
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_00h00_06h50
+        entity_id: 
+          - automation.ligar_candeeiros_sala_00h00_06h50
+          - automation.ligar_candeeiros_sala_00h00_06h50
+          - automation.ligar_candeeiros_sala_17h00_20h30
+          - automation.desligar_candeeiros_sala_17h_20h30
+          - automation.ligar_candeeiros_sala_20h30_22h00
+          - automation.desligar_candeeiros_sala_20h30_22h00
+          - automation.ligar_candeeiros_sala_22h00_22h30
+          - automation.desligar_candeeiros_sala_22h00_22h30
+          - automation.ligar_candeeiros_sala_22h30_00h00
+          - automation.desligar_candeeiros_sala_22h30_00h00
+          - automation.sunrise_sala
+          - automation.ligar_candeeiros_sala_fim_semana_00h_07h
+          - automation.desligar_candeeiros_sala_fim_semana_00h_07h
+          - automation.ligar_candeeiros_sala_fim_semana_07h_18h
+          - automation.desligar_candeeiros_sala_fim_semana_07h_18h
+          - automation.ligar_candeeiros_sala_fim_semana_18h_22h
+          - automation.desligar_candeeiros_sala_fim_semana_18h_22h
+          - automation.ligar_candeeiros_sala_fim_semana_22h_00h
+          - automation.desligar_candeeiros_sala_fim_semana_22h_00h
+          - automation.ligar_candeeiros_sala_fim_semana_00h_07h
+          - automation.desligar_candeeiros_sala_fim_semana_00h_07h
+          - automation.ligar_candeeiros_sala_fim_semana_07h_18h
+          - automation.desligar_candeeiros_sala_fim_semana_07h_18h
+          - automation.ligar_candeeiros_sala_fim_semana_18h_22h
+          - automation.desligar_candeeiros_sala_fim_semana_18h_22h
+          - automation.ligar_candeeiros_sala_fim_semana_22h_00h
+          - automation.desligar_candeeiros_sala_fim_semana_22h_00h
       - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dc6b9b10
-        data:
-          brightness: 150
-          kelvin: 3000
-      - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dc6b98cb
+        entity_id:
+          - light.yeelight_color1_7811dc6b9b10
+          - light.yeelight_color1_7811dc6b98cb
         data:
           brightness: 150
           kelvin: 3000
@@ -115,164 +208,729 @@ automation:
     initial_state: true
     trigger:
       platform: event
-      event_type: cube_action
+      event_type: xiaomi_aqara.cube_action
       event_data:
         entity_id: binary_sensor.cube_158d00027984b3
         action_type: shake_air
     action:
       - service: automation.turn_on
-        entity_id: automation.ligar_candeeiros_sala_17h00_19h30
-      - service: automation.turn_on
-        entity_id: automation.ligar_candeeiros_sala_19h30_20h30
-      - service: automation.turn_on
-        entity_id: automation.ligar_candeeiros_sala_20h30_21h30
-      - service: automation.turn_on
-        entity_id: automation.ligar_candeeiros_sala_21h30_22h30
-      - service: automation.turn_on
-        entity_id: automation.ligar_candeeiros_sala_22h30_00h00
-      - service: automation.turn_on
-        entity_id: automation.ligar_candeeiros_sala_00h00_06h50
-      - service: automation.turn_on
-        entity_id: automation.desligar_candeeiros_sala_17h_19h30
-      - service: automation.turn_on
-        entity_id: automation.desligar_candeeiros_sala_19h30_20h30
-      - service: automation.turn_on
-        entity_id: automation.desligar_candeeiros_sala_20h30_21h30
-      - service: automation.turn_on
-        entity_id: automation.desligar_candeeiros_sala_21h30_22h30
-      - service: automation.turn_on
-        entity_id: automation.desligar_candeeiros_sala_22h30_00h00
-      - service: automation.turn_on
-        entity_id: automation.desligar_candeeiros_sala_00h00_06h50
+        entity_id: 
+          - automation.ligar_candeeiros_sala_00h00_06h50
+          - automation.ligar_candeeiros_sala_00h00_06h50
+          - automation.ligar_candeeiros_sala_17h00_20h30
+          - automation.desligar_candeeiros_sala_17h_20h30
+          - automation.ligar_candeeiros_sala_20h30_22h00
+          - automation.desligar_candeeiros_sala_20h30_22h00
+          - automation.ligar_candeeiros_sala_22h00_22h30
+          - automation.desligar_candeeiros_sala_22h00_22h30
+          - automation.ligar_candeeiros_sala_22h30_00h00
+          - automation.desligar_candeeiros_sala_22h30_00h00
+          - automation.sunrise_sala
+          - automation.ligar_candeeiros_sala_fim_semana_00h_07h
+          - automation.desligar_candeeiros_sala_fim_semana_00h_07h
+          - automation.ligar_candeeiros_sala_fim_semana_07h_18h
+          - automation.desligar_candeeiros_sala_fim_semana_07h_18h
+          - automation.ligar_candeeiros_sala_fim_semana_18h_22h
+          - automation.desligar_candeeiros_sala_fim_semana_18h_22h
+          - automation.ligar_candeeiros_sala_fim_semana_22h_00h
+          - automation.desligar_candeeiros_sala_fim_semana_22h_00h
+          - automation.ligar_candeeiros_sala_fim_semana_00h_07h
+          - automation.desligar_candeeiros_sala_fim_semana_00h_07h
+          - automation.ligar_candeeiros_sala_fim_semana_07h_18h
+          - automation.desligar_candeeiros_sala_fim_semana_07h_18h
+          - automation.ligar_candeeiros_sala_fim_semana_18h_22h
+          - automation.desligar_candeeiros_sala_fim_semana_18h_22h
+          - automation.ligar_candeeiros_sala_fim_semana_22h_00h
+          - automation.desligar_candeeiros_sala_fim_semana_22h_00h
       - service: light.turn_off
-        entity_id: light.yeelight_rgb_7811dc6b9b10
-      - service: light.turn_off
-        entity_id: light.yeelight_rgb_7811dc6b98cb
-
+        entity_id: 
+          - light.yeelight_color1_7811dc6b9b10
+          - light.yeelight_color1_7811dc6b98cb
 
   - alias: Cubo Empurrar
     initial_state: true
     trigger:
       platform: event
-      event_type: cube_action
+      event_type: xiaomi_aqara.cube_action
       event_data:
         entity_id: binary_sensor.cube_158d00027984b3
         action_type: move
     action:
       - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_17h00_19h30
-      - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_19h30_20h30
-      - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_20h30_21h30
-      - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_21h30_22h30
-      - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_22h30_00h00
-      - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_00h00_06h50
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_17h_19h30
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_19h30_20h30
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_20h30_21h30
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_21h30_22h30
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_22h30_00h00
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_00h00_06h50
+        entity_id:
+          - automation.ligar_candeeiros_sala_00h00_06h50
+          - automation.ligar_candeeiros_sala_00h00_06h50
+          - automation.ligar_candeeiros_sala_17h00_20h30
+          - automation.desligar_candeeiros_sala_17h_20h30
+          - automation.ligar_candeeiros_sala_20h30_22h00
+          - automation.desligar_candeeiros_sala_20h30_22h00
+          - automation.ligar_candeeiros_sala_22h00_22h30
+          - automation.desligar_candeeiros_sala_22h00_22h30
+          - automation.ligar_candeeiros_sala_22h30_00h00
+          - automation.desligar_candeeiros_sala_22h30_00h00
+          - automation.sunrise_sala
+          - automation.ligar_candeeiros_sala_fim_semana_00h_07h
+          - automation.desligar_candeeiros_sala_fim_semana_00h_07h
+          - automation.ligar_candeeiros_sala_fim_semana_07h_18h
+          - automation.desligar_candeeiros_sala_fim_semana_07h_18h
+          - automation.ligar_candeeiros_sala_fim_semana_18h_22h
+          - automation.desligar_candeeiros_sala_fim_semana_18h_22h
+          - automation.ligar_candeeiros_sala_fim_semana_22h_00h
+          - automation.desligar_candeeiros_sala_fim_semana_22h_00h
+          - automation.ligar_candeeiros_sala_fim_semana_00h_07h
+          - automation.desligar_candeeiros_sala_fim_semana_00h_07h
+          - automation.ligar_candeeiros_sala_fim_semana_07h_18h
+          - automation.desligar_candeeiros_sala_fim_semana_07h_18h
+          - automation.ligar_candeeiros_sala_fim_semana_18h_22h
+          - automation.desligar_candeeiros_sala_fim_semana_18h_22h
+          - automation.ligar_candeeiros_sala_fim_semana_22h_00h
+          - automation.desligar_candeeiros_sala_fim_semana_22h_00h
       - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dc6b9b10
+        entity_id:
+          - light.yeelight_color1_7811dc6b9b10
+          - light.yeelight_color1_7811dc6b98cb
         data:
           brightness: 150
           color_name: orangered
-      - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dc6b98cb
-        data:
-          brightness: 150
-          color_name: orangered
-
 
   - alias: Cubo 2 Batidas
     initial_state: true
     trigger:
       platform: event
-      event_type: cube_action
+      event_type: xiaomi_aqara.cube_action
       event_data:
         entity_id: binary_sensor.cube_158d00027984b3
         action_type: tap_twice
     action:
       - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_17h00_19h30
-      - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_19h30_20h30
-      - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_20h30_21h30
-      - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_21h30_22h30
-      - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_22h30_00h00
-      - service: automation.turn_off
-        entity_id: automation.ligar_candeeiros_sala_00h00_06h50
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_17h_19h30
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_19h30_20h30
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_20h30_21h30
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_21h30_22h30
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_22h30_00h00
-      - service: automation.turn_off
-        entity_id: automation.desligar_candeeiros_sala_00h00_06h50
+        entity_id: 
+          - automation.ligar_candeeiros_sala_00h00_06h50
+          - automation.ligar_candeeiros_sala_00h00_06h50
+          - automation.ligar_candeeiros_sala_17h00_20h30
+          - automation.desligar_candeeiros_sala_17h_20h30
+          - automation.ligar_candeeiros_sala_20h30_22h00
+          - automation.desligar_candeeiros_sala_20h30_22h00
+          - automation.ligar_candeeiros_sala_22h00_22h30
+          - automation.desligar_candeeiros_sala_22h00_22h30
+          - automation.ligar_candeeiros_sala_22h30_00h00
+          - automation.desligar_candeeiros_sala_22h30_00h00
+          - automation.sunrise_sala
+          - automation.ligar_candeeiros_sala_fim_semana_00h_07h
+          - automation.desligar_candeeiros_sala_fim_semana_00h_07h
+          - automation.ligar_candeeiros_sala_fim_semana_07h_18h
+          - automation.desligar_candeeiros_sala_fim_semana_07h_18h
+          - automation.ligar_candeeiros_sala_fim_semana_18h_22h
+          - automation.desligar_candeeiros_sala_fim_semana_18h_22h
+          - automation.ligar_candeeiros_sala_fim_semana_22h_00h
+          - automation.desligar_candeeiros_sala_fim_semana_22h_00h
+          - automation.ligar_candeeiros_sala_fim_semana_00h_07h
+          - automation.desligar_candeeiros_sala_fim_semana_00h_07h
+          - automation.ligar_candeeiros_sala_fim_semana_07h_18h
+          - automation.desligar_candeeiros_sala_fim_semana_07h_18h
+          - automation.ligar_candeeiros_sala_fim_semana_18h_22h
+          - automation.desligar_candeeiros_sala_fim_semana_18h_22h
+          - automation.ligar_candeeiros_sala_fim_semana_22h_00h
+          - automation.desligar_candeeiros_sala_fim_semana_22h_00h
       - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dc6b9b10
-        data:
-          brightness: 100
-          color_name: cornflowerblue
-      - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dc6b98cb
+        entity_id:
+          - light.yeelight_color1_7811dc6b9b10
+          - light.yeelight_color1_7811dc6b98cb
         data:
           brightness: 100
           color_name: cornflowerblue
 
-#automaçóes Sala
- 
-  - alias: Ligar Candeeiros Sala 17h00 19h30
+  - alias: Xiaomi Cube - Brightness
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: xiaomi_aqara.cube_action
+      event_data:
+        entity_id: binary_sensor.cube_158d00027984b3
+        action_type: rotate
+    action:         
+     - service: light.turn_on
+       data_template:
+         entity_id: light.yeelight_color1_7811dc6b9b10
+         brightness: >
+           {%if trigger.event.data.action_value | float > 0 %}
+           {{  states.light.yeelight_color1_7811dc6b9b10.attributes.brightness | int + 50 }}
+           {% else %}
+           {{  states.light.yeelight_color1_7811dc6b9b10.attributes.brightness | int - 50 }}
+           {% endif %}
+
+  - alias: Xiaomi Cube - Brightness 1
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: xiaomi_aqara.cube_action
+      event_data:
+        entity_id: binary_sensor.cube_158d00027984b3
+        action_type: rotate
+    action:         
+     - service: light.turn_on
+       data_template:
+         entity_id: light.yeelight_color1_7811dc6b98cb
+         brightness: >
+           {%if trigger.event.data.action_value | float > 0 %}
+           {{  states.light.yeelight_color1_7811dc6b98cb.attributes.brightness | int + 50 }}
+           {% else %}
+           {{  states.light.yeelight_color1_7811dc6b98cb.attributes.brightness | int - 50 }}
+           {% endif %}
+
+#automações leds tecto fim de semana e feriados
+
+  - alias: Ligar luzes teto
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      entity_id: light.teto_da_sala
+      from: 'off'
+      to: 'on'
+    condition:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+    action:
+      - service: light.turn_off
+        entity_id:
+          - light.yeelight_color1_7811dc6b98cb
+          - light.yeelight_color1_7811dc6b9b10
+
+  - alias: Desligar luzes tecto 00h 07h
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: light.teto_da_sala
+      from: 'on'
+      to: 'off'
+    condition:
+    - condition: time
+      after: '00:00:00'
+      before: '07:00:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+    action:
+      - service: light.turn_on
+        entity_id: light.yeelight_color1_7811dc6b9b10
+        data:
+          brightness: 100
+          color_name: orangered
+      - service: light.turn_off
+        entity_id: light.yeelight_color1_7811dc6b98cb
+
+  - alias: Desligar luzes teto 17h 20h
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: light.teto_da_sala
+      from: 'on'
+      to: 'off'
+    condition:
+    - condition: time
+      after: '17:00:00'
+      before: '20:00:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+    action:
+      - service: light.turn_on
+        entity_id:
+          - light.yeelight_color1_7811dc6b98cb
+          - light.yeelight_color1_7811dc6b9b10
+        data:
+          brightness: 255
+          kelvin: 5000
+
+  - alias: Desligar luzes teto 20h 22h
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: light.teto_da_sala
+      from: 'on'
+      to: 'off'
+    condition:
+    - condition: time
+      after: '20:00:00'
+      before: '22:00:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+    action:
+      - service: light.turn_on
+        entity_id:
+          - light.yeelight_color1_7811dc6b98cb
+          - light.yeelight_color1_7811dc6b9b10
+        data:
+          brightness: 255
+          kelvin: 2000
+
+  - alias: Desligar luzes teto 22h 00h
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: light.teto_da_sala
+      from: 'on'
+      to: 'off'
+    condition:
+    - condition: time
+      after: '22:00:00'
+      before: '00:00:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+    action:
+      - service: light.turn_on
+        entity_id: light.yeelight_color1_7811dc6b9b10
+        data:
+          brightness: 200
+          color_name: orangered
+      - service: light.turn_off
+        entity_id: light.yeelight_color1_7811dc6b98cb
+
+#automaçóes leds tecto semana
+
+  - alias: Ligar luzes teto semana
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: light.teto_da_sala
+      from: 'off'
+      to: 'on'
+    condition:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    action:
+      - service: light.turn_off
+        entity_id:
+          - light.yeelight_color1_7811dc6b98cb
+          - light.yeelight_color1_7811dc6b9b10
+
+  - alias: Desligar luzes teto 17 20.30
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: light.teto_da_sala
+      from: 'on'
+      to: 'off'
+    condition:
+    - condition: time
+      after: '17:00:00'
+      before: '20:30:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    action:
+      - service: light.turn_on
+        entity_id:
+          - light.yeelight_color1_7811dc6b98cb
+          - light.yeelight_color1_7811dc6b9b10
+        data:
+          brightness: 255
+          kelvin: 5000
+
+  - alias: Desligar luzes teto 20.30 21.30
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: light.teto_da_sala
+      from: 'on'
+      to: 'off'
+    condition:
+    - condition: time
+      after: '20:30:00'
+      before: '21:30:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    action:
+      - service: light.turn_on
+        entity_id:
+          - light.yeelight_color1_7811dc6b98cb
+          - light.yeelight_color1_7811dc6b9b10
+        data:
+          brightness: 100
+          kelvin: 3400
+
+  - alias: Desligar luzes teto 21.30 22.00
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: light.teto_da_sala
+      from: 'on'
+      to: 'off'
+    condition:
+    - condition: time
+      after: '21:30:00'
+      before: '22:00:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    action:
+      - service: light.turn_on
+        entity_id:
+          - light.yeelight_color1_7811dc6b98cb
+          - light.yeelight_color1_7811dc6b9b10
+        data:
+          brightness: 200
+          color_name: orangered
+
+  - alias: Desligar luzes teto 22.00 00
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: light.teto_da_sala
+      from: 'on'
+      to: 'off'
+    condition:
+    - condition: time
+      after: '22:00:00'
+      before: '00:00:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    action:
+      - service: light.turn_on
+        entity_id: light.yeelight_color1_7811dc6b9b10
+        data:
+          brightness: 150
+          color_name: orangered
+      - service: light.turn_off
+        entity_id: light.yeelight_color1_7811dc6b98cb
+
+#automaçóes Sala fim de semana e feriados
+
+  - alias: Ligar Candeeiros Sala fim semana 00h 07h
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.movimento_sala
+      from: 'off'
+      to: 'on'
+    condition:
+    - condition: time
+      after: '00:00:00'
+      before: '07:00:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+    - condition: numeric_state
+      entity_id: sensor.lx_sala
+      below: 20
+    action:
+      - service: light.turn_on
+        entity_id: light.yeelight_color1_7811dc6b9b10
+        data:
+          brightness: 100
+          color_name: orangered
+      - service: light.turn_off
+        entity_id: light.yeelight_color1_7811dc6b98cb
+
+  - alias: Desligar Candeeiros Sala fim semana 00h 07h
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.movimento_sala
+      from: 'on'
+      to: 'off'
+      for:
+        minutes: 2
+    condition:
+    - condition: time
+      after: '00:00:00'
+      before: '07:00:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+    - condition: state
+      entity_id: 'media_player.samsung_smart_tv'
+      state: 'off'
+    action:
+      - service: light.turn_off
+        entity_id:
+          - light.yeelight_color1_7811dc6b9b10
+          - light.yeelight_color1_7811dc6b98cb
+
+  - alias: Ligar Candeeiros Sala fim semana 07h 18h
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.movimento_sala
+      from: 'off'
+      to: 'on'
+    condition:
+    - condition: time
+      after: '07:00:00'
+      before: '18:00:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+    - condition: numeric_state
+      entity_id: sensor.lx_sala
+      below: 5
+    action:
+      - service: light.turn_on
+        entity_id:
+          - light.yeelight_color1_7811dc6b98cb
+          - light.yeelight_color1_7811dc6b9b10
+        data:
+          brightness: 255
+          kelvin: 5000
+
+  - alias: Desligar Candeeiros Sala fim semana 07h 18h
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.movimento_sala
+      from: 'on'
+      to: 'off'
+      for:
+        minutes: 8
+    condition:
+    - condition: time
+      after: '07:00:00'
+      before: '18:00:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+    action:
+      - service: light.turn_off
+        entity_id:
+          - light.yeelight_color1_7811dc6b9b10
+          - light.yeelight_color1_7811dc6b98cb
+
+  - alias: Ligar Candeeiros Sala fim semana 18h 22h
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.movimento_sala
+      from: 'off'
+      to: 'on'
+    condition:
+    - condition: time
+      after: '18:00:00'
+      before: '22:00:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+    - condition: numeric_state
+      entity_id: sensor.lx_sala
+      below: 20
+    action:
+      - service: light.turn_on
+        entity_id:
+          - light.yeelight_color1_7811dc6b98cb
+          - light.yeelight_color1_7811dc6b9b10
+        data:
+          brightness: 255
+          kelvin: 5000
+
+  - alias: Desligar Candeeiros Sala fim semana 18h 22h
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.movimento_sala
+      from: 'on'
+      to: 'off'
+      for:
+        minutes: 8
+    condition:
+    - condition: time
+      after: '18:00:00'
+      before: '22:00:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+    - condition: state
+      entity_id: 'media_player.samsung_smart_tv'
+      state: 'off'
+    action:
+      - service: light.turn_off
+        entity_id:
+          - light.yeelight_color1_7811dc6b9b10
+          - light.yeelight_color1_7811dc6b98cb
+
+  - alias: Ligar Candeeiros Sala fim semana 22h 00h
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.movimento_sala
+      from: 'off'
+      to: 'on'
+    condition:
+    - condition: time
+      after: '22:00:00'
+      before: '00:00:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+    - condition: numeric_state
+      entity_id: sensor.lx_sala
+      below: 20
+    action:
+      - service: light.turn_on
+        entity_id: light.yeelight_color1_7811dc6b9b10
+        data:
+          brightness: 200
+          color_name: orangered
+      - service: light.turn_off
+        entity_id: light.yeelight_color1_7811dc6b98cb
+
+  - alias: Desligar Candeeiros Sala fim semana 22h 00h
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.movimento_sala
+      from: 'on'
+      to: 'off'
+      for:
+        minutes: 5
+    condition:
+    - condition: time
+      after: '22:00:00'
+      before: '00:00:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'off'
+    - condition: state
+      entity_id: 'media_player.samsung_smart_tv'
+      state: 'off'
+    action:
+      - service: light.turn_off
+        entity_id:
+          - light.yeelight_color1_7811dc6b9b10
+          - light.yeelight_color1_7811dc6b98cb
+
+#automaçóes Sala semana
+
+  - alias: Ligar Candeeiros Sala 00h00 06h50
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.movimento_sala
+      from: 'off'
+      to: 'on'
+    condition:
+    - condition: time
+      after: '00:00:00'
+      before: '06:50:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    - condition: numeric_state
+      entity_id: sensor.lx_sala
+      below: 20
+    action:
+      - service: light.turn_on
+        entity_id: light.yeelight_color1_7811dc6b9b10
+        data:
+          brightness: 80
+          color_name: green
+      - service: light.turn_off
+        entity_id: light.yeelight_color1_7811dc6b98cb
+
+  - alias: Desligar Candeeiros Sala 00h00 06h50
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.movimento_sala
+      from: 'on'
+      to: 'off'
+      for:
+        minutes: 2
+    condition:
+    - condition: time
+      after: '00:00:00'
+      before: '06:50:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    - condition: state
+      entity_id: 'media_player.samsung_smart_tv'
+      state: 'off'
+    action:
+      - service: light.turn_off
+        entity_id:
+          - light.yeelight_color1_7811dc6b98cb
+          - light.yeelight_color1_7811dc6b9b10
+
+
+  - alias: Sunrise Sala
+    initial_state: true
+    trigger:
+      platform: time
+      at: '06:50:00'
+    condition:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    action:
+      - service: light.turn_on
+        entity_id:
+          - light.yeelight_color1_7811dc6b98cb
+          - light.yeelight_color1_7811dc6b9b10
+        data:
+          effect: Sunrise
+
+
+#  - alias: Sunrise
+#    initial_state: true
+#    trigger:
+#      platform: state
+#      entity_id: binary_sensor.movimento_sala
+#      from: 'off'
+#      to: 'on'
+#    condition:
+#    - condition: time
+#      after: '06:50:00'
+#      before: '08:00:00'
+#    - condition: state
+#      entity_id: 'binary_sensor.workday_sensor'
+#      state: 'on'
+#    - condition: numeric_state
+#      entity_id: sensor.lx_sala
+#      below: 20
+#    action:
+#      - service: light.turn_on
+#        entity_id:
+#          - light.yeelight_color1_7811dc6b98cb
+#          - light.yeelight_color1_7811dc6b9b10
+#        data:
+#          brightness: 255
+#          kelvin: 5000
+
+  - alias: Ligar Candeeiros Sala 17h00 20h30
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.movimento_sala
       from: 'off'
       to: 'on'
     condition:
     - condition: time
       after: '17:00:00'
-      before: '19:30:00'
+      before: '20:30:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
     - condition: numeric_state
-      entity_id: sensor.illumination_158d0001f9d417
-      below: 10
+      entity_id: sensor.lx_sala
+      below: 20
     action:
       - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dc6b98cb
+        entity_id:
+          - light.yeelight_color1_7811dc6b98cb
+          - light.yeelight_color1_7811dc6b9b10
         data:
           brightness: 255
-          kelvin: 6500
-      - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dc6b9b10
-        data:
-          brightness: 255
-          kelvin: 6500
+          kelvin: 5000
 
-
-  - alias: Desligar Candeeiros Sala 17h 19h30
+  - alias: Desligar Candeeiros Sala 17h 20h30
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      entity_id: binary_sensor.movimento_sala
       from: 'on'
       to: 'off'
       for:
@@ -280,93 +938,47 @@ automation:
     condition:
     - condition: time
       after: '17:00:00'
-      before: '19:30:00'
-    action:
-      - service: light.turn_off
-        entity_id: light.yeelight_rgb_7811dc6b9b10
-      - service: light.turn_off
-        entity_id: light.yeelight_rgb_7811dc6b98cb
-
-        
-  - alias: Ligar Candeeiros Sala 19h30 20h30
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: binary_sensor.motion_sensor_158d0001f9d417
-      from: 'off'
-      to: 'on'
-    condition:
-    - condition: time
-      after: '19:30:00'
       before: '20:30:00'
-    - condition: numeric_state
-      entity_id: sensor.illumination_158d0001f9d417
-      below: 10
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
     action:
-      - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dc6b98cb
-        data:
-          brightness: 200
-          kelvin: 4300
-      - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dc6b9b10
-        data:
-          brightness: 200
-          kelvin: 4300
+      - service: light.turn_off
+        entity_id:
+          - light.yeelight_color1_7811dc6b9b10
+          - light.yeelight_color1_7811dc6b98cb
 
-
-  - alias: Desligar Candeeiros Sala 19h30 20h30
+  - alias: Ligar Candeeiros Sala 20h30 22h00
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d0001f9d417
-      from: 'on'
-      to: 'off'
-      for:
-        minutes: 10
-    condition:
-    - condition: time
-      after: '19:30:00'
-      before: '20:30:00'
-    action:
-      - service: light.turn_off
-        entity_id: light.yeelight_rgb_7811dc6b9b10
-      - service: light.turn_off
-        entity_id: light.yeelight_rgb_7811dc6b98cb
-
-
-  - alias: Ligar Candeeiros Sala 20h30 21h30
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      entity_id: binary_sensor.movimento_sala
       from: 'off'
       to: 'on'
     condition:
     - condition: time
       after: '20:30:00'
-      before: '21:30:00'
+      before: '22:00:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
     - condition: numeric_state
-      entity_id: sensor.illumination_158d0001f9d417
-      below: 10
+      entity_id: sensor.lx_sala
+      below: 20
     action:
       - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dc6b98cb
+        entity_id:
+          - light.yeelight_color1_7811dc6b98cb
+          - light.yeelight_color1_7811dc6b9b10
         data:
-          brightness: 100
-          kelvin: 3400
-      - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dc6b9b10
-        data:
-          brightness: 100
+          brightness: 150
           kelvin: 3400
 
-
-  - alias: Desligar Candeeiros Sala 20h30 21h30
+  - alias: Desligar Candeeiros Sala 20h30 22h00
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      entity_id: binary_sensor.movimento_sala
       from: 'on'
       to: 'off'
       for:
@@ -374,93 +986,101 @@ automation:
     condition:
     - condition: time
       after: '20:30:00'
-      before: '21:30:00'
+      before: '22:00:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    - condition: state
+      entity_id: 'media_player.samsung_smart_tv'
+      state: 'off'
     action:
       - service: light.turn_off
-        entity_id: light.yeelight_rgb_7811dc6b9b10
-      - service: light.turn_off
-        entity_id: light.yeelight_rgb_7811dc6b98cb
+        entity_id:
+          - light.yeelight_color1_7811dc6b9b10
+          - light.yeelight_color1_7811dc6b98cb
 
-          
-  - alias: Ligar Candeeiros Sala 21h30 22h30
+  - alias: Ligar Candeeiros Sala 22h00 22h30
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      entity_id: binary_sensor.movimento_sala
       from: 'off'
       to: 'on'
     condition:
     - condition: time
-      after: '21:30:00'
+      after: '22:00:00'
       before: '22:30:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
     - condition: numeric_state
-      entity_id: sensor.illumination_158d0001f9d417
-      below: 10
+      entity_id: sensor.lx_sala
+      below: 20
     action:
       - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dc6b98cb
+        entity_id: light.yeelight_color1_7811dc6b9b10
         data:
-          brightness: 76
-          color_name: aqua
-      - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dc6b9b10
-        data:
-          brightness: 76
-          color_name: aqua
+          brightness: 200
+          color_name: orangered
+      - service: light.turn_off
+        entity_id: light.yeelight_color1_7811dc6b98cb
 
-
-  - alias: Desligar Candeeiros Sala 21h30 22h30
+  - alias: Desligar Candeeiros Sala 22h00 22h30
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      entity_id: binary_sensor.movimento_sala
       from: 'on'
       to: 'off'
       for:
-        minutes: 10
+        minutes: 5
     condition:
     - condition: time
-      after: '21:30:00'
+      after: '22:00:00'
       before: '22:30:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    - condition: state
+      entity_id: 'media_player.samsung_smart_tv'
+      state: 'off'
     action:
       - service: light.turn_off
-        entity_id: light.yeelight_rgb_7811dc6b9b10
-      - service: light.turn_off
-        entity_id: light.yeelight_rgb_7811dc6b98cb
-
+        entity_id:
+          - light.yeelight_color1_7811dc6b9b10
+          - light.yeelight_color1_7811dc6b98cb
 
   - alias: Ligar Candeeiros Sala 22h30 00h00
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      entity_id: binary_sensor.movimento_sala
       from: 'off'
       to: 'on'
     condition:
     - condition: time
       after: '22:30:00'
       before: '00:00:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
     - condition: numeric_state
-      entity_id: sensor.illumination_158d0001f9d417
-      below: 10
+      entity_id: sensor.lx_sala
+      below: 20
     action:
       - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dc6b98cb
+        entity_id: light.yeelight_color1_7811dc6b9b10
         data:
-          brightness: 85
-          color_name: blue
-      - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dc6b9b10
-        data:
-          brightness: 85
-          color_name: blue
+          brightness: 170
+          color_name: orangered
+      - service: light.turn_off
+        entity_id: light.yeelight_color1_7811dc6b98cb
 
- 
   - alias: Desligar Candeeiros Sala 22h30 00h00
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      entity_id: binary_sensor.movimento_sala
       from: 'on'
       to: 'off'
       for:
@@ -469,65 +1089,23 @@ automation:
     - condition: time
       after: '22:30:00'
       before: '00:00:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    - condition: state
+      entity_id: 'media_player.samsung_smart_tv'
+      state: 'off'
     action:
       - service: light.turn_off
-        entity_id: light.yeelight_rgb_7811dc6b98cb
-      - service: light.turn_off
-        entity_id: light.yeelight_rgb_7811dc6b9b10
+        entity_id:
+          - light.yeelight_color1_7811dc6b98cb
+          - light.yeelight_color1_7811dc6b9b10
 
-          
-  - alias: Ligar Candeeiros Sala 00h00 06h50
-    initial_state: true
+  - alias: Desligar Candeeiros a Cima dos 21 lx
+    initial_state: false
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d0001f9d417
-      from: 'off'
-      to: 'on'
-    condition:
-    - condition: time
-      after: '00:00:00'
-      before: '06:50:00'
-    - condition: numeric_state
-      entity_id: sensor.illumination_158d0001f9d417
-      below: 10
-    action:
-      - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dc6b98cb
-        data:
-          brightness: 50
-          color_name: green
-      - service: light.turn_on
-        entity_id: light.yeelight_rgb_7811dc6b9b10
-        data:
-          brightness: 50
-          color_name: green
-
- 
-  - alias: Desligar Candeeiros Sala 00h00 06h50
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: binary_sensor.motion_sensor_158d0001f9d417
-      from: 'on'
-      to: 'off'
-      for:
-        minutes: 3
-    condition:
-    - condition: time
-      after: '00:00:00'
-      before: '06:50:00'
-    action:
-      - service: light.turn_off
-        entity_id: light.yeelight_rgb_7811dc6b98cb
-      - service: light.turn_off
-        entity_id: light.yeelight_rgb_7811dc6b9b10
-
-         
-  - alias: Desligar Candeeiros a Cima dos 20 lx
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      entity_id: binary_sensor.movimento_sala
       to: 'off'
       for: 
         seconds: 15
@@ -535,60 +1113,56 @@ automation:
     - condition: time
       after: '17:00:00'
       before: '06:50:00'
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
     - condition: numeric_state
-      entity_id: sensor.illumination_158d0001f9d417
-      above: 30
+      entity_id: sensor.lx_sala
+      above: 21
     action:
       - service: light.turn_off
-        entity_id: light.yeelight_rgb_7811dc6b98cb
-      - service: light.turn_off
-        entity_id: light.yeelight_rgb_7811dc6b9b10
-          
+        entity_id:
+          - light.yeelight_color1_7811dc6b98cb
+          - light.yeelight_color1_7811dc6b9b10
 
-###############################################################################
-#                                                                             #
-#                           L U Z E S                                         #
-#                                                                             #
-###############################################################################  
+#Automações para notificações
 
+  - alias: Sensor movimento
+    initial_state: false
+    trigger:
+      platform: state
+      entity_id: binary_sensor.movimento_sala
+      from: 'off'
+      to: 'on'
+    action:
+      service: notify.telegram
+      data:
+        message: 'Movimento detectado'
+
+
+  - alias: Alerta de temperatura em casa
+    initial_state: true
+    trigger:
+      platform: time_pattern
+      hours: '/2'
+    condition:
+    - condition: state
+      entity_id: 'device_tracker.bruno_melo'
+      state: 'not_home'
+    action:
+      - service: notify.telegram
+        data:
+          title: "Temperatura da sala é de "
+          message: "{{ states('sensor.temperatura_sala') }} °C e a húmidade é de {{ states('sensor.humidade_sala') }} %. E a temperatura no quarto é de {{ states('sensor.temperature_158d00023203e4') }} °C e a húmidade é de {{ states('sensor.humidity_158d00023203e4') }} %."
 ###############################################################################
 #                                                                             #
 #                         G R O U P S                                         #
-#                                                                             
+#                                                                             #
 ###############################################################################      
-
 group:
 
-  Lâmpadas da Sala:
+  Apliques da Sala:
     control: hidden
     entities:
-      - light.yeelight_rgb_7811dc6b9b10
-      - light.yeelight_rgb_7811dc6b98cb
-      
-  Sensor de Movimento:
-    control: hidden
-    entities:
-      - binary_sensor.motion_sensor_158d0001f9d417
-      - sensor.illumination_158d0001f9d417
-      - sensor.illumination_7811dcb38555
-      
-  Sensor de Temperatura:
-    control: hidden
-    entities:
-      - sensor.temperature_158d00023203e4
-      - sensor.humidity_158d00023203e4
-
-      
-  Cubo Mágico:
-    control: hidden
-    entities:
-      - binary_sensor.cube_158d00027984b3
-
-  sala:
-    view: yes
-    name: sala
-    entities:
-      - group.lampadas_da_sala
-      - group.sensor_de_movimento
-      - group.sensor_de_temperatura
-      - group.cubo_magico
+      - light.yeelight_color1_7811dc6b9b10
+      - light.yeelight_color1_7811dc6b98cb

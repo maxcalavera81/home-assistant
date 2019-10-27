@@ -1,0 +1,127 @@
+homeassistant:
+
+###############################################################################
+#                                                                             #
+#                           I N P U T   B O O L E A N                         #
+#                                                                             #
+###############################################################################
+input_boolean:
+
+  flash_christmas_tree:
+    name: Flash Christmas Tree
+    icon: mdi:pine-tree
+    initial: off
+
+###############################################################################
+#                                                                             #
+#                           A U T O M A T I O N                               #
+#                                                                             #
+###############################################################################
+automation:
+
+  - alias: Start Flashing Lights
+    trigger:
+      platform: state
+      entity_id: input_boolean.flash_christmas_tree
+      to: 'on'     
+    action:
+      service: script.turn_on
+      entity_id: script.light_flash
+
+  - alias: Stop Flashing Lights
+    trigger:
+      platform: state
+      entity_id: input_boolean.flash_christmas_tree
+      to: 'off'    
+    action:
+      service: script.turn_on
+      entity_id: script.light_flash_cancel
+
+###############################################################################
+#                                                                             #
+#                                S C R I P T S                                #
+#                                                                             #
+###############################################################################
+script:
+
+#####################################
+### START FLASHING CHRISTMAS TREE ###
+#####################################
+
+# START FLASH  
+  light_flash:
+    alias: Light flash on
+    sequence:
+      - service: homeassistant.turn_on
+        data:
+          entity_id:
+            - light.gantry_1
+      - delay:
+          milliseconds: 10
+      - service: homeassistant.turn_on
+        data:
+          entity_id:
+            - light.gantry_2
+      - delay:
+          milliseconds: 10
+      - service: homeassistant.turn_off
+        data:
+          entity_id:
+            - light.gantry_1
+      - delay:
+          milliseconds: 10
+      - service: homeassistant.turn_on
+        data:
+          entity_id:
+            - light.gantry_3
+      - delay:
+          milliseconds: 10
+      - service: homeassistant.turn_off
+        data:
+          entity_id:
+            - light.gantry_2
+      - delay:
+          milliseconds: 10
+      - service: homeassistant.turn_on
+        data:
+          entity_id:
+            - light.gantry_4
+      - delay:
+          milliseconds: 10
+      - service: homeassistant.turn_off
+        data:
+          entity_id:
+            - light.gantry_3
+      - service: script.turn_on
+        data:
+          entity_id: script.light_loop
+# LOOP BACK TO START FLASH AGAIN         
+  light_loop:
+    alias: Light flash loop
+    sequence:
+      - delay:
+          milliseconds: 10
+      - service: script.turn_on
+        data:
+          entity_id: script.light_flash
+# CANCEL FLASHING 
+  light_flash_cancel:
+    alias: Cancel Light Flash
+    sequence:
+      -  service: script.turn_off
+         data:
+           entity_id: script.light_flash
+      -  service: script.turn_off
+         data:
+           entity_id: script.light_loop
+      -  service: light.turn_off
+         data:
+           entity_id:
+            - light.gantry_1
+            - light.gantry_2
+            - light.gantry_3
+            - light.gantry_4
+           
+###################################
+### END FLASHING CHRISTMAS TREE ###
+###################################

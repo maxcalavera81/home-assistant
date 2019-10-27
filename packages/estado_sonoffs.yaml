@@ -1,0 +1,69 @@
+automation:
+  - alias: "Home Assistant Query Sonoff State on Startup"
+    trigger:
+      - platform: homeassistant
+        event: start
+    action:
+      - service: mqtt.publish
+        data:
+         topic: cmnd/comandoportao/power1
+      - service: mqtt.publish
+        data:
+         topic: cmnd/comandoportao/power2
+      - service: mqtt.publish
+        data:
+         topic: cmnd/rega/power1   
+      - service: mqtt.publish
+        data:
+         topic: cmnd/rega/power2
+      - service: mqtt.publish
+        data:
+         topic: cmnd/rega/power3
+      - service: mqtt.publish
+        data:
+         topic: cmnd/rega/power4
+      - service: mqtt.publish
+        data:
+         topic: cmnd/arvorenatal/power
+      - service: mqtt.publish
+        data:
+         topic: cmnd/s3battery/power
+      - service: mqtt.publish
+        data:
+         topic: cmnd/merciaria/power
+      - service: mqtt.publish
+        data:
+         topic: cmnd/iluminacao_garagem/power
+      - service: mqtt.publish
+        data:
+         topic: cmnd/jardim_iluminacao/power1
+      - service: mqtt.publish
+        data:
+         topic: cmnd/jardim_iluminacao/power2
+      - service: mqtt.publish
+        data:
+         topic: cmnd/microndas/power
+      - service: mqtt.publish
+        data:
+         topic: cmnd/escritorio/power1
+      - service: mqtt.publish
+        data:
+         topic: cmnd/escritorio/power2
+      - service: mqtt.publish
+        data:
+         topic: cmnd/iluminacao_coberto/power
+      - service: mqtt.publish
+        data:
+         topic: cmnd/wcpai/power
+      - service: mqtt.publish
+        data:
+         topic: cmnd/lamp1_2/power1
+      - service: mqtt.publish
+        data:
+         topic: cmnd/lamp1_2/power2
+      - service: mqtt.publish
+        data:
+         topic: cmnd/lamp3_4/power1
+      - service: mqtt.publish
+        data:
+         topic: cmnd/lamp3_4/power2

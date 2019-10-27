@@ -1,0 +1,360 @@
+homeassistant:
+
+#######################################################################
+#                                                                     #
+#                          C O V E R                                  #
+#                                                                     #
+#######################################################################   
+cover:
+
+  - platform: mqtt
+    name: "Estore Cozinha"
+    availability_topic: "tele/estore_cozinha/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    position_topic: stat/estore_cozinha/SHUTTER1
+    position_open: 100
+    position_closed: 0
+    set_position_topic: "cmnd/estore_cozinha/shutterposition"
+    value_template: "{{ value | int }}"
+    command_topic: "cmnd/estore_cozinha/backlog"
+    payload_open: "SHUTTEROPEN"
+    payload_close: "SHUTTERCLOSE"
+    payload_stop: "SHUTTERSTOP"
+    retain: false
+    optimistic: false
+    qos: 1
+
+  - platform: mqtt
+    name: "Estore Sala"
+    availability_topic: "tele/estore_sala/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    position_topic: stat/estore_sala/SHUTTER1
+    position_open: 100
+    position_closed: 0
+    set_position_topic: "cmnd/estore_sala/shutterposition"
+    value_template: "{{ value | int }}"
+    command_topic: "cmnd/estore_sala/backlog"
+    payload_open: "SHUTTEROPEN"
+    payload_close: "SHUTTERCLOSE"
+    payload_stop: "SHUTTERSTOP"
+    retain: false
+    optimistic: false
+    qos: 1
+
+  - platform: mqtt
+    name: "Estore Mafalda"
+    availability_topic: "tele/estore_mafalda/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    position_topic: stat/estore_mafalda/SHUTTER1
+    position_open: 100
+    position_closed: 0
+    set_position_topic: "cmnd/estore_mafalda/shutterposition"
+    value_template: "{{ value | int }}"
+    command_topic: "cmnd/estore_mafalda/backlog"
+    payload_open: "SHUTTEROPEN"
+    payload_close: "SHUTTERCLOSE"
+    payload_stop: "SHUTTERSTOP"
+    retain: false
+    optimistic: false
+    qos: 1
+
+#######################################################################
+#                                                                     #
+#                         A U T O M A T I O N                         #
+#                                                                     #
+#######################################################################
+automation:
+#automacoes abrir e fechar dos estores
+
+  - alias: Abrir estores ao nascer do sol
+    initial_state: true
+    trigger: 
+      platform: sun
+      event: sunrise
+      offset: '+00:30:00'
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_sala
+            - cover.estore_mafalda
+            - cover.estore_cozinha
+          position: 100
+
+  - alias: Fechar estores ao pôr do sol
+    initial_state: true
+    trigger: 
+      platform: sun
+      event: sunset
+      offset: '+00:30:00'
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id:
+            - cover.estore_sala
+            - cover.estore_mafalda
+            - cover.estore_cozinha
+          position: 0
+
+#testes
+
+  - alias: Abrir estores 50 por cento
+    initial_state: false
+    trigger: 
+      platform: state
+      entity_id: cover.estore_cozinha
+      from: closed
+      to: open
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_cozinha
+          position: 58
+
+  - alias: Fechar estores 50 por cento
+    initial_state: false
+    trigger: 
+      platform: state
+      entity_id: cover.estore_cozinha
+      from: open
+      to: closed
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_cozinha
+          position: 63
+
+#Telegram
+
+  - alias: callback estores Bruno
+    hide_entity: true
+    trigger:
+      platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/estores'
+    action:
+      - service: notify.telegram
+        data:
+          title: "Posição dos estores"
+          message: "O estore da cozinha está {{ states('sensor.estore_cozinha') }} a {{ states('sensor.percentagem_estore_cozinha') }} %, o estore da sala está {{ states('sensor.estore_sala') }} a {{ states('sensor.percentagem_estore_sala') }} % e do quarto da Mafalda está {{ states('sensor.estore_mafalda') }} a {{ states('sensor.percentagem_estore_mafalda') }} %. Queres abrir ou fechar algum?"
+          data:
+            inline_keyboard:
+              - "Abrir todos os estores:/abrirtodos"
+              - "Fechar sala:/fsala, Fechar cozinha:/fcozinha, Fechar q. Mafalda:/fmafalda"
+              - "Abrir sala:/asala, Abrir cozinha:/acozinha, Abrir q. Mafalda:/amafalda"
+              - "Fechar todos os estores:/fechartodos"
+
+#resposta as automacoes de cima
+  - alias: 'Fechar da sala' 
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/fsala'            
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_sala
+          position: 0
+
+  - alias: 'Fechar da cozinha' 
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/fcozinha'            
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_cozinha
+          position: 0
+
+  - alias: 'Fechar quarto mafalda' 
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/fmafalda'            
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_mafalda
+          position: 0
+          
+#  - alias: Consulta da posição dos estores
+#    initial_state: false
+#    trigger:
+#      platform: time_pattern
+#      hours: '/2'
+#    action:
+#      - service: script.turn_on
+#        entity_id: script.message_blins
+
+#  - alias: callback testes
+#    hide_entity: true
+#    trigger:
+#      platform: event
+#      event_type: telegram_command
+#      event_data:
+#        command: '/estores'
+#    action:
+#      - service: notify.telegram
+#        data:
+#          message: "O estore da cozinha está na posição {{ states('sensor.percentagem_estore_cozinha') }} %, o estore da sala está a {{ states('sensor.percentagem_estore_sala') }} % e o do quarto da Mafalda está a {{ states('sensor.percentagem_estore_mafalda') }} %."
+
+  - alias: 'Abrir da sala' 
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/asala'            
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_sala
+          position: 100
+
+  - alias: 'Abrir da cozinha' 
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/acozinha'            
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_cozinha
+          position: 100
+
+  - alias: 'Abrir quarto mafalda' 
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/amafalda'            
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_mafalda
+          position: 100
+
+#abrir fechar todos
+
+  - alias: 'Abrir todos os estores' 
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/abrirtodos'            
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_sala
+            - cover.estore_mafalda
+            - cover.estore_cozinha
+          position: 100
+
+
+  - alias: 'Fechar todos os estores' 
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/fechartodos'            
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_sala
+            - cover.estore_mafalda
+            - cover.estore_cozinha
+          position: 0
+
+###############################################################################
+#                                                                             #
+#                               S E N S O R                                   #
+#                                                                             #
+############################################################################### 
+sensor:
+#percentagens dos estores
+  - platform: mqtt
+    name: "Percentagem Estore Cozinha"
+    state_topic: "stat/estore_cozinha/SHUTTER1"
+    value_template: "{{value | int }}"
+    unit_of_measurement: "%"
+    availability_topic: "tele/estore_cozinha/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+
+  - platform: mqtt
+    name: "Percentagem Estore Sala"
+    state_topic: "stat/estore_sala/SHUTTER1"
+    value_template: "{{value | int }}"
+    unit_of_measurement: "%"
+    availability_topic: "tele/estore_sala/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+
+  - platform: mqtt
+    name: "Percentagem Estore Mafalda"
+    state_topic: "stat/estore_mafalda/SHUTTER1"
+    value_template: "{{value | int }}"
+    unit_of_measurement: "%"
+    availability_topic: "tele/estore_mafalda/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+
+#open closed to aberto fechado
+  - platform: template
+    sensors:
+      estore_sala:
+        friendly_name: "Estado estore da sala"
+        value_template: >-
+          {% if is_state('cover.estore_sala', 'open') %}
+            aberto
+          {% else %}
+            fechado
+          {% endif %}
+
+  - platform: template
+    sensors:
+      estore_cozinha:
+        friendly_name: "Estado estore da cozinha"
+        value_template: >-
+          {% if is_state('cover.estore_cozinha', 'open') %}
+            aberto
+          {% else %}
+            fechado
+          {% endif %}
+
+  - platform: template
+    sensors:
+      estore_mafalda:
+        friendly_name: "Estado estore q. Mafalda"
+        value_template: >-
+          {% if is_state('cover.estore_mafalda', 'open') %}
+            aberto
+          {% else %}
+            fechado
+          {% endif %}

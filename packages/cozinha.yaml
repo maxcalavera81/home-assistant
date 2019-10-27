@@ -2,10 +2,120 @@ homeassistant:
 
 ###############################################################################
 #                                                                             #
-#                         INPUT   BOOLEAN                                     #
+#                           C U S T O M I Z E                                 #
+#                                                                             #
+###############################################################################   
+  customize:
+    binary_sensor.door_window_sensor_158d0002bfae0f:
+      friendly_name: Porta Direita
+      icon: mdi:fridge
+    binary_sensor.door_window_sensor_10002bf9d6d:
+      friendly_name: Porta Esquerda
+    light.xiaomi_philips_zhirui:
+      friendly_name: Downlight cozinha
+      icon: mdi:lightbulb-on
+    light.xiaomi_philips_zhirui_1:
+      friendly_name: Downlight cozinha 1
+      icon: mdi:lightbulb-on
+    light.xiaomi_philips_zhirui_2:
+      friendly_name: Downlight cozinha 2
+      icon: mdi:lightbulb-on
+    light.leds_armario:
+      icon: mdi:lightbulb-on
+    binary_sensor.motion_sensor_158d00029be9c3:
+      friendly_name: Sensor de Movimento Cozinha
+      icon: mdi:run
+    sensor.illumination_158d00029be9c3:
+      friendly_name: Sensor LX
+      icon: mdi:brightness-4
+    switch.tomada_fervedor:
+      friendly_name: Ligar Fervedor
+      icon: mdi:power
+    switch.tomada_microndas:
+      friendly_name: Ligar Microndas
+      icon: mdi:power
+    automation.ligar_downlights_06h30_23h:
+      icon: mdi:bell-ring
+    automation.ligar_downlights_23h_02h:  
+      icon: mdi:bell-ring
+    automation.ligar_downlights_02h_06h30: 
+      icon: mdi:bell-ring
+    automation.desligar_downlights_06h30_09h:
+      icon: mdi:bell-ring
+    automation.desligar_downlights_09h_11h:
+      icon: mdi:bell-ring
+    automation.desligar_downlights_11h_23h:
+      icon: mdi:bell-ring
+    automation.desligar_downlights_23h_06h30:
+      icon: mdi:bell-ring      
+
+###############################################################################
+#                                                                             #
+#                               S E N S O R                                   #
+#                                                                             #
+############################################################################### 
+
+###############################################################################
+#                                                                             #
+#                              S W I T C H                                    #
+#                                                                             #
+###############################################################################
+switch:
+  - platform: mqtt
+    name: "Tomada Microndas"
+    state_topic: "stat/microndas/POWER"
+    command_topic: "cmnd/microndas/power"
+    availability_topic: "tele/microndas/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+
+  - platform: mqtt
+    name: "Tomada Fervedor"
+    state_topic: "stat/fervedor/POWER"
+    command_topic: "cmnd/fervedor/power"
+    availability_topic: "tele/fervedor/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+###############################################################################
+#                                                                             #
+#                                L I G H T S                                  #
 #                                                                             #
 ###############################################################################      
+light:
+  - platform: xiaomi_miio
+    name: Xiaomi Philips zhirui
+    host: !secret xiaomi_philips_zhirui_ip
+    token: !secret xiaomi_philips_zhirui_token
+    model: philips.light.bulb
 
+  - platform: xiaomi_miio
+    name: Xiaomi Philips zhirui 1
+    host: !secret xiaomi_philips_zhirui_1_ip
+    token: !secret xiaomi_philips_zhirui_1_token
+    model: philips.light.bulb
+
+  - platform: xiaomi_miio
+    name: Xiaomi Philips zhirui 2
+    host: !secret xiaomi_philips_zhirui_2_ip
+    token: !secret xiaomi_philips_zhirui_2_token
+    model: philips.light.bulb
+
+  - platform: mqtt
+    name: "Leds Armário"
+    state_topic: "stat/merciaria/POWER"
+    command_topic: "cmnd/merciaria/power"
+    availability_topic: "tele/merciaria/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
 ###############################################################################
 #                                                                             #
 #                           A U T O M A Ç Õ E S                               #
@@ -14,8 +124,32 @@ homeassistant:
 automation:
 
 # automações
-       
-  - alias: Ligar Downlights 09h 17h
+
+  - alias: Ligar Leds Despensa Merciaria
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: group.grupo_sensor
+      from: 'off'
+      to: 'on'
+    action:
+      - service: light.turn_on
+        entity_id:
+          - light.leds_armario
+
+  - alias: Desligar Leds Despensa Merciaria
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: group.grupo_sensor
+      from: 'on'
+      to: 'off'
+    action:
+      - service: light.turn_off
+        entity_id: 
+          - light.leds_armario
+
+  - alias: Ligar Downlights 06h30 22h
     initial_state: true
     trigger:
       platform: state
@@ -24,22 +158,21 @@ automation:
       to: 'on'
     condition:
     - condition: time
-      after: '09:00:00'
-      before: '17:00:00'
+      after: '06:30:00'
+      before: '22:00:00'
     - condition: numeric_state
       entity_id: sensor.illumination_158d00029be9c3
-      below: 20
+      below: 60
     action:
       - service: light.xiaomi_miio_set_scene
         data:
-          entity_id: light.xiaomi_philips_zhirui
+          entity_id: 
+            - light.xiaomi_philips_zhirui
+            - light.xiaomi_philips_zhirui_1
+            - light.xiaomi_philips_zhirui_2
           scene: 1
-      - service: light.xiaomi_miio_set_scene
-        data:
-          entity_id: light.xiaomi_philips_zhirui_2
-          scene: 1
-       
-  - alias: Ligar Downlights 17h 23h
+
+  - alias: Ligar Downlights 22h 02h
     initial_state: true
     trigger:
       platform: state
@@ -48,45 +181,58 @@ automation:
       to: 'on'
     condition:
     - condition: time
-      after: '17:00:00'
-      before: '23:00:00'
-    - condition: numeric_state
-      entity_id: sensor.illumination_158d00029be9c3
-      below: 20
-    action:
-      - service: light.xiaomi_miio_set_scene
-        data:
-          entity_id: light.xiaomi_philips_zhirui
-          scene: 1
-      - service: light.xiaomi_miio_set_scene
-        data:
-          entity_id: light.xiaomi_philips_zhirui_2
-          scene: 1
-          
-  - alias: Ligar Downlights 23h 02h
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: binary_sensor.motion_sensor_158d00029be9c3
-      from: 'off'
-      to: 'on'
-    condition:
-    - condition: time
-      after: '23:00:00'
+      after: '22:00:00'
       before: '02:00:00'
     - condition: numeric_state
       entity_id: sensor.illumination_158d00029be9c3
-      below: 20
+      below: 60
     action:
       - service: light.xiaomi_miio_set_scene
         data:
-          entity_id: light.xiaomi_philips_zhirui
+          entity_id:
+            - light.xiaomi_philips_zhirui_1
+            - light.xiaomi_philips_zhirui_2
           scene: 3
-      - service: light.xiaomi_miio_set_scene
-        data:
-          entity_id: light.xiaomi_philips_zhirui_2
-          scene: 3
-          
+      - service: light.turn_off
+        entity_id: light.xiaomi_philips_zhirui
+
+
+
+#  - alias: Ligar Downlights 22h 02h teste
+#    initial_state: true
+#    trigger:
+#      platform: state
+#      entity_id: binary_sensor.motion_sensor_158d00029be9c3
+#      from: 'off'
+#      to: 'on'
+#    condition:
+#    - condition: time
+#      after: '22:00:00'
+#      before: '02:00:00'
+#    - condition: numeric_state
+#      entity_id: sensor.illumination_158d00029be9c3
+#      below: 60
+#    action:
+#      - delay:
+#          seconds: 4
+#      - service: light.xiaomi_miio_set_scene
+#        data:
+#          entity_id: light.xiaomi_philips_zhirui
+#          scene: 1
+#      - delay:
+#          seconds: 6
+#      - service: light.xiaomi_miio_set_scene
+#        data:
+#          entity_id: light.xiaomi_philips_zhirui_1
+#          scene: 2
+#      - delay:
+#          seconds: 2
+#      - service: light.xiaomi_miio_set_scene
+#        data:
+#          entity_id: light.xiaomi_philips_zhirui_2
+#          scene: 3
+
+
   - alias: Ligar Downlights 02h 06h30
     initial_state: true
     trigger:
@@ -100,42 +246,18 @@ automation:
       before: '06:30:00'
     - condition: numeric_state
       entity_id: sensor.illumination_158d00029be9c3
-      below: 20
+      below: 60
     action:
       - service: light.xiaomi_miio_set_scene
         data:
-          entity_id: light.xiaomi_philips_zhirui
+          entity_id:
+            - light.xiaomi_philips_zhirui_1
+            - light.xiaomi_philips_zhirui_2
           scene: 4
-      - service: light.xiaomi_miio_set_scene
-        data:
-          entity_id: light.xiaomi_philips_zhirui_2
-          scene: 4
-          
-  - alias: Ligar Downlights 06h30 09h00
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: binary_sensor.motion_sensor_158d00029be9c3
-      from: 'off'
-      to: 'on'
-    condition:
-    - condition: time
-      after: '06:30:00'
-      before: '09:00:00'
-    - condition: numeric_state
-      entity_id: sensor.illumination_158d00029be9c3
-      below: 20
-    action:
-      - service: light.xiaomi_miio_set_scene
-        data:
-          entity_id: light.xiaomi_philips_zhirui
-          scene: 2
-      - service: light.xiaomi_miio_set_scene
-        data:
-          entity_id: light.xiaomi_philips_zhirui_2
-          scene: 2
-          
-  - alias: Desligar Downlights 09h 17h
+      - service: light.turn_off
+        entity_id: light.xiaomi_philips_zhirui
+        
+  - alias: Desligar Downlights 06h30 09h
     initial_state: true
     trigger:
       platform: state
@@ -143,18 +265,19 @@ automation:
       from: 'on'
       to: 'off'
       for:
-        minutes: 3
+        minutes: 5
     condition:
     - condition: time
-      after: '09:00:00'
-      before: '17:00:00'
+      after: '06:30:00'
+      before: '09:00:00'
     action:
       - service: light.turn_off
-        entity_id: light.xiaomi_philips_zhirui
-      - service: light.turn_off
-        entity_id: light.xiaomi_philips_zhirui_2
+        entity_id: 
+          - light.xiaomi_philips_zhirui
+          - light.xiaomi_philips_zhirui_1
+          - light.xiaomi_philips_zhirui_2
 
-  - alias: Desligar Downlights 17h 09h
+  - alias: Desligar Downlights 09h 11h
     initial_state: true
     trigger:
       platform: state
@@ -165,57 +288,152 @@ automation:
         minutes: 2
     condition:
     - condition: time
-      after: '17:00:00'
-      before: '09:00:00'
+      after: '09:00:00'
+      before: '11:00:00'
     action:
       - service: light.turn_off
-        entity_id: light.xiaomi_philips_zhirui
+        entity_id: 
+          - light.xiaomi_philips_zhirui
+          - light.xiaomi_philips_zhirui_1
+          - light.xiaomi_philips_zhirui_2
+
+  - alias: Desligar Downlights 11h 22h
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d00029be9c3
+      from: 'on'
+      to: 'off'
+      for:
+        minutes: 5
+    condition:
+    - condition: time
+      after: '11:00:00'
+      before: '22:00:00'
+    action:
       - service: light.turn_off
-        entity_id: light.xiaomi_philips_zhirui_2
-        
-        
-###############################################################################
-#                                                                             #
-#                           L U Z E S                                         #
-#                                                                             #
-###############################################################################  
+        entity_id: 
+          - light.xiaomi_philips_zhirui
+          - light.xiaomi_philips_zhirui_1
+          - light.xiaomi_philips_zhirui_2
+
+  - alias: Desligar Downlights 22h 06h30
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d00029be9c3
+      from: 'on'
+      to: 'off'
+      for:
+        minutes: 2
+    condition:
+    - condition: time
+      after: '22:00:00'
+      before: '06:30:00'
+    action:
+      - service: light.turn_off
+        entity_id: 
+          - light.xiaomi_philips_zhirui
+          - light.xiaomi_philips_zhirui_1
+          - light.xiaomi_philips_zhirui_2
+
+  - alias: Desligar Downlights a Cima dos 61 lx
+    initial_state: false
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      to: 'off'
+      for: 
+        seconds: 15
+    condition:
+    - condition: time
+      after: '06:00:00'
+      before: '23:00:00'
+    - condition: numeric_state
+      entity_id: sensor.illumination_158d00029be9c3
+      above: 61
+    action:
+      - service: light.turn_off
+        entity_id: 
+          - light.xiaomi_philips_zhirui
+          - light.xiaomi_philips_zhirui_1
+          - light.xiaomi_philips_zhirui_2
+
+  - alias: Desligar Downlights a Cima dos 61 lx 2
+    initial_state: false
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+      to: 'off'
+      for: 
+        seconds: 15
+    condition:
+    - condition: time
+      after: '23:00:00'
+      before: '06:00:00'
+    - condition: numeric_state
+      entity_id: sensor.illumination_158d00029be9c3
+      above: 61
+    action:
+      - service: light.turn_off
+        entity_id: 
+          - light.xiaomi_philips_zhirui
+          - light.xiaomi_philips_zhirui_1
+          - light.xiaomi_philips_zhirui_2
 
 ##############################################################################
 #                                                                             #
 #                         G R O U P S                                         #
 #                                                                             #
 ###############################################################################      
-
 group:
 
   Iluminação da cozinha:
     control: hidden
     entities:
       - light.xiaomi_philips_zhirui
+      - light.xiaomi_philips_zhirui_1
       - light.xiaomi_philips_zhirui_2
-      
-  Sensor de movimento cozinha:
+      - light.leds_armario
+
+  Grupo Sensor:
+    control: hidden
+    entities:
+      - binary_sensor.door_window_sensor_158d0002bfae0f
+      - binary_sensor.door_window_sensor_158d0002bf9d6d
+
+
+  Sensor de Movimento Cozinha:
     control: hidden
     entities:
       - binary_sensor.motion_sensor_158d00029be9c3
       - sensor.illumination_158d00029be9c3
-      
-  Automações da Cozinha:
+
+  Ligar Automações Cozinha:
     control: hidden
     entities:
-      - automation.ligar_downlights_09h_17h
-      - automation.ligar_downlights_17h_23h
+      - automation.ligar_downlights_06h30_23h
       - automation.ligar_downlights_23h_02h
       - automation.ligar_downlights_02h_06h30
-      - automation.ligar_downlights_06h30_09h00
-      - automation.desligar_downlights_09h_17h
-      - automation.desligar_downlights_17h_09h
-    
-      
+      - automation.ligar_leds_despensa_merciaria
+
+  Desligar Automações Cozinha:
+    control: hidden
+    entities:      
+      - automation.desligar_downlights_06h30_09h
+      - automation.desligar_downlights_09h_11h
+      - automation.desligar_downlights_11h_23h
+      - automation.desligar_downlights_23h_06h30
+      - automation.desligar_leds_despensa_merciaria
+      - automation.desligar_downlights_a_cima_dos_61_lx
+      - automation.desligar_downlights_a_cima_dos_61_lx_2
+
   cozinha:
     view: yes
     name: cozinha
     entities:
+      - group.grupo_sensor
       - group.iluminacao_da_cozinha
       - group.sensor_de_movimento_cozinha
-      - group.automacoes_da_cozinha
+      - group.ligar_automacoes_cozinha
+      - group.desligar_automacoes_cozinha

@@ -1,0 +1,83 @@
+homeassistant:
+###############################################################################
+#                                                                             #
+#                           switch                                            #
+#                                                                             #
+###############################################################################
+switch:
+
+  - platform: mqtt
+    name: "Cameras de Vigilância"
+    state_topic: "shellies/shelly1pm-BA1A8D/relay/0"
+    command_topic: "shellies/shelly1pm-BA1A8D/relay/0/command"
+    payload_on: "on"
+    payload_off: "off"
+    retain: true
+
+#######################################################################
+#                                                                     #
+#                            S E N S O R S                            #
+#                                                                     #
+#######################################################################
+sensor:
+  - platform: mqtt
+    state_topic : "shellies/shelly1pm-BA1A8D/temperature"
+    unit_of_measurement: "°C"
+    name: "Shelly surveillance"
+
+  - platform: mqtt
+    name: "Cameras vigilância Watts"
+    state_topic: "shellies/shelly1pm-BA1A8D/relay/0/power"    
+    unit_of_measurement: "Watts"
+    
+  - platform: mqtt
+    name: "Cameras vigilância Kwh"
+    state_topic: "shellies/shelly1pm-BA1A8D/relay/0/energy"    
+    unit_of_measurement: "Kwh"
+
+  - platform: integration
+    name: "Energia Rede"
+    source: sensor.cameras_vigilancia_watts
+    unit_prefix: k
+    round: 2
+
+  - platform: template
+    sensors:
+      fatura_energia:
+        friendly_name: "Fatura Energia bi-horário"
+        value_template: >-
+          {{ ((float(states.sensor.monthly_energy_vazio.state) * 0.11  + float(states.sensor.monthly_energy_fora_de_vazio.state) * 0.187 + now().day * 0.3832 + 2.85 ) * 1.23 ) | round(2) }}
+        unit_of_measurement: "€"
+      fatura_energia_simples:
+        friendly_name: "Fatura Energia simples"
+        value_template: >-
+          {{ ((float(states.sensor.monthly_energy_vazio.state) * 0.1546  + float(states.sensor.monthly_energy_vazio.state) * 0.1546 + now().day * 0.3282 + 2.85 ) * 1.23 ) | round(2) }}
+        unit_of_measurement: "€"
+
+automation:
+
+  - alias: tariff change
+    trigger:
+      - platform: state
+        entity_id: electricity.edp
+    action:
+      - service: utility_meter.select_tariff
+        entity_id: utility_meter.daily_energy
+        data_template:
+          tariff: "{{ trigger.to_state.state }}"
+      - service: utility_meter.select_tariff
+        entity_id: utility_meter.monthly_energy
+        data_template:
+          tariff: "{{ trigger.to_state.state }}"
+
+utility_meter:
+  daily_energy:
+    source: sensor.energia_rede
+    cycle: daily
+    tariffs:
+      - Vazio
+  monthly_energy:
+    source: sensor.energia_rede
+    cycle: monthly
+    tariffs:
+      - Vazio

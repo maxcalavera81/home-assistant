@@ -17,7 +17,7 @@ input_boolean:
     name: Notificações da bateria
     initial: 'on'
     icon: 'mdi:battery-charging-wireless'
-    
+
 ###############################################################################
 #                                                                             #
 #                           A U T O M A Ç Õ E S                               #
@@ -30,21 +30,21 @@ automation:
     trigger:
       platform: numeric_state
       entity_id:
-        - sensor.porta_entrada_sensor
+        - sensor.sensor_porta_entrada_battery_level
+        - sensor.sensor_portao_entrada_battery_level
+        - sensor.sensor_portao_jardim_battery_level
         - sensor.sensor_movimento_sala_battery_level
         - sensor.sensor_movimento_quarto_battery_level
-        - sensor.sensor_temperatura_sala_battery_level
         - sensor.sensor_movimento_cozinha_battery_level
+        - sensor.sensor_temperatura_sala_battery_level
         - sensor.cubo_magico_battery_level
         - sensor.interruptor_battery_level
-      below: 5
-    condition:
-      - condition: template
-        value_template: '{{ states.input_boolean.battery_notifications.state == "on" }}'
+      below: 10
     action:
       - service: notify.telegram
         data_template:
-          message: 'Alerta! {{ trigger.from_state.attributes.friendly_name }} necessita de ser substituída, apenas tem {{ trigger.from_state.state }}% de bateria restante!!'
+          title: "Sensores a ficar sem bateria"
+          message: "{{ trigger.to_state.attributes.friendly_name }} está a {{ trigger.to_state.attributes.battery_level | default(0) }}%"
 
 ###############################################################################
 #                                                                             #
@@ -56,12 +56,74 @@ sensor:
 
   - platform: template
     sensors:
-      porta_entrada_sensor:
+      sensor_porta_entrada_battery_level:
         friendly_name: Porta entrada
         unit_of_measurement: '%'
         value_template: >-
           {%- if states.binary_sensor.door_window_sensor_158d00022b3ad2.attributes.battery_level %}
             {{ states.binary_sensor.door_window_sensor_158d00022b3ad2.attributes.battery_level|round }}
+          {% else %}
+            {{ states.sensor.door_sensor.state }}
+          {%- endif %}
+        icon_template: >
+          {% set battery_level = states.sensor.door_sensor.state|default(0)|int %}
+          {% set battery_round = (battery_level / 10) |int * 10 %}
+          {% if battery_round >= 100 %}
+            mdi:battery
+          {% elif battery_round > 0 %}
+            mdi:battery-{{ battery_round }}
+          {% else %}
+            mdi:battery-alert
+          {% endif %}
+
+
+
+      sensor_porta_escritorio_battery_level:
+        friendly_name: Sensor porta do Escritório
+        unit_of_measurement: '%'
+        value_template: >-
+          {%- if states.binary_sensor.door_window_sensor_158d00024e0c7b.attributes.battery_level %}
+            {{ states.binary_sensor.door_window_sensor_158d00024e0c7b.attributes.battery_level|round }}
+          {% else %}
+            {{ states.sensor.door_sensor.state }}
+          {%- endif %}
+        icon_template: >
+          {% set battery_level = states.sensor.door_sensor.state|default(0)|int %}
+          {% set battery_round = (battery_level / 10) |int * 10 %}
+          {% if battery_round >= 100 %}
+            mdi:battery
+          {% elif battery_round > 0 %}
+            mdi:battery-{{ battery_round }}
+          {% else %}
+            mdi:battery-alert
+          {% endif %}
+          
+      sensor_portao_entrada_battery_level:
+        friendly_name: Sensor portão entrada
+        unit_of_measurement: '%'
+        value_template: >-
+          {%- if states.binary_sensor.door_window_sensor_158d0002729eba.attributes.battery_level %}
+            {{ states.binary_sensor.door_window_sensor_158d0002729eba.attributes.battery_level|round }}
+          {% else %}
+            {{ states.sensor.door_sensor.state }}
+          {%- endif %}
+        icon_template: >
+          {% set battery_level = states.sensor.door_sensor.state|default(0)|int %}
+          {% set battery_round = (battery_level / 10) |int * 10 %}
+          {% if battery_round >= 100 %}
+            mdi:battery
+          {% elif battery_round > 0 %}
+            mdi:battery-{{ battery_round }}
+          {% else %}
+            mdi:battery-alert
+          {% endif %}
+          
+      sensor_portao_jardim_battery_level:
+        friendly_name: Sensor portão jardim
+        unit_of_measurement: '%'
+        value_template: >-
+          {%- if states.binary_sensor.door_window_sensor_158d0002bf9d6d.attributes.battery_level %}
+            {{ states.binary_sensor.door_window_sensor_158d0002bf9d6d.attributes.battery_level|round }}
           {% else %}
             {{ states.sensor.door_sensor.state }}
           {%- endif %}
@@ -116,12 +178,32 @@ sensor:
             mdi:battery-alert
           {% endif %}
           
-      sensor_temperatura_sala_battery_level:
-        friendly_name: Sensor de temperatura sala
+      sensor_movimento_cozinha_battery_level:
+        friendly_name: Sensor de movimento cozinha
         unit_of_measurement: '%'
         value_template: >-
-          {%- if states.sensor.temperature_158d00023203e4.attributes.battery_level %}
-            {{ states.sensor.temperature_158d00023203e4.attributes.battery_level|round }}
+          {%- if states.binary_sensor.motion_sensor_158d00029be9c3.attributes.battery_level %}
+            {{ states.binary_sensor.motion_sensor_158d00029be9c3.attributes.battery_level|round }}
+          {% else %}
+            {{ states.sensor.door_sensor.state }}
+          {%- endif %}
+        icon_template: >
+          {% set battery_level = states.sensor.door_sensor.state|default(0)|int %}
+          {% set battery_round = (battery_level / 10) |int * 10 %}
+          {% if battery_round >= 100 %}
+            mdi:battery
+          {% elif battery_round > 0 %}
+            mdi:battery-{{ battery_round }}
+          {% else %}
+            mdi:battery-alert
+          {% endif %}
+
+      sensor_movimento_despensa_battery_level:
+        friendly_name: Sensor de movimento despensa
+        unit_of_measurement: '%'
+        value_template: >-
+          {%- if states.binary_sensor.motion_sensor_158d0002f8d190.attributes.battery_level %}
+            {{ states.binary_sensor.motion_sensor_158d0002f8d190.attributes.battery_level|round }}
           {% else %}
             {{ states.sensor.door_sensor.state }}
           {%- endif %}
@@ -136,12 +218,12 @@ sensor:
             mdi:battery-alert
           {% endif %}
           
-      sensor_movimento_cozinha_battery_level:
-        friendly_name: Sensor de movimento cozinha
+      sensor_temperatura_sala_battery_level:
+        friendly_name: Sensor de temperatura sala
         unit_of_measurement: '%'
         value_template: >-
-          {%- if states.binary_sensor.motion_sensor_158d00029be9c3.attributes.battery_level %}
-            {{ states.binary_sensor.motion_sensor_158d00029be9c3.attributes.battery_level|round }}
+          {%- if states.sensor.temperature_158d00023203e4.attributes.battery_level %}
+            {{ states.sensor.temperature_158d00023203e4.attributes.battery_level|round }}
           {% else %}
             {{ states.sensor.door_sensor.state }}
           {%- endif %}
@@ -196,22 +278,26 @@ sensor:
             mdi:battery-alert
           {% endif %}
 
-###############################################################################
-#                                                                             #
-#                           N O T I F I E R S                                 #
-#                                                                             #
-###############################################################################  
-notify:
-  - name: telegram
-    platform: telegram
-    chat_id: !secret chat_ids_bruno
+      sensor_chuva_battery_level:
+        friendly_name: Sensor de Chuva
+        unit_of_measurement: '%'
+        value_template: >-
+          {%- if states.binary_sensor.water_leak_sensor_158d00024bc707.attributes.battery_level %}
+            {{ states.binary_sensor.water_leak_sensor_158d00024bc707.attributes.battery_level|round }}
+          {% else %}
+            {{ states.sensor.door_sensor.state }}
+          {%- endif %}
+        icon_template: >
+          {% set battery_level = states.sensor.door_sensor.state|default(0)|int %}
+          {% set battery_round = (battery_level / 10) |int * 10 %}
+          {% if battery_round >= 100 %}
+            mdi:battery
+          {% elif battery_round > 0 %}
+            mdi:battery-{{ battery_round }}
+          {% else %}
+            mdi:battery-alert
+          {% endif %}
 
-telegram_bot:
-  - platform: polling
-    api_key: !secret api_key_bruno
-    allowed_chat_ids:
-      - !secret chat_ids_bruno
-          
 ###############################################################################
 #                                                                             #
 #                         G R O U P S                                         #
@@ -223,22 +309,27 @@ group:
   Niveis das baterias:
     control: hidden
     entities:
-      - sensor.porta_entrada_sensor
-      - sensor.sensor_movimento_sala_battery_level
-      - sensor.sensor_movimento_quarto_battery_level
-      - sensor.sensor_temperatura_sala_battery_level
-      - sensor.sensor_movimento_cozinha_battery_level
-      - sensor.cubo_magico_battery_level
-      - sensor.interruptor_battery_level
-          
-  Automacoes baterias:
+        - sensor.sensor_porta_entrada_battery_level
+        - sensor.sensor_porta_escritorio_battery_level
+        - sensor.sensor_portao_entrada_battery_level
+        - sensor.sensor_portao_jardim_battery_level
+        - sensor.sensor_movimento_sala_battery_level
+        - sensor.sensor_movimento_quarto_battery_level
+        - sensor.sensor_movimento_cozinha_battery_level
+        - sensor.sensor_movimento_despensa_battery_level
+        - sensor.sensor_temperatura_sala_battery_level
+        - sensor.cubo_magico_battery_level
+        - sensor.interruptor_battery_level
+        - sensor.sensor_chuva_battery_level
+
+  Automacão baterias:
     control: hidden
     entities:
       - automation.substituir_a_bateria_dos_sensores    
-    
+
   Battery Levels:
     view: yes
-    name: Baterias dos sensores
+    name: Carga dos sensores
     entities:
       - group.niveis_das_baterias
-      - group.automacoes_baterias
+      - group.automacao_baterias

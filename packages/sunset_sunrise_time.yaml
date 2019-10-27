@@ -1,0 +1,30 @@
+homeassistant:
+
+###############################################################################
+#                                                                             #
+#                           C U S T O M I Z E                                 #
+#                                                                             #
+###############################################################################   
+  customize:
+    sensor.sunset_time:
+      icon: mdi:weather-sunset-down
+    sensor.sunrise_time:
+      icon: mdi:weather-sunset-up
+###############################################################################
+#                                                                             #
+#                                 S E N S O R S                               #
+#                                                                             #
+###############################################################################
+sensor:
+
+  - platform: template
+    sensors:
+      sunset_time:
+        value_template: '{{ as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom("%H:%M") }}'
+        friendly_name: "Sunset"
+
+  - platform: template
+    sensors:
+      sunrise_time:
+        value_template: '{{ as_timestamp(states.sun.sun.attributes.next_rising) | timestamp_custom("%H:%M") }}'
+        friendly_name: "Sunrise"

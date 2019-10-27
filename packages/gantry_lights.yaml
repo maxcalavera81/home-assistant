@@ -1,0 +1,165 @@
+homeassistant:
+
+###############################################################################
+#                                                                             #
+#                           C U S T O M I Z E                                 #
+#                                                                             #
+###############################################################################   
+  customize:
+    light.candeeiro_patio_1:
+      icon: mdi:lightbulb-on
+    light.candeeiro_patio_2:
+      icon: mdi:lightbulb-on
+    light.candeeiro_patio_3:
+      icon: mdi:lightbulb-on
+    light.candeeiro_patio_4:
+      icon: mdi:lightbulb-on
+###############################################################################
+#                                                                             #
+#                         S W I T C H                                         #
+#                                                                             #
+############################################################################### 
+light:
+  - platform: mqtt
+    name: "Candeeiro pátio 1"
+    state_topic: "stat/lamp1_2/POWER1"
+    command_topic: "cmnd/lamp1_2/power1"
+    availability_topic: "tele/lamp1_2/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+
+  - platform: mqtt
+    name: "Candeeiro pátio 2"
+    state_topic: "stat/lamp1_2/POWER2"
+    command_topic: "cmnd/lamp1_2/power2"
+    availability_topic: "tele/lamp1_2/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+
+  - platform: mqtt
+    name: "Candeeiro pátio 3"
+    state_topic: "stat/lamp3_4/POWER1"
+    command_topic: "cmnd/lamp3_4/power1"
+    availability_topic: "tele/lamp3_4/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+
+  - platform: mqtt
+    name: "Candeeiro pátio 4"
+    state_topic: "stat/lamp3_4/POWER2"
+    command_topic: "cmnd/lamp3_4/power2"
+    availability_topic: "tele/lamp3_4/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+
+###############################################################################
+#                                                                             #
+#                           A U T O M A Ç Õ E S                               #
+#                                                                             #
+###############################################################################   
+automation:
+
+  - alias: Ligar Iluminação do canteiro
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d0002729eba
+      from: 'off'
+      to: 'on'
+    condition:
+      condition: or
+      conditions:
+      - condition: sun
+        after: sunset
+        after_offset: "+00:10:00"
+      - condition: sun
+        before: sunrise
+    action:
+      - delay:
+          seconds: 5
+      - service: light.turn_on
+        data:
+          entity_id: light.candeeiro_patio_1
+      - delay:
+          seconds: 3 
+      - service: light.turn_on
+        data:
+          entity_id: light.candeeiro_patio_2
+      - delay:
+          seconds: 3
+      - service: light.turn_on
+        data:
+          entity_id: light.candeeiro_patio_3
+      - delay:
+          seconds: 3
+      - service: light.turn_on
+        data:
+          entity_id: light.candeeiro_patio_4
+
+  - alias: Desligar Iluminação do canteiro
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d0002729eba
+      to: 'off'
+      for:
+        minutes: 3
+    action:
+      - delay:
+          seconds: 2
+      - service: light.turn_off
+        data:
+          entity_id: light.candeeiro_patio_4
+      - delay:
+          seconds: 2
+      - service: light.turn_off
+        data:
+          entity_id: light.candeeiro_patio_3
+      - delay:
+          seconds: 2
+      - service: light.turn_off
+        data:
+          entity_id: light.candeeiro_patio_2
+      - delay:
+          seconds: 2
+      - service: light.turn_off
+        data:
+          entity_id: light.candeeiro_patio_1
+
+###############################################################################
+#                                                                             #
+#                         G R O U P S                                         #
+#                                                                             #
+###############################################################################      
+
+group:
+
+  Duas lâmpadas do pátio:
+    control: hidden
+    entities:
+      - light.candeeiro_patio_2
+      - light.candeeiro_patio_3
+
+  Lâmpadas do pátio:
+    control: hidden
+    entities:
+      - light.candeeiro_patio_1
+      - light.candeeiro_patio_2
+      - light.candeeiro_patio_3
+      - light.candeeiro_patio_4

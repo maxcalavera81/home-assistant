@@ -1,0 +1,189 @@
+homeassistant:
+
+###############################################################################
+#                                                                             #
+#                           C U S T O M I Z E                                 #
+#                                                                             #
+###############################################################################
+  customize:
+    binary_sensor.door_window_sensor_158d00024e0c7b:
+      friendly_name: Porta do Escritório
+      icon: mdi:door-open
+    light.downlight_direito:
+      icon: mdi:lightbulb-on
+    light.downlight_esquerdo:
+      icon: mdi:lightbulb-on
+
+###############################################################################
+#                                                                             #
+#                           S W I T C H                                       #
+#                                                                             #
+###############################################################################
+light:
+  - platform: mqtt
+    name: "Downlight Esquerdo"
+    state_topic: "stat/escritorio/POWER1"
+    command_topic: "cmnd/escritorio/power1"
+    availability_topic: "tele/escritorio/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+
+  - platform: mqtt
+    name: "Downlight Direito"
+    state_topic: "stat/escritorio/POWER2"
+    command_topic: "cmnd/escritorio/power2"
+    availability_topic: "tele/escritorio/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+###############################################################################
+#                                                                             #
+#                           A U T O M A Ç Õ E S                               #
+#                                                                             #
+###############################################################################   
+automation:
+
+  - alias: Liga Luz do Escritório
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d00024e0c7b
+      to: 'on'
+    condition:
+      condition: or
+      conditions:
+      - condition: sun
+        after: sunset
+        after_offset: "+00:01:00"
+      - condition: sun
+        before: sunrise
+    action:
+      - service: light.turn_on
+        entity_id:
+          - light.downlight_direito
+          - light.downlight_esquerdo
+
+  - alias: Desliga Luz do Escritório
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d00024e0c7b
+      to: 'off'
+      for:
+        minutes: 1
+    action:
+      - service: light.turn_off
+        data_template:
+          entity_id:
+            - light.downlight_direito
+            - light.downlight_esquerdo
+
+#notificações
+
+  - alias: Porta Escritório Aberta
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d00024e0c7b
+      from: 'off'
+      to: 'on'
+    action:
+      service: notify.telegram
+      data:
+        title: "Porta do Escritório"
+        message: "Está Aberta"
+
+  - alias: Porta Escritório Fechada
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d00024e0c7b
+      from: 'on'
+      to: 'off'
+    action:
+      service: notify.telegram
+      data:
+        title: "Porta do Escritório"
+        message: "Está fechada"
+
+  - alias: Porta do escritório aberta á 10 mim
+    initial_state: false
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d00024e0c7b
+      from: 'off'
+      to: 'on'
+      for:
+        minutes: 10
+    action:
+      service: notify.telegram
+      data:
+        title: "Porta do Escritório"
+        message: "Está aberta á 10 mim"
+
+  - alias: Porta escritorio continua aberta
+    initial_state: true
+    trigger:
+      platform: time_pattern
+      minutes: '/10'
+    condition:
+      - condition: state
+        entity_id: binary_sensor.door_window_sensor_158d00024e0c7b
+        state: 'on'
+    action:
+      service: notify.telegram
+      data:
+        title: "Porta do Escritório"
+        message: "Continua aberta"
+
+###############################################################################
+#                                                                             #
+#                           l U Z E S                                         #
+#                                                                             #
+###############################################################################  
+
+###############################################################################
+#                                                                             #
+#                         G R O U P S                                         #
+#                                                                             #
+###############################################################################      
+
+group:
+
+  Iluminação Escritório:
+    control: hidden
+    entities:
+      - light.downlight_direito
+      - light.downlight_esquerdo
+
+  Estado porta escritório:
+    control: hidden
+    entities:
+      - binary_sensor.door_window_sensor_158d00024e0c7b
+
+  Automações escritório:
+    control: hidden
+    entities:
+      - automation.liga_luz_do_escritorio
+      - automation.desliga_luz_do_escritorio
+
+  Notificações escritório:
+    control: hidden
+    entities:
+      - automation.porta_escritorio_aberta
+      - automation.porta_escritorio_fechada
+      - automation.porta_do_escritorio_aberta_a_10_mim
+
+  Escritório:
+    view: yes
+    name: Escritório
+    entities:
+      - group.estado_porta_escritorio
+      - group.iluminacao_escritorio
+      - group.automacoes_escritorio
+      - group.notificacoes_escritorio

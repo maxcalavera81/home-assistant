@@ -1,14 +1,10 @@
 homeassistant:
 
-
-  
-  
 ###############################################################################
 #                                                                             #
 #                           C U S T O M I Z E                                 #
 #                                                                             #
-###############################################################################   
-        
+###############################################################################
   customize:
  
     script.radio_play_geral:
@@ -19,21 +15,32 @@ homeassistant:
       icon: mdi:stop
     sensor.radio:
       icon: mdi:surround-sound
-      
+    switch.carregar_bateria_s3:
+      friendly_name: Carregar Telemovel
+      icon: mdi:power
+
+###############################################################################
+#                                                                             #
+#                      S W I T C H  S O N O F F                               #
+#                                                                             #
+############################################################################### 
+switch:    
+  - platform: mqtt
+    name: "Carregar Bateria S3"
+    state_topic: "stat/s3_radio/POWER"
+    command_topic: "cmnd/s3_radio/power"
+    availability_topic: "tele/s3_radio/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
 ###############################################################################
 #                                                                             #
 #                          M E D I A  P L A Y E R                             #
 #                                                                             #
 ###############################################################################
 
-media_player:
-  - platform: kodi
-    name: Radio
-    host: !secret host_kodi
-    port: !secret port_kodi
-    username: !secret username_kodi
-    password: !secret password_kodi
-    turn_off_action: hibernate 
 ###############################################################################
 #                                                                             #
 #                           A U T O M A Ç Õ E S                               #
@@ -50,14 +57,32 @@ automation:
         entity_id: media_player.Radio
         volume_level: '{{states.input_number.volume_radio.state}}'
         
-      
+
+  - alias: Liga tomada para carregar bateria
+    initial_state: true
+    trigger:
+      platform: numeric_state
+      entity_id: sensor.bateria_estacao_de_radio
+      below: 17
+    action:
+      - service: switch.turn_on
+        entity_id: switch.carregar_bateria_s3
+
+  - alias: Desliga tomada apos carregar bateria
+    initial_state: true
+    trigger:
+      platform: numeric_state
+      entity_id: sensor.bateria_estacao_de_radio
+      above: 99
+    action:
+      - service: switch.turn_off
+        entity_id: switch.carregar_bateria_s3
   
 ###############################################################################
 #                                                                             #
 #                           S C R I P T S                                     #
 #                                                                             #
-###############################################################################  
-
+###############################################################################
 script:
 
   radio_play_geral:
@@ -78,7 +103,7 @@ script:
               {%- elif is_state('input_select.estacoes_de_radio', 'Cidade FM') -%}  
                  http://mcrscast.mcr.iol.pt/cidadefm
               {%- elif is_state('input_select.estacoes_de_radio', 'Radio Comercial') -%}  
-                 http://mcrscast.mcr.iol.pt/comercial.mp3
+                 http://mcrscast1.mcr.iol.pt/comercial.mp3
               {%- elif is_state('input_select.estacoes_de_radio', 'Nova Era') -%}
                  http://centova.radios.pt:9478/stream/1/  
               {%- elif is_state('input_select.estacoes_de_radio', 'RFM') -%}                 
@@ -120,7 +145,7 @@ script:
               {%- elif is_state('input_select.estacoes_de_radio', 'Cidade FM') -%}  
                  http://mcrscast.mcr.iol.pt/cidadefm
               {%- elif is_state('input_select.estacoes_de_radio', 'Radio Comercial') -%}  
-                 http://mcrscast.mcr.iol.pt/comercial.mp3
+                 http://mcrscast1.mcr.iol.pt/comercial.mp3
               {%- elif is_state('input_select.estacoes_de_radio', 'Nova Era') -%}
                  http://centova.radios.pt:9478/stream/1/  
               {%- elif is_state('input_select.estacoes_de_radio', 'RFM') -%}                 
@@ -158,25 +183,19 @@ script:
       - service: media_player.media_stop
         data:
           entity_id: media_player.Sala
-          
-          
-
-
-        
 
 ###############################################################################
 #                                                                             #
 #                           S E N S O R S                                     #
 #                                                                             #
 ###############################################################################  
-
 sensor:
 
   - platform: template
     sensors:
       radio:  
         friendly_name: 'Sistema de Som'
-        value_template: >    
+        value_template: >
          {%- if is_state('media_player.radio', 'off') -%}
          Sistema Desactivado
          {%- elif is_state('media_player.radio', 'idle') -%}
@@ -184,13 +203,16 @@ sensor:
          {%- elif is_state('media_player.radio', 'playing') -%}
          A reproduzir         
          {%- endif -%}
+
+  - platform: mqtt
+    state_topic: "zanzito/s3/battery_level"
+    name: "Bateria Estação de Rádio"
+    unit_of_measurement: '%'
 ###############################################################################
 #                                                                             #
 #                           I N P U T  N U M B E R S                          #
 #                                                                             #
-###############################################################################  
-
-  
+###############################################################################
 input_number:
 
   volume_radio:
@@ -200,15 +222,12 @@ input_number:
     min: 0
     max: 1
     step: 0.01
-    
-   
+
 ###############################################################################
 #                                                                             #
 #                           I N P U T   S E L E C T                           #
 #                                                                             #
 ###############################################################################  
-
-
 input_select:
   
   estacoes_de_radio:
@@ -241,15 +260,11 @@ input_select:
       - Casa
     icon: mdi:speaker-wireless
 
-
-
 ###############################################################################
 #                                                                             #
 #                           G R O U P S                                       #
 #                                                                             #
-###############################################################################  
-
-
+###############################################################################
 group:
 
   radio:

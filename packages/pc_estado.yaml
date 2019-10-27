@@ -1,0 +1,100 @@
+homeassistant:
+
+###############################################################################
+#                                                                             #
+#                             L I G H T                                       #
+#                                                                             #
+############################################################################### 
+light:
+  - platform: mqtt
+    name: "Leds Armário sala"
+    state_topic: "stat/leds_pc/POWER1"
+    command_topic: "cmnd/leds_pc/power1"
+    availability_topic: "tele/leds_pc/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+
+###############################################################################
+#                                                                             #
+#                         S W I T C H                                         #
+#                                                                             #
+###############################################################################
+switch:
+  - platform: mqtt
+    name: "ON OFF PC"
+    state_topic: "stat/leds_pc/POWER2"
+    command_topic: "cmnd/leds_pc/power2"
+    availability_topic: "tele/leds_pc/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+
+#estado do pc wemos d1 mini
+
+  - platform: mqtt
+    name: "Estado do PC"
+    state_topic: "stat/state_pc_on_off/POWER1"
+    command_topic: "cmnd/state_pc_on_off/power1"
+    availability_topic: "tele/state_pc_on_off/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+
+###############################################################################
+#                                                                             #
+#                               S E N S O R                                   #
+#                                                                             #
+############################################################################### 
+sensor:
+  - platform: template
+    sensors:
+      pc_on_off:
+        friendly_name: "PC Estado"
+        value_template: >-
+          {% if is_state('switch.estado_do_pc', 'off') %}
+            Ligado
+          {% else %}
+            Desligado
+          {% endif %}
+        icon_template: >-
+          {% if is_state('switch.estado_do_pc', 'off') %}
+            mdi:television
+          {% else %}
+            mdi:television-off
+          {% endif %}
+
+###############################################################################
+#                                                                             #
+#                         A U T O M A T I O N                                 #
+#                                                                             #
+###############################################################################
+automation:
+
+  - alias: Ligar pc
+    initial_state: true
+    trigger:
+      platform: time
+      at: 02:45:00
+    action:
+      - service: switch.turn_on
+        entity_id: switch.on_off_pc
+
+  - alias: Desligar pc
+    initial_state: true
+    trigger:
+      platform: time
+      at: 09:15:00
+    action:
+      - service: switch.turn_on
+        entity_id: switch.on_off_pc
+
+# leds armario sala

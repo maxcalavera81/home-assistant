@@ -5,13 +5,51 @@ homeassistant:
 #                           C U S T O M I Z E                                 #
 #                                                                             #
 ###############################################################################   
+  customize:
+    light.yeelight_color1_7811dce12676:
+      friendly_name: Luz Exterior Porta Entrada
+      icon: mdi:lightbulb-on
+    light.gateway_light_7811dcb38555:
+      friendly_name: Led do Gateway
+      icon: mdi:lightbulb-on
+    binary_sensor.door_window_sensor_158d00022b3ad2:
+      friendly_name: Porta de Entrada
+    binary_sensor.switch_158d00015aa37d:
+      friendly_name: Interruptor Portão
+      icon: mdi:light-switch
 
 ###############################################################################
 #                                                                             #
-#                         INPUT   BOOLEAN                                     #
+#                               S E N S O R                                   #
+#                                                                             #
+############################################################################### 
+sensor:
+  - platform: template
+    sensors:
+      porta_rua:
+        friendly_name: "Porta da Rua"
+        value_template: >-
+          {% if is_state('binary_sensor.door_window_sensor_158d00022b3ad2', 'on') %}
+            Aberta
+          {% else %}
+            Fechada
+          {% endif %}
+        icon_template: >-
+          {% if is_state('binary_sensor.door_window_sensor_158d00022b3ad2', 'on') %}
+            mdi:door-open
+          {% else %}
+            mdi:door-closed
+          {% endif %}
+###############################################################################
+#                                                                             #
+#                         L I G H T                                           #
 #                                                                             #
 ###############################################################################      
-
+yeelight:
+  devices:
+    !secret yeelight_exterior_ip:
+      name: yeelight_color1_7811dce12676
+      model: color1
 ###############################################################################
 #                                                                             #
 #                           A U T O M A Ç Õ E S                               #
@@ -28,9 +66,13 @@ automation:
       entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
       to: 'on'
     condition:
-      condition: time
-      after: '18:00:00'
-      before: '06:30:00'
+      condition: or
+      conditions:
+      - condition: sun
+        after: sunset
+        after_offset: "+00:15:00"
+      - condition: sun
+        before: sunrise
     action:
       - service: light.turn_on
         data_template:
@@ -50,7 +92,7 @@ automation:
       - service: light.turn_off
         data_template:
           entity_id: light.gateway_light_7811dcb38555
-          
+
 #automação luz rua
 
   - alias: Liga Luz do Exterior
@@ -60,13 +102,17 @@ automation:
       entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
       to: 'on'
     condition:
-      condition: time
-      after: '18:15:00'
-      before: '06:30:00'
+      condition: or
+      conditions:
+      - condition: sun
+        after: sunset
+        after_offset: "+00:15:00"
+      - condition: sun
+        before: sunrise
     action:
       - service: light.turn_on
         data_template:
-          entity_id: light.yeelight_rgb_7811dce12676
+          entity_id: light.yeelight_color1_7811dce12676
           brightness: 255
           kelvin: 5000
 
@@ -77,17 +123,97 @@ automation:
       entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
       to: 'off'
       for:
-        minutes: 5
+        minutes: 4
     action:
       - service: light.turn_off
         data_template:
-          entity_id: light.yeelight_rgb_7811dce12676
+          entity_id: light.yeelight_color1_7811dce12676
 
-###############################################################################
-#                                                                             #
-#                           l U Z E S                                         #
-#                                                                             #
-###############################################################################  
+#notificações
+
+  - alias: Porta Aberta
+    initial_state: false
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
+      from: 'off'
+      to: 'on'
+    action:
+      service: notify.telegram
+      data:
+        title: "Porta de entrada "
+        message: "está aberta"
+
+  - alias: Porta Fechada
+    initial_state: false
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
+      from: 'on'
+      to: 'off'
+    action:
+      service: notify.telegram
+      data:
+        title: "Porta de entrada "
+        message: "está fechada"
+
+  - alias: Porta de entrada aberta á 10 mim
+    initial_state: false
+    trigger:
+      platform: state
+      entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
+      from: 'off'
+      to: 'on'
+      for:
+        minutes: 10
+    action:
+      service: notify.telegram
+      data:
+        title: "Porta de entrada "
+        message: "está aberta á 10 mim"
+
+  - alias: Porta continua aberta
+    initial_state: true
+    trigger:
+      platform: time_pattern
+      minutes: '/10'
+    condition:
+      - condition: state
+        entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
+        state: 'on'
+    action:
+      service: notify.telegram
+      data:
+        title: "Porta de entrada "
+        message: "continua aberta"
+
+#desligar notificações em casa
+
+  - alias: Ligar Notificações quando fora casa
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: group.wifi
+        from: 'home'
+        to: 'not_home'
+    action:
+      - service: automation.turn_on
+        entity_id: 
+          - automation.porta_aberta
+          - automation.porta_fechada
+
+  - alias: Desligar Notificações quando em casa
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: group.wifi
+        from: 'not_home'
+        to: 'home'
+    action:
+      - service: automation.turn_off
+        entity_id: 
+          - automation.porta_aberta
+          - automation.porta_fechada
 
 ###############################################################################
 #                                                                             #
@@ -97,20 +223,39 @@ automation:
 
 group:
 
-  Hall Entrada:
+  Lâmpadas do Hall:
     control: hidden
     entities:
       - light.gateway_light_7811dcb38555
-      - light.yeelight_rgb_7811dce12676
-      
-  Hall Sensor:
+      - light.yeelight_color1_7811dce12676
+
+  Estado dos Sensores Portas:
     control: hidden
     entities:
       - binary_sensor.door_window_sensor_158d00022b3ad2
- 
-  hall:
+
+  Ligar Automações Hall:
+    control: hidden
+    entities:
+      - automation.liga_luz_do_gateway
+      - automation.liga_luz_do_exterior
+      - automation.desliga_luz_do_gateway
+      - automation.desliga_luz_do_exterior
+
+  Notificações porta:
+    control: hidden
+    entities:
+      - automation.porta_aberta
+      - automation.porta_fechada
+      - automation.ligar_notificacoes_quando_fora_casa
+      - automation.desligar_notificacoes_quando_em_casa
+      - automation.porta_aberta_a_3_mim
+
+  Hall:
     view: yes
     name: Hall
     entities:
-      - group.hall_entrada
-      - group.hall_sensor
+      - group.lampadas_do_hall
+      - group.estado_dos_sensores_portas
+      - group.ligar_automacoes_hall
+      - group.notificacoes_porta

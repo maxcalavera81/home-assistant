@@ -1,0 +1,184 @@
+homeassistant:
+
+###############################################################################
+#                                                                             #
+#                           C U S T O M I Z E                                 #
+#                                                                             #
+###############################################################################
+  customize:
+    light.led_strip_quarto:
+      icon: mdi:lightbulb-on
+    light.teto_quarto:
+      icon: mdi:lightbulb-on
+
+###############################################################################
+#                                                                             #
+#                               L I G H T S                                   #
+#                                                                             #
+###############################################################################  
+light:
+
+  - platform: flux_led
+    devices:
+      !secret leds_quarto:
+        name: Led Strip Quarto
+        mode: "rgbw"
+
+  - platform: mqtt
+    name: "Teto Quarto"
+    state_topic: "shellies/shelly1-688EA8/relay/0"
+    command_topic: "shellies/shelly1-688EA8/relay/0/command"
+    payload_on: "on"
+    payload_off: "off"
+    retain: true
+###############################################################################
+#                                                                             #
+#                           A U T O M A Ç Õ E S                               #
+#                                                                             #
+###############################################################################   
+automation:
+
+  - alias: Ligar Leds quarto
+    initial_state: false
+    trigger: 
+      platform: sun
+      event: sunset
+      offset: '+00:40:00'
+    condition:
+      condition: state
+      entity_id: group.wifi
+      state: home
+    action:
+      - service: light.turn_on
+        entity_id: light.led_strip_quarto
+        data:
+          brightness: 255
+          kelvin: 5000
+
+  - alias: Reduzir intensidade Leds quarto
+    initial_state: false
+    trigger: 
+      platform: time
+      at: '23:00:00'
+    condition:
+      condition: state
+      entity_id: group.wifi
+      state: home
+    action:
+      - service: light.turn_on
+        entity_id: light.led_strip_quarto
+        data:
+          brightness: 125
+          kelvin: 5000
+
+  - alias: 2 reduzir intensidade Leds quarto
+    initial_state: false
+    trigger: 
+      platform: time
+      at: '01:00:00'
+    condition:
+      condition: state
+      entity_id: group.wifi
+      state: home
+    action:
+      - service: light.turn_on
+        entity_id: light.led_strip_quarto
+        data:
+          brightness: 50
+          kelvin: 5000
+
+  - alias: Ligar Leds quarto ao chegar a casa
+    initial_state: true
+    trigger: 
+      platform: state
+      entity_id: group.wifi
+      from: 'not_home'
+      to: 'home'
+    condition:
+    - condition: time
+      after: '22:00:00'
+      before: '04:00:00'
+    action:
+      - service: light.turn_on
+        entity_id: light.led_strip_quarto
+        data:
+          brightness: 100
+          color_name: orangered
+
+  - alias: Desligar Leds quarto semana
+    initial_state: true
+    trigger: 
+      platform: time
+      at: '07:20:00'
+    condition:
+    - condition: state
+      entity_id: 'binary_sensor.workday_sensor'
+      state: 'on'
+    action:
+      - service: light.turn_off
+        entity_id: light.led_strip_quarto
+
+#Zigbee
+
+  - alias: Ligar com botão 09h 21h
+    initial_state: true
+    trigger: 
+      platform: state
+      entity_id: sensor.botao_leds_click
+      to: 'on'
+    condition:
+    - condition: time
+      after: '09:00:00'
+      before: '21:00:00'
+    action:
+      - service: light.turn_on
+        entity_id: light.led_strip_quarto
+        data:
+          brightness: 255
+          color_name: white
+
+  - alias: Ligar com botão 21h 9h
+    initial_state: true
+    trigger: 
+      platform: state
+      entity_id: sensor.botao_leds_click
+      to: 'on'
+    condition:
+    - condition: time
+      after: '21:00:00'
+      before: '09:00:00'
+    action:
+      - service: light.turn_on
+        entity_id: light.led_strip_quarto
+        data:
+          brightness: 100
+          color_name: orangered
+
+  - alias: Desligar com botão
+    initial_state: true
+    trigger: 
+      platform: state
+      entity_id: sensor.botao_leds_click
+      to: 'off'
+    action:
+      - service: light.turn_off
+        entity_id: light.led_strip_quarto
+
+###############################################################################
+#                                                                             #
+#                         G R O U P S                                         #
+#                                                                             #
+###############################################################################      
+
+group:
+
+  Strip Quarto Grande:
+    control: hidden
+    entities:
+      - light.led_strip_quarto
+
+  Quarto Grande:
+    view: yes
+    name: Quarto Grande
+    entities:
+      - group.strip_quarto_grande

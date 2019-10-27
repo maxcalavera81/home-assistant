@@ -1,0 +1,60 @@
+homeassistant:
+###############################################################################
+#                                                                             #
+#                              S C R I P T S                                  #
+#                                                                             #
+############################################################################### 
+script:
+  message_temperature_test:
+    sequence:
+      - service: notify.tv_sala
+        data_template:
+          message: A temperatura da sala é de {{ states('sensor.temperatura_sala') }} °C e a húmidade é de {{ states('sensor.humidade_sala') }} %.
+
+  message_temperature_mi_box_s:
+    sequence:
+      - service: notify.mi_box_s
+        data_template:
+          message: A temperatura do quarto é de {{ states('sensor.temperature_158d00023203e4') }} °C e a húmidade é de {{ states('sensor.humidity_158d00023203e4') }} %.
+
+  temperature_status:
+    alias: 'Temperaturas da casa'
+    sequence:
+    - service: tts.google_say
+      entity_id: media_player.sala
+      data_template:
+        message: >-
+          A temperatura da sala é de {{ states('sensor.temperatura_sala') }} °C e a húmidade é de {{ states('sensor.humidade_sala') }} %, e a temperatura do quarto é de {{ states('sensor.temperature_158d00023203e4') }} °C e a húmidade é de {{ states('sensor.humidity_158d00023203e4') }} %.
+
+###############################################################################
+#                                                                             #
+#                           A U T O M A Ç Õ E S                               #
+#                                                                             #
+###############################################################################   
+automation:
+
+  - alias: Alerta de temperatura na tv da sala
+    initial_state: true
+    trigger:
+      platform: time_pattern
+      minutes: '/20'
+    condition:
+    - condition: state
+      entity_id: 'media_player.samsung_smart_tv'
+      state: 'on'
+    action:
+      - service: notify.tv_sala
+        data:
+          title: "A temperatura da sala é de "
+          message: "{{ states('sensor.temperatura_sala') }} °C e a húmidade é de {{ states('sensor.humidade_sala') }} %."
+
+  - alias: Alerta de temperatura na tv do quarto
+    initial_state: true
+    trigger:
+      platform: time_pattern
+      minutes: '/20'
+    action:
+      - service: notify.mi_box_s
+        data:
+          title: "A temperatura da sala é de "
+          message: "{{ states('sensor.temperature_158d00023203e4') }} °C e a húmidade é de {{ states('sensor.humidity_158d00023203e4') }} %."

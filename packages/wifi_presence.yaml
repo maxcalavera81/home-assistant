@@ -1,0 +1,272 @@
+homeassistant:
+
+###############################################################################
+#                                                                             #
+#                           A U T O M A Ç Õ E S                               #
+#                                                                             #
+###############################################################################   
+automation:
+
+#Automações para notificações
+
+  - alias: Notificar quando Bruno estiver ligado ao wifi
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: device_tracker.bruno_melo
+      from: 'not_home'
+      to: 'home'
+    action:
+      service: notify.telegram
+      data:
+        title: "Bruno "
+        message: "acabou de se ligar á rede."
+        data:
+          photo:
+            url: https://static.digit.in/default/3e3b40843f58f62562fac2fb2026c3adddef3345.jpeg
+            caption: "Bruno ligou-se á rede"
+
+  - alias: Notificar quando Bruno estiver ligado ao wifiariela
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: device_tracker.mi_a1
+      from: 'not_home'
+      to: 'home'
+    action:
+      service: notify.telegram
+      data:
+        title: "Bruno "
+        message: "acabou de se ligar á rede."
+        data:
+          photo:
+            url: https://static.digit.in/default/3e3b40843f58f62562fac2fb2026c3adddef3345.jpeg
+            caption: "Bruno ligou-se á rede pelo ariela"
+
+  - alias: Notificar quando Bruno estiver desligado do wifi
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: device_tracker.bruno_melo
+      from: 'home'
+      to: 'not_home'
+    action:
+      service: notify.telegram
+      data:
+        title: "Bruno "
+        message: "acabou de se desligar da rede."
+        data:
+          photo:
+            url: https://static.digit.in/default/3e3b40843f58f62562fac2fb2026c3adddef3345.jpeg
+            caption: "Bruno desligou-se da rede"
+
+  - alias: Notificar quando Bruno estiver desligado do wifi ariela
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: device_tracker.mi_a1
+      from: 'home'
+      to: 'not_home'
+    action:
+      service: notify.telegram
+      data:
+        title: "Bruno "
+        message: "acabou de se desligar da rede."
+        data:
+          photo:
+            url: https://static.digit.in/default/3e3b40843f58f62562fac2fb2026c3adddef3345.jpeg
+            caption: "Bruno desligou-se da rede pelo ariela"
+
+  - alias: Notificar quando Armanda estiver ligada ao wifi
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: device_tracker.armanda_rodrigues
+      from: 'not_home'
+      to: 'home'
+    action:
+      service: notify.telegram
+      data:
+        title: "Armanda "
+        message: "acabou de se ligar á rede."
+        data:
+          photo:
+            url: https://static.digit.in/default/3e3b40843f58f62562fac2fb2026c3adddef3345.jpeg
+            caption: "Armanda ligou-se á rede"
+
+  - alias: Notificar quando Armanda estiver desligada do wifi
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: device_tracker.armanda_rodrigues
+      from: 'home'
+      to: 'not_home'
+    action:
+      service: notify.telegram
+      data:
+        title: "Armanda "
+        message: "acabou de se desligar da rede."
+        data:
+          photo:
+            url: https://static.digit.in/default/3e3b40843f58f62562fac2fb2026c3adddef3345.jpeg
+            caption: "Armanda desligou-se da rede"
+
+  - alias: Notificar quando pai estiver ligado ao wifi
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: device_tracker.armando_melo
+      from: 'not_home'
+      to: 'home'
+    action:
+      service: notify.telegram
+      data:
+        title: "Pai "
+        message: "acabou de se ligar á rede."
+        data:
+          photo:
+            url: https://static.digit.in/default/3e3b40843f58f62562fac2fb2026c3adddef3345.jpeg
+            caption: "Pai ligou-se á rede"
+
+  - alias: Notificar quando pai estiver desligado do wifi
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: device_tracker.armando_melo
+      from: 'home'
+      to: 'not_home'
+    action:
+      service: notify.telegram
+      data:
+        title: "Pai "
+        message: "acabou de se desligar da rede."
+        data:
+          photo:
+            url: https://static.digit.in/default/3e3b40843f58f62562fac2fb2026c3adddef3345.jpeg
+            caption: "Pai desligou-se da rede"
+
+  - alias: ligar sonoff
+    initial_state: false
+    trigger:
+      - platform: state
+        entity_id: group.wifi
+        from: 'home'
+        to: 'not_home'
+    action:
+      - service: switch.turn_on
+        data:
+          entity_id: switch.arvore_de_natal
+
+  - alias: desligar sonoff
+    initial_state: false
+    trigger:
+      - platform: state
+        entity_id: group.wifi
+        from: 'not_home'
+        to: 'home'
+    action:
+      - service: switch.turn_off
+        data:
+          entity_id: switch.arvore_de_natal
+
+#desligar luzes na ausencia
+
+  - alias: Desligar Luzes na ausencia
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: group.wifi
+        from: 'home'
+        to: 'not_home'
+    action:
+      - service: light.turn_off
+        data:
+          entity_id:
+            - light.yeelight_color1_7811dcaa58c8
+            - light.yeelight_color1_7811dce0fe41
+            - light.yeelight_color1_7811dce12676
+            - light.gateway_light_7811dcb38555
+            - light.xiaomi_philips_zhirui
+            - light.xiaomi_philips_zhirui_1
+            - light.xiaomi_philips_zhirui_2
+            - light.led_strip_quarto
+            - light.teto_da_sala
+            - light.teto_quarto_mafalda
+            - light.leds_armario
+            - light.downlight_direito
+            - light.downlight_esquerdo  
+            - light.teto_quarto
+            - light.teto_casa_de_banho
+            - light.espelho_casa_de_banho
+      - delay: '00:00:05'
+      - service: light.turn_off
+        entity_id: 
+          - light.yeelight_color1_7811dc6b9b10
+          - light.yeelight_color1_7811dc6b98cb
+
+
+  - alias: Ligar automação luzes na ausencia
+    initial_state: true
+    trigger:
+      platform: time
+      at: '05:00:00'
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: automation.desligar_luzes_na_ausencia
+          state: 'off'
+    action:
+      service: automation.turn_on
+      entity_id: automation.desligar_luzes_na_ausencia
+
+
+  - alias: Desligar Luzes na ausencia pai
+    initial_state: false
+    trigger:
+      - platform: state
+        entity_id: device_tracker.armando_melo
+        from: 'home'
+        to: 'not_home'
+    action:
+      - service: light.turn_off
+        data:
+          entity_id:
+            - light.wc_pai
+###############################################################################
+#                                                                             #
+#                                 G R O U P S                                 #
+#                                                                             #
+############################################################################### 
+group:
+
+  Pai:
+    control: hidden
+    entities:
+      - device_tracker.armando_melo
+
+  Bruno:
+    control: hidden
+    entities:
+      - device_tracker.bruno_melo
+
+  Armanda:
+    control: hidden
+    entities:
+      - device_tracker.armanda_rodrigues
+
+  Wifi:     
+    name: presenças
+    entities: 
+      - group.armanda
+      - group.bruno
+
+  Wi-Fi:
+    view: yes
+    name: Presença Wi-Fi
+    entities:
+      - group.notificacoes_wifi
+      - group.pai
+      - group.bruno
+      - group.armanda
+      - group.wifi

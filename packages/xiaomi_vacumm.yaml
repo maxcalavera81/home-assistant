@@ -1,0 +1,722 @@
+homeassistant:
+
+###############################################################################
+#                                                                             #
+#                           C U S T O M I Z E                                 #
+#                                                                             #
+###############################################################################
+  customize:
+
+    switch.aspirador:
+      icon: mdi:robot-vacuum
+
+    input_select.estados_de_succao:
+      icon: mdi:speedometer
+
+    input_select.zonas_de_aspiracao:
+      icon: mdi:map-marker
+
+    script.aspirador_recriar_mapa:
+      icon: mdi:home-map-marker
+      
+    sensor.estado_aspirador:
+      icon: hand-pointing-right
+      
+    sensor.bateria_aspirador:
+      icon: hand-pointing-right
+
+    sensor.erro_aspirador:
+      icon: hand-pointing-right
+
+###############################################################################
+#                                                                             #
+#                         V A C U U M                                         #
+#                                                                             #
+###############################################################################
+vacuum:
+  - platform: xiaomi_miio
+    host: !secret ip_xiaomi_vacuum
+    token: !secret token_xiaomi_vacuum
+    new_fan_speeds: true
+
+###############################################################################
+#                                                                             #
+#                         S E N S O R S                                       #
+#                                                                             #
+############################################################################### 
+sensor:
+  platform: template
+  sensors:
+    vacuum_estado_aspirador:
+      friendly_name: 'Estado'
+      value_template: >
+        {%- if states.vacuum.xiaomi_vacuum_cleaner.attributes.status == "Charging" %}
+          A carregar
+        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.status == "Cleaning" %}
+          A limpar
+        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.status == "Returning home" %}
+          A regressar à base
+        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.status == "docked" %}
+          Parado
+        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.status == "Zoned cleaning" %}
+          A aspirar zona especifica
+        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.status == "Going to target" %}
+          A ir para o ponto especifico
+        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.status == "Paused" %}
+          Aspiração em Pausa
+        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.status == "Idle" %}
+          Em Espera
+        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.status == "Manual mode" %}
+          Modo Manual
+        {% else %}
+        {{ states.vacuum.xiaomi_vacuum_cleaner.attributes.status }}
+        {%- endif %}
+
+    vacuum_succao_aspirador:
+      friendly_name: 'Velocidade de Sucção'
+      value_template: >
+        {%- if states.vacuum.xiaomi_vacuum_cleaner.attributes.fan_speed == "Quiet" %}
+          Silencioso
+        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.fan_speed == "Balanced" %}
+          Balanceado
+        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.fan_speed == "Turbo" %}
+          Turbo
+        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.fan_speed == "Max" %}
+          Turbo Maximo
+        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.fan_speed == "105" %}
+          Modo Mopa
+        {% else %}
+        {{ states.vacuum.xiaomi_vacuum_cleaner.attributes.fan_speed }}
+        {%- endif %}
+
+    vacuum_erro_aspirador:
+      friendly_name: 'Existência de Erros'
+      value_template: >
+        {%- if 'Error' in states.vacuum.xiaomi_vacuum_cleaner.attributes -%}
+        {{ states.vacuum.xiaomi_vacuum_cleaner.attributes.Error }}
+        {%- else -%}
+        Sem Erros
+        {%- endif -%}
+
+    vacuum_bateria_aspirador:
+      friendly_name: "Bateria"
+      value_template: 'Bateria: {{ states.vacuum.xiaomi_vacuum_cleaner.attributes.battery_level | int }}'
+      unit_of_measurement: '%'
+      icon_template: '{% if states.vacuum.xiaomi_vacuum_cleaner.attributes.battery_level | int == 100 %}
+                           mdi:battery
+                        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.battery_level | int >= 90 %}
+                           mdi:battery-90
+                        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.battery_level | int >= 80 %}
+                           mdi:battery-80
+                        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.battery_level | int >= 70 %}
+                           mdi:battery-70
+                        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.battery_level | int >= 60 %}
+                           mdi:battery-60
+                        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.battery_level | int >= 50 %}
+                           mdi:battery-50
+                        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.battery_level | int >= 40 %}
+                           mdi:battery-40
+                        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.battery_level | int >= 30 %}
+                           mdi:battery-30
+                        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.battery_level | int >= 20 %}
+                           mdi:battery-20
+                        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.battery_level | int >= 10 %}
+                           mdi:battery-10
+                        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.battery_level == "unknown" %}
+                           mdi:battery-alert
+                        {% else %}
+                           mdi:battery-outline
+                        {% endif %}'
+
+    vacuum_tempo_aspiraccao:
+      friendly_name: Tempo da última limpeza
+      value_template: '{{ states.vacuum.xiaomi_vacuum_cleaner.attributes.cleaning_time }}'
+      unit_of_measurement: 'min'
+      icon_template: 'mdi:timer'
+
+    vacuum_area_limpa:
+      friendly_name: Área limpa última aspiração
+      value_template: '{{ states.vacuum.xiaomi_vacuum_cleaner.attributes.cleaned_area }}'
+      unit_of_measurement: 'm ²'
+      icon_template: 'mdi:ruler'
+
+    vacuum_escova_principal:
+      friendly_name: Substituir escova principal
+      value_template: 'Escova Principal: {{ states.vacuum.xiaomi_vacuum_cleaner.attributes.main_brush_left }}'
+      unit_of_measurement: 'h'
+      icon_template: 'mdi:screwdriver'
+
+    vacuum_escova_lateral:
+      friendly_name: Substituir escova lateral
+      value_template: 'Escova Lateral: {{ states.vacuum.xiaomi_vacuum_cleaner.attributes.side_brush_left }}'
+      unit_of_measurement: 'h'
+      icon_template: 'mdi:screwdriver'
+
+    vacuum_lavagem_filtro:
+      friendly_name: Lavagem do filtro
+      value_template: 'Filtro: {{ states.vacuum.xiaomi_vacuum_cleaner.attributes.filter_left }}'
+      unit_of_measurement: 'h'
+      icon_template: 'mdi:screwdriver'
+
+    vacuum_limpar_sensores:
+        friendly_name: Limpeza dos sensores
+        value_template: 'Sensores: {{ states.vacuum.xiaomi_vacuum_cleaner.attributes.sensor_dirty_left }}'
+        unit_of_measurement: 'h'
+        icon_template: 'mdi:screwdriver'
+
+    vacuum_nao_perburbar:
+        friendly_name: Não incomodar
+        value_template: '{{ states.vacuum.xiaomi_vacuum_cleaner.attributes.do_not_disturb }}'
+        icon_template: >
+          {% set val =  states.vacuum.xiaomi_vacuum_cleaner.attributes.do_not_disturb  %}
+          {% if val == 'on' %}
+            mdi:do-not-disturb
+          {% else %}
+            mdi:do-not-disturb-off
+          {% endif %}
+
+    vacuum_nao_perburbar_inicio:
+        friendly_name: Inicio
+        value_template: '{{ states.vacuum.xiaomi_vacuum_cleaner.attributes.do_not_disturb_start }}'
+
+    vacuum_nao_perburbar_fim:
+        friendly_name: Inicio
+        value_template: '{{ states.vacuum.xiaomi_vacuum_cleaner.attributes.do_not_disturb_end }}'
+
+    vacuum_limpeza_total:
+        friendly_name: Número de Limpezas
+        value_template: '{{ states.vacuum.xiaomi_vacuum_cleaner.attributes.cleaning_count }}'
+
+    vacuum_area_limpeza_total:
+        friendly_name: Área Total Aspirada
+        value_template: '{{ states.vacuum.xiaomi_vacuum_cleaner.attributes.total_cleaned_area }}'
+        unit_of_measurement: 'm ²'
+
+    vacuum_tempo_limpeza_total:
+        friendly_name: Tempo total de limpeza
+        value_template: '{{ states.vacuum.xiaomi_vacuum_cleaner.attributes.total_cleaning_time }}'
+        unit_of_measurement: 'min'
+
+    vacuum_inicio_ultima_limpeza:
+        friendly_name: Início última Limpeza
+        value_template: '{{ states.vacuum.xiaomi_vacuum_cleaner.attributes.clean_start }}'
+
+    vacuum_fim_ultima_limpeza:
+        friendly_name: Fim Última Limpeza
+        value_template: '{{ states.vacuum.xiaomi_vacuum_cleaner.attributes.clean_stop }}'
+
+    vacuum_manutencao:
+        friendly_name: Manutenção
+        value_template: 'Manutenção'
+
+    vacuum_estado:
+        friendly_name: Estado
+        value_template: 'Estado'
+
+    vacuum_estado_geral:
+        friendly_name: Estado Geral
+        value_template: 'Estado Geral'
+
+    vacuum_existencia_erros:
+        friendly_name: Existência de Erros
+        value_template: 'Existência de Erros'
+
+    vacuum_ultima_limpeza:
+        friendly_name: Última Limpeza
+        value_template: 'Última Limpeza'
+###############################################################################
+#                                                                             #
+#                         I N P U T    S E L E C T                            #
+#                                                                             #
+###############################################################################
+input_select:
+  
+  estados_de_succao:
+    name: 'Tipo de aspiração'
+    initial: Balanceado
+    options:
+      - Silencioso
+      - Balanceado
+      - Turbo
+      - Turbo máximo
+      - Modo Mopa
+
+  zonas_de_aspiracao:
+    name: Qual a zona a aspirar?
+    options:
+      - Escolher zona
+      - Casa toda
+      - Sala
+      - Hall
+      - Cozinha
+      - Quarto da Mafalda
+      - Casa de Banho
+
+###############################################################################
+#                                                                             #
+#                         A U T O M A T I O N S                               #
+#                                                                             #
+############################################################################### 
+automation:
+
+  - alias: Aspirador - Modo de aspiração
+    initial_state: 'on'
+    trigger:
+      platform: state
+      entity_id: input_select.estados_de_succao
+    action:
+      - service_template: >
+          {% if trigger.to_state.state == 'Silencioso' %}
+            script.aspirador_set_quiet
+          {% elif trigger.to_state.state == 'Balanceado' %}
+            script.aspirador_set_balanced
+          {% elif trigger.to_state.state == 'Turbo' %}
+            script.aspirador_set_turbo
+          {% elif trigger.to_state.state == 'Turbo máximo' %}
+            script.aspirador_set_max
+          {% elif trigger.to_state.state == 'Modo Mopa' %}
+            script.aspirador_set_mop
+          {% endif %}
+
+#Escolher a zona a aspirar
+
+  - alias: Aspirador Escolher a zona para aspirar
+    initial_state: 'on'
+    trigger:
+      platform: state
+      entity_id: input_select.zonas_de_aspiracao
+      from: 'Escolher zona'
+    action:
+      - service_template: >
+          {% if states.input_select.zonas_de_aspiracao.state == "Casa toda" %}
+            script.aspirador_zona_casa_toda
+          {% elif states.input_select.zonas_de_aspiracao.state == "Sala" %}
+            script.aspirador_zona_sala
+          {% elif states.input_select.zonas_de_aspiracao.state == "Hall" %}
+            script.aspirador_zona_hall
+          {% elif states.input_select.zonas_de_aspiracao.state == "Cozinha" %}
+            script.aspirador_zona_cozinha
+          {% elif states.input_select.zonas_de_aspiracao.state == "Quarto da Mafalda" %}
+            script.aspirador_zona_quarto_da_mafalda
+          {% elif states.input_select.zonas_de_aspiracao.state == "Casa de Banho" %}
+            script.aspirador_zona_casa_de_banho
+          {% else %}
+          {% endif %}
+      - delay: 00:01:00
+      - wait_template: "{{is_state('vacuum.xiaomi_vacuum_cleaner', 'docked')}}"
+      - delay: 00:00:15
+      - service: input_select.select_option
+        entity_id: input_select.zonas_de_aspiracao
+        data_template:
+          option: "Escolher zona"
+      - service: input_select.select_option
+        entity_id: input_select.estados_de_succao
+        data_template:
+          option: "Balanceado"
+
+  - alias: Aspirador Avisar quando terminar
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        to: 'paused'
+        for:
+          hours: 0
+          minutes: 0
+          seconds: 5
+      - platform: state
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        to: 'docked'
+      - platform: state
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        to: 'error'
+    action:
+      - service_template: >
+          {% if trigger.to_state.state == 'paused' %}
+            script.aspirador_alerta_parado
+          {% elif trigger.to_state.state == 'docked' %}
+            script.aspirador_alerta_carregando
+          {% elif trigger.to_state.state == 'error' %}
+            script.aspirador_alerta_erro
+          {% endif %}
+          
+#resposta a sim da automacao de cima
+  - alias: 'Resposta a sim' 
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/simquero'            
+    action:
+      - service: vacuum.turn_off
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+
+#minhas automacoes
+
+  - alias: Aspirar quando não está ninguem em casa
+    initial_state: false
+    trigger:
+      platform: time
+      at: '08:30:00'
+    condition:
+      condition: and
+      conditions:
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'on'
+      - condition: state
+        entity_id: group.wifi
+        state: not_home
+    action:
+    - service: script.aspirar_casa_toda
+      entity_id: vacuum.xiaomi_vacuum_cleaner
+
+#  - alias: Alerta dia de aspirar
+#    initial_state: true
+#    trigger:
+#      platform: time
+#      at: '07:40:00'
+#    condition:
+#      - condition: time
+#        weekday:
+#        - mon
+#        - wed
+#        - fri
+#    action:
+#      service: notify.telegram
+#      data:
+#        title: 'Informação Escrava Isaura'
+#        message: 'Hoje é dia de aspirar, por favor tira os tapetes. Obrigado'
+
+  - alias: Retirar tapetes
+    initial_state: false
+    trigger:
+      platform: time
+      at: '08:00:00'
+    condition:
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'on'
+      - condition: state
+        entity_id: group.wifi
+        state: not_home
+    action:
+      service: notify.telegram
+      data:
+        title: 'Informação Escrava Isaura'
+        message: 'Retiraste os tapetes?'
+        data:
+          inline_keyboard:
+            - "SIM:/simtirei"
+            - "NÃO:/naotirei"
+
+#resposta a não da automacao de cima
+  - alias: 'Resposta a não' 
+    initial_state: false
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/naotirei'            
+    action:
+      - service: automation.turn_off
+        entity_id: automation.aspirar_quando_nao_esta_ninguem_em_casa
+
+  - alias: Ligar automação para aspirar
+    initial_state: false
+    trigger:
+      platform: time
+      at: '16:00:00'
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: 'binary_sensor.workday_sensor'
+          state: 'on'
+        - condition: state
+          entity_id: automation.aspirar_quando_nao_esta_ninguem_em_casa
+          state: 'off'
+    action:
+      service: automation.turn_on
+      entity_id: automation.aspirar_quando_nao_esta_ninguem_em_casa
+
+###############################################################################
+#                                                                             #
+#                         S C R I P T S                                       #
+#                                                                             #
+###############################################################################         
+script:
+
+  aspirador_set_quiet:
+    sequence:
+      service: vacuum.set_fan_speed
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        fan_speed: Quiet
+
+  aspirador_set_balanced:
+    sequence:
+      service: vacuum.set_fan_speed
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        fan_speed: Balanced
+
+  aspirador_set_turbo:
+    sequence:
+      service: vacuum.set_fan_speed
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        fan_speed: Turbo
+ 
+  aspirador_set_max:
+    sequence:
+      service: vacuum.set_fan_speed
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        fan_speed: Max
+
+  aspirador_set_mop:
+    sequence:
+      service: vacuum.set_fan_speed
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        fan_speed: 105
+
+  aspirador_zona_casa_toda:
+    sequence:
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        command: app_zoned_clean
+        params: [[17164,25443,21414,26893,1],[21216,27922,23016,30972,2],[21475,21826,26525,24576,1],[21326,24537,26076,27987,1],[23137,27946,26387,31146,1]]
+    - service: script.aspirador_alerta_iniciando
+#    - service: tts.google_say
+#      entity_id: "media_player.sala"
+#      data:
+#        message: 'A escrava Isaura vai aspirar a casa toda'
+
+  aspirador_zona_sala:
+    sequence:
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        command: app_zoned_clean
+        params: [[21326,24537,26076,27987,1]]
+    - service: script.aspirador_alerta_iniciando
+
+  aspirador_zona_hall:
+    sequence:
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        command: app_zoned_clean
+        params: [[17164,25443,21414,26893,1]]
+    - service: script.aspirador_alerta_iniciando
+
+  aspirador_zona_cozinha:
+    sequence:
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        command: app_zoned_clean
+        params: [[21475,21826,26525,24576,1]]
+    - service: script.aspirador_alerta_iniciando
+
+#  aspirador_zona_quarto:
+#    sequence:
+#    - service: input_select.select_option
+#      entity_id: input_select.estados_de_succao
+#      data:
+#        option: Turbo
+#    - service: vacuum.send_command
+#      data:
+#        entity_id: vacuum.xiaomi_vacuum_cleaner
+#        command: app_zoned_clean
+#        params: [[23435,22873,27785,25973,1]]
+#    - service: script.aspirador_alerta_iniciando
+
+  aspirador_zona_quarto_da_mafalda:
+    sequence:
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        command: app_zoned_clean
+        params: [[23137,27946,26387,31146,1]]
+    - service: script.aspirador_alerta_iniciando
+
+  aspirador_zona_casa_de_banho:
+    sequence:
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        command: app_zoned_clean
+        params: [[21216,27922,23016,30972,2]]
+    - service: script.aspirador_alerta_iniciando
+
+  aspirador_voltar_dock:
+    alias: Aspirador casa - Parar e voltar
+    sequence:
+    - service: vacuum.return_to_base
+      entity_id: vacuum.xiaomi_vacuum_cleaner
+
+  aspirador_alerta_iniciando:
+    alias: Aspirador casa - Iniciando
+    sequence:
+    - service: notify.telegram
+      data_template:
+        title: "Escrava Isaura"
+        message: "Iniciei a limpeza na zona: {{ states.input_select.zonas_de_aspiracao.state | lower }}."
+    
+  aspirador_alerta_parado:
+    alias: Aspirador casa - Parado
+    sequence:
+    - service: notify.telegram
+      data:
+        title: 'Aconteceu alguma coisa'
+        message: "A Escrava Isaura parou. Estava a limpar a zona: {{ states.input_select.zonas_de_aspiracao.state | lower }}. {% if 'error' in states.vacuum.xiaomi_vacuum_cleaner.state %}Código de erro: {{ states.vacuum.xiaomi_vacuum_cleaner.attributes.error }}.{% else %}{% endif %} é melhor parar concordas?"
+        data:
+          inline_keyboard:
+            - "SIM:/simquero"
+            - "NÃO:/naoquero"
+
+  aspirador_alerta_carregando:
+    alias: Aspirador voltou para casa
+    sequence:
+    - condition: template
+      value_template: "{% if is_state('input_select.zonas_de_aspiracao', 'Escolher zona') %}False{% else %}True{% endif %}"
+    - service: notify.telegram
+      data_template:
+        title: "Aspiração completa"
+        message: "Já terminei a aspiração na zona {{ states.input_select.zonas_de_aspiracao.state | lower }}. Limpei cerca de {{ states.vacuum.xiaomi_vacuum_cleaner.attributes.cleaned_area }} metros quadrados e ainda me restam {{ states.vacuum.xiaomi_vacuum_cleaner.attributes.battery_level | int }} por cento de bateria e precisei de {{ states.vacuum.xiaomi_vacuum_cleaner.attributes.cleaning_time }} minutos para completar a limpeza. Estou agora na base a carregar."
+
+  aspirador_alerta_erro:
+    alias: Aspirador casa - Erro
+    sequence:        
+    - service: notify.telegram
+      data:
+        title: "Aconteceu alguma coisa"
+        message: "A Escrava Isaura está parada e acusou erro a limpar a zona {{ states.input_select.zonas_de_aspiracao.state | lower }}.É melhor parar, concordas?"
+        data:
+          inline_keyboard:
+            - "SIM:/simquero"
+            - "NÃO:/naoquero"
+    
+  aspirador_recriar_mapa:
+    alias: Aspirador casa - Recriar mapa
+    sequence:
+    - service: vacuum.start
+      entity_id: vacuum.xiaomi_vacuum_cleaner
+    - delay: 00:00:12
+    - service: vacuum.stop
+      entity_id: vacuum.xiaomi_vacuum_cleaner
+    - delay: 00:00:02
+    - service: vacuum.return_to_base
+      entity_id: vacuum.xiaomi_vacuum_cleaner
+
+
+
+#scripts para testes google home
+
+  aspirar_casa_toda:
+    sequence:
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        command: app_zoned_clean
+        params: [[17164,25443,21414,26893,1],[21216,27922,23016,30972,2],[21475,21826,26525,24576,1],[21326,24537,26076,27987,1],[23137,27946,26387,31146,1]]
+    - service: script.aspirar_alerta_casa_toda
+
+  aspirar_sala:
+    sequence:
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        command: app_zoned_clean
+        params: [[21326,24537,26076,27987,1]]
+    - service: script.aspirar_alerta_sala
+
+  aspirar_hall:
+    sequence:
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        command: app_zoned_clean
+        params: [[17164,25443,21414,26893,1]]
+    - service: script.aspirar_alerta_hall
+
+  aspirar_cozinha:
+    sequence:
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        command: app_zoned_clean
+        params: [[21475,21826,26525,24576,1]]
+    - service: script.aspirar_alerta_cozinha
+
+  aspirar_quarto_da_mafalda:
+    sequence:
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        command: app_zoned_clean
+        params: [[23137,27946,26387,31146,1]]
+    - service: script.aspirar_alerta_quarto_da_mafalda
+
+  aspirar_casa_de_banho:
+    sequence:
+    - service: vacuum.send_command
+      data:
+        entity_id: vacuum.xiaomi_vacuum_cleaner
+        command: app_zoned_clean
+        params: [[21216,27922,23016,30972,2]]
+    - service: script.aspirar_alerta_casa_de_banho
+
+  aspirar_alerta_casa_toda:
+    alias: Aspirador casa - Iniciando casa toda
+    sequence:
+    - service: notify.telegram
+      data_template:
+        title: "Escrava Isaura"
+        message: "Iniciei a limpeza na casa toda."
+
+  aspirar_alerta_sala:
+    alias: Aspirador casa - Iniciando sala
+    sequence:
+    - service: notify.telegram
+      data_template:
+        title: "Escrava Isaura"
+        message: "Iniciei a limpeza na sala."
+
+
+  aspirar_alerta_casa_de_banho:
+    alias: Aspirador casa - Iniciando casa de banho
+    sequence:
+    - service: notify.telegram
+      data_template:
+        title: "Escrava Isaura"
+        message: "Iniciei a limpeza na casa de banho."
+
+  aspirar_alerta_quarto_da_mafalda:
+    alias: Aspirador casa - Iniciando quarto mafalda
+    sequence:
+    - service: notify.telegram
+      data_template:
+        title: "Escrava Isaura"
+        message: "Iniciei a limpeza no quarto da Mafalda."
+
+  aspirar_alerta_cozinha:
+    alias: Aspirador casa - Iniciando cozinha
+    sequence:
+    - service: notify.telegram
+      data_template:
+        title: "Escrava Isaura"
+        message: "Iniciei a limpeza na cozinha."
+
+  aspirar_alerta_hall:
+    alias: Aspirador casa - Iniciando hall
+    sequence:
+    - service: notify.telegram
+      data_template:
+        title: "Escrava Isaura"
+        message: "Iniciei a limpeza no hall."

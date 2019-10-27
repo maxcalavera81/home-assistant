@@ -1,21 +1,31 @@
 homeassistant:
 
 ###############################################################################
-
 #                                                                             #
-
 #                           C U S T O M I Z E                                 #
-
 #                                                                             #
-
 ###############################################################################   
+  customize:
+    light.yeelight_color1_7811dcaa58c8:
+      friendly_name: Aplique da Despensa
+      icon: mdi:lightbulb-on
+    binary_sensor.motion_sensor_158d0002f8d190:
+      friendly_name: Sensor Despensa
+      icon: mdi:run
+    sensor.illumination_158d0002f8d190:
+      friendly_name: Sensor LX Despensa
+      icon: mdi:brightness-4
 
 ###############################################################################
 #                                                                             #
-#                         INPUT   BOOLEAN                                     #
+#                           L U Z E S                                         #
 #                                                                             #
-###############################################################################      
-
+###############################################################################  
+yeelight:
+  devices:
+    !secret yeelight_despensa:
+      name: yeelight_color1_7811dcaa58c8
+      model: color1
 ###############################################################################
 #                                                                             #
 #                           A U T O M A Ç Õ E S                               #
@@ -25,39 +35,86 @@ automation:
 
 # automação despensa
 
+  - alias: Ligar aplique despensa 00h 06h
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d0002f8d190
+      from: 'off'
+      to: 'on'
+    condition:
+    - condition: time
+      after: '00:00:00'
+      before: '06:00:00'
+    - condition: numeric_state
+      entity_id: sensor.illumination_158d0002f8d190
+      below: 60
+    action:
+      - service: light.turn_on
+        entity_id: light.yeelight_color1_7811dcaa58c8
+        data:
+          brightness: 80
+          kelvin: 2000
 
-###############################################################################
-#                                                                             #
-#                           L U Z E S                                         #
-#                                                                             #
-###############################################################################  
+  - alias: Ligar aplique despensa 06h 00h
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d0002f8d190
+      from: 'off'
+      to: 'on'
+    condition:
+    - condition: time
+      after: '06:00:00'
+      before: '00:00:00'
+    - condition: numeric_state
+      entity_id: sensor.illumination_158d0002f8d190
+      below: 60
+    action:
+      - service: light.turn_on
+        entity_id: light.yeelight_color1_7811dcaa58c8
+        data:
+          brightness: 255
+          kelvin: 5000
 
-
+  - alias: Desligar aplique despensa
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_sensor_158d0002f8d190
+      from: 'on'
+      to: 'off'
+      for:
+        minutes: 2
+    action:
+      - service: light.turn_off
+        entity_id: light.yeelight_color1_7811dcaa58c8
 
 ###############################################################################
 #                                                                             #
 #                         G R O U P S                                         #
 #                                                                             #
 ###############################################################################      
-
 group:
 
-  iluminacao despensa:
+  iluminacao e sensor despensa:
     control: hidden
     name: Iluminação da Despensa
     entities:
-      - light.yeelight_rgb_7811dc6b09nm
-      
-  automacao:
+      - light.yeelight_color1_7811dcaa58c8
+      - binary_sensor.motion_sensor_158d0002f8d190
+      - sensor.illumination_158d0002f8d190
+
+  Automações despensa:
     control: hidden
     name: Automações da Despensa
     entities:
-      - automation.ligar_despensa
-      - automation.desligar_despensa
+      - automation.ligar_aplique_despensa
+      - automation.desligar_aplique_despensa
 
   despensa:
     view: yes
     name: Despensa
     entities:
-      - group.iluminacao_despensa
-      - group.automacao
+      - group.iluminacao_e_sensor_despensa
+      - group.automacoes_despensa
