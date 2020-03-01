@@ -1,12 +1,9 @@
 homeassistant:
 
-#Authentication
   auth_providers:
     - type: homeassistant
-    - type: trusted_networks
-      trusted_networks:
-        #- 127.0.0.1
-        - 192.168.1.0/24
+    - type: legacy_api_password
+      api_password: !secret duckdnsapi_password
 
   # Name of the location where Home Assistant is running
   name: Casa Inteligente
@@ -14,7 +11,7 @@ homeassistant:
   latitude: !secret latitude_casa
   longitude: !secret longitude_casa
   # Impacts weather/sunrise data (altitude above sea level in meters)
-  elevation: 10
+  elevation: 93
   # metric for Metric, imperial for Imperial
   unit_system: metric
   ## C FOR CELCIUS, F FOR FAHRENHEIT
@@ -31,6 +28,7 @@ homeassistant:
 
 # Enables the frontend
 frontend:
+  themes: !include_dir_merge_named themes/
 
 webhook:
  
@@ -113,17 +111,17 @@ device_tracker:
       count: 2
 
 http:
-  api_password: !secret api_password
+#  api_password: !secret api_password
   ssl_certificate: /ssl/fullchain.pem
   ssl_key: /ssl/privkey.pem
   ip_ban_enabled: True
   login_attempts_threshold: 3
 
-media_player:
 
-  - platform: samsungtv
-    name: Samsung Smart TV
-    host: !secret ip_samsung_tv
+samsungtv:
+  - host: !secret ip_samsung_tv
+
+media_player:
 
   - platform: androidtv
     name: Mi Box S
@@ -132,12 +130,12 @@ media_player:
     adb_server_ip: 127.0.0.1
     adb_server_port: 5037
 
-  - platform: androidtv
-    name: Formuler z7plus
-    host: !secret ip_formuler_android_tv
-    device_class: androidtv
-    adb_server_ip: 127.0.0.1
-    adb_server_port: 5037
+#  - platform: androidtv
+#    name: Formuler z7plus
+#    host: !secret ip_formuler_android_tv
+#    device_class: androidtv
+#    adb_server_ip: 127.0.0.1
+#    adb_server_port: 5037
 
   - platform: mediaroom
     host: !secret ip_box_cozinha
@@ -151,10 +149,12 @@ media_player:
     host: !secret ip_box_sala_pai
     name: "vodafone Quarto"
 
-#Google Home Mini Integration
 google_assistant:
-  project_id: !secret project_id
-  api_key: !secret ghm_api_key
+  project_id: imperial-rarity-260700
+  service_account:
+    private_key: nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQChl8QVCG7PNdQY\neKMoEowHx3RPyksuVu5kHNInBubiV9TciVH1/D4vth3U4DMpROUbEGCJCwXS2m0B\n+sK4EMKYr6Cck98kYWFWQHun44hDenS7li3egomQVkRywH20i87b1BRqeX1Cv867\nV3QiTeSKBIKNCia+2ER1wXvmaz/DnapuhNVq4srSrYkh2DHuTb+VXtqySomw0+Rw\n+gqKYmrZ/6fhqyfExXOi9/0K9DfUdqeYtxVVdHuJFm7n0wiT3dNmsTDhFE+KhDF+\nAK0vEOi+992dCYXoyXIA4GlnIfaYsFdzxy9VL9c4G4hsNNXfszw5a4ehiuI9pbZl\nJ8FPI4ntAgMBAAECggEAG35Va9iz9chsTj+UTvic36P1a6/5C6jZxanLrb00YlVc\nT6uDiO1CbV64g6QjwEVLD8hBDIAWHRJx0pDmOWgMm+rh0lIseKWi6IhvIZkKcaSv\noM0D/+RI4Ih0++s5WBMjfm5+jMEf6U/2LhTKmx2SoVL0HWgZQIZOW5SwbntX7YGr\n+MvwsrA8XXQoe5rbLqew9onIdenOxdpWKkzetPYZloPJyOUun7tRsHmGILrtErQv\niGZYAkC2vejvOm6SKHQ1ZoZd1pwsrgwLZwRZJyBg62zPlY4/ek5qRijl4BZKL8e6\nd51gS91XLlVqwERnhMjLgY7PyOMdwgeptvb1LFOjpwKBgQDbfXvC1bHemS8MZwDZ\nQK1T9U4hoWVo130ITWvnV/7rh9nA0fw8ltRuoBkexiniWKnpJVEB9BVyl4x5EsjR\n1H+U4l3phtGVsExf2LeyKtwsobtfpP115K45LrWHcywfyvsZV0J8K08UektbVvWV\nQRpKN/qNOK1buF9npY5lWxvJewKBgQC8eNlgTmNlYmICLqXr4IpO/ZfSqQwM5O5O\nVPYa+0T79ec3/HTJemr9L+M0ftQYiXc3uklJpvz0s+EnZyRCImomzohraNyuBg1n\ncAy+pbgXaePKj9pyv5DcK3YJbj7dOAgAs2ILvm2z3DspSmSH2CLRDUrKRbfNF46n\n84EoW9SZtwKBgB19JXSOy1/xyr1q1VVa+C6QhZfFHF/Sm8zSwg2J6Ajy7pGWZMIr\nLY1TWyykSRpM+T8GsXSGu57yt3/Iw0xVtXJmW2G1qFDpJ8m0zzFTytMAQ7Fc9GSz\nfajXGrKBCcuXtNa5v4f5NZ21tIwoCcSsw4B3NuVkWP46ri65soDxlbEjAoGBAIGH\niNXwac125SbcynmnE0cgcGR+e+Ksv78kExQOFqYXpXZL0jPaJ4ekjsE4XSoT59Rr\n+gxdcMH4kkhTUY8GOfA7x3QSWIBddn7delTYbgHha4V+gkKUt8kpMXFfzGKbLJzW\nrA6oLJsNQ7eoAhl+iMcmHH2RlrWkeA2jg+Op4R5XAoGABBL0ZrXhbmI57jUsENvB\nP7rEQqNMaSWdnOKU8yjDVNEv6Ifi4x7xDjRBJJUWyig7g12LnChntIWjvlpE37tK\nz4l2KDQT74OpsdaGVoVI10oHqdsZ69IUud+ETAPOID9/FBBbSEuuSH2frsdm1te4\nFeywkrG3GwYkpy9fmcPgePU=
+    client_email: hassiogam@imperial-rarity-260700.iam.gserviceaccount.com
+  report_state: true
   expose_by_default: true
   exposed_domains:
     - switch
@@ -179,6 +179,21 @@ breaking_changes:
   name: Potenciais alterações
   scan_interval: 60
 
+#octoprint
+octoprint:
+  host: 192.168.1.82 # use IP address of your OctoPi
+  api_key: !secret octo_api
+  name: Geeetech A10 # this is not mandatory
+  bed: true # set tu true if your printer has heated bed
+  number_of_tools: 1 # if you have only one hot-end
+
+camera:
+  - platform: mjpeg
+    name: OctoCamera
+    still_image_url: http://192.168.1.82/webcam/?action=snapshot
+    mjpeg_url: http://192.168.1.82/webcam/?action=stream
+
+mobile_app:
 
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
@@ -225,6 +240,12 @@ sensor:
     display_options:
       - 'time'
 
+  - platform: systemmonitor
+    resources:
+      - type: disk_use_percent
+        arg: /
+      - type: memory_free
+
 # Cloud
 cloud:
 
@@ -239,3 +260,6 @@ tts:
 group: !include groups.yaml
 #automation: !include automations.yaml
 script: !include scripts.yaml
+
+
+#https://forum.homeassistantbrasil.com.br/t/configurar-o-google-assistant-para-home-assistant/132

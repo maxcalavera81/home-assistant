@@ -1,9 +1,1143 @@
+bruno_melo:
+  hide_if_away: false
+  icon:
+  mac: F4:F5:DB:FD:6D:A3
+  name: Bruno Melo
+  picture:
+  track: true
 
-bruno:
+armanda_rodrigues:
+  hide_if_away: false
+  icon:
+  mac: 50:8F:4C:D2:69:9D
+  name: Armanda Rodrigues
+  picture:
+  track: true
+
+armando_melo:
+  hide_if_away: false
+  icon:
+  mac: 00:EC:0A:FC:E7:39
+  name: Armando Melo
+  picture:
+  track: true
+
+a0_0b_ba_f2_41_34:
+  hide_if_away: false
+  icon:
+  mac: A0:0B:BA:F2:41:34
+  name: a0 0b ba f2 41 34
+  picture:
+  track: false
+
+66_e3_27_bc_be_f2:
+  hide_if_away: false
+  icon:
+  mac: 66:E3:27:BC:BE:F2
+  name: 66 e3 27 bc be f2
+  picture:
+  track: false
+
+00_1e_b8_a2_bb_fe:
+  hide_if_away: false
+  icon:
+  mac: 00:1E:B8:A2:BB:FE
+  name: Formuler Z7 Plus
+  picture:
+  track: false
+
+2c_fd_a1_69_4c_20:
+  hide_if_away: false
+  icon:
+  mac: 2C:FD:A1:69:4C:20
+  name: 2c fd a1 69 4c 20
+  picture:
+  track: false
+
+78_11_dc_aa_58_c8:
+  hide_if_away: false
+  icon:
+  mac: 78:11:DC:AA:58:C8
+  name: 78 11 dc aa 58 c8
+  picture:
+  track: false
+
+fc_51_a4_b6_b6_7f:
+  hide_if_away: false
+  icon:
+  mac: FC:51:A4:B6:B6:7F
+  name: fc 51 a4 b6 b6 7f
+  picture:
+  track: false
+
+fc_51_a4_b6_b6_a2:
+  hide_if_away: false
+  icon:
+  mac: FC:51:A4:B6:B6:A2
+  name: fc 51 a4 b6 b6 a2
+  picture:
+  track: false
+
+78_11_dc_e1_26_76:
+  hide_if_away: false
+  icon:
+  mac: 78:11:DC:E1:26:76
+  name: 78 11 dc e1 26 76
+  picture:
+  track: false
+
+dc_4f_22_0a_f7_0a:
+  hide_if_away: false
+  icon:
+  mac: DC:4F:22:0A:F7:0A
+  name: dc 4f 22 0a f7 0a
+  picture:
+  track: false
+
+7c_49_eb_02_84_b3:
+  hide_if_away: false
+  icon:
+  mac: 7C:49:EB:02:84:B3
+  name: 7c 49 eb 02 84 b3
+  picture:
+  track: false
+
+7c_49_eb_3a_50_80:
+  hide_if_away: false
+  icon:
+  mac: 7C:49:EB:3A:50:80
+  name: 7c 49 eb 3a 50 80
+  picture:
+  track: false
+
+78_11_dc_6b_98_cb:
+  hide_if_away: false
+  icon:
+  mac: 78:11:DC:6B:98:CB
+  name: 78 11 dc 6b 98 cb
+  picture:
+  track: false
+
+60_01_94_ac_8c_3d:
+  hide_if_away: false
+  icon:
+  mac: 60:01:94:AC:8C:3D
+  name: 60 01 94 ac 8c 3d
+  picture:
+  track: false
+
+78_11_dc_6b_9b_10:
+  hide_if_away: false
+  icon:
+  mac: 78:11:DC:6B:9B:10
+  name: 78 11 dc 6b 9b 10
+  picture:
+  track: false
+
+7c_49_eb_04_34_30:
+  hide_if_away: false
+  icon:
+  mac: 7C:49:EB:04:34:30
+  name: 7c 49 eb 04 34 30
+  picture:
+  track: false
+
+60_01_94_85_29_f4:
+  hide_if_away: false
+  icon:
+  mac: 60:01:94:85:29:F4
+  name: 60 01 94 85 29 f4
+  picture:
+  track: false
+
+78_11_dc_e0_fe_41:
+  hide_if_away: false
+  icon:
+  mac: 78:11:DC:E0:FE:41
+  name: 78 11 dc e0 fe 41
+  picture:
+  track: false
+
+2c_59_e5_4e_fa_e5:
+  hide_if_away: false
+  icon:
+  mac: 2C:59:E5:4E:FA:E5
+  name: 2c 59 e5 4e fa e5
+  picture:
+  track: false
+
+dc_4f_22_97_4e_d7:
+  hide_if_away: false
+  icon:
+  mac: DC:4F:22:97:4E:D7
+  name: dc 4f 22 97 4e d7
+  picture:
+  track: false
+
+dc_4f_22_f7_14_7d:
+  hide_if_away: false
+  icon:
+  mac: DC:4F:22:F7:14:7D
+  name: dc 4f 22 f7 14 7d
+  picture:
+  track: false
+
+60_01_94_ac_86_3d:
+  hide_if_away: false
+  icon:
+  mac: 60:01:94:AC:86:3D
+  name: 60 01 94 ac 86 3d
+  picture:
+  track: false
+
+c8_28_32_2b_16_06:
+  hide_if_away: false
+  icon:
+  mac: C8:28:32:2B:16:06
+  name: c8 28 32 2b 16 06
+  picture:
+  track: false
+
+00_24_d2_8d_eb_60:
+  hide_if_away: false
+  icon:
+  mac: 00:24:D2:8D:EB:60
+  name: 00 24 d2 8d eb 60
+  picture:
+  track: false
+
+b8_27_eb_da_18_ab:
+  hide_if_away: false
+  icon:
+  mac: B8:27:EB:DA:18:AB
+  name: b8 27 eb da 18 ab
+  picture:
+  track: false
+
+dc_4f_22_08_4a_dc:
+  hide_if_away: false
+  icon:
+  mac: DC:4F:22:08:4A:DC
+  name: dc 4f 22 08 4a dc
+  picture:
+  track: false
+
+d0_e7_82_c9_fe_d1:
+  hide_if_away: false
+  icon:
+  mac: D0:E7:82:C9:FE:D1
+  name: d0 e7 82 c9 fe d1
+  picture:
+  track: false
+
+bc_dd_c2_94_4e_a4:
+  hide_if_away: false
+  icon:
+  mac: BC:DD:C2:94:4E:A4
+  name: bc dd c2 94 4e a4
+  picture:
+  track: false
+
+00_0c_43_80_87_68:
+  hide_if_away: false
+  icon:
+  mac: 00:0C:43:80:87:68
+  name: 00 0c 43 80 87 68
+  picture:
+  track: false
+
+44_1c_a8_c4_48_c1:
+  hide_if_away: false
+  icon:
+  mac: 44:1C:A8:C4:48:C1
+  name: 44 1c a8 c4 48 c1
+  picture:
+  track: false
+
+ac_6f_bb_66_43_82:
+  hide_if_away: false
+  icon:
+  mac: AC:6F:BB:66:43:82
+  name: ac 6f bb 66 43 82
+  picture:
+  track: false
+
+00_0c_43_90_88_f9:
+  hide_if_away: false
+  icon:
+  mac: 00:0C:43:90:88:F9
+  name: 00 0c 43 90 88 f9
+  picture:
+  track: false
+
+dc_4f_22_4b_7e_a8:
+  hide_if_away: false
+  icon:
+  mac: DC:4F:22:4B:7E:A8
+  name: dc 4f 22 4b 7e a8
+  picture:
+  track: false
+
+00_12_17_5a_db_ef:
+  hide_if_away: false
+  icon:
+  mac: 00:12:17:5A:DB:EF
+  name: 00 12 17 5a db ef
+  picture:
+  track: false
+
+00_1e_b8_a2_c8_3a:
+  hide_if_away: false
+  icon:
+  mac: 00:1E:B8:A2:C8:3A
+  name: Formuler z7
+  picture:
+  track: false
+
+00_14_bf_4f_1d_59:
+  hide_if_away: false
+  icon:
+  mac: 00:14:BF:4F:1D:59
+  name: 00 14 bf 4f 1d 59
+  picture:
+  track: false
+
+00_e0_6f_0e_c2_14:
+  hide_if_away: false
+  icon:
+  mac: 00:E0:6F:0E:C2:14
+  name: 00 e0 6f 0e c2 14
+  picture:
+  track: false
+
+32_91_8f_90_c2_0e:
+  hide_if_away: false
+  icon:
+  mac: 32:91:8F:90:C2:0E
+  name: 32 91 8f 90 c2 0e
+  picture:
+  track: false
+
+30_91_8f_90_c2_0e:
+  hide_if_away: false
+  icon:
+  mac: 30:91:8F:90:C2:0E
+  name: 30 91 8f 90 c2 0e
+  picture:
+  track: false
+
+78_11_dc_b3_85_55:
+  hide_if_away: false
+  icon:
+  mac: 78:11:DC:B3:85:55
+  name: 78 11 dc b3 85 55
+  picture:
+  track: false
+
+78_40_e4_4f_ee_6a:
+  hide_if_away: false
+  icon:
+  mac: 78:40:E4:4F:EE:6A
+  name: 78 40 e4 4f ee 6a
+  picture:
+  track: false
+
+dc_4f_22_2d_d3_1f:
+  hide_if_away: false
+  icon:
+  mac: DC:4F:22:2D:D3:1F
+  name: dc 4f 22 2d d3 1f
+  picture:
+  track: false
+
+dc_4f_22_96_e7_d1:
+  hide_if_away: false
+  icon:
+  mac: DC:4F:22:96:E7:D1
+  name: dc 4f 22 96 e7 d1
+  picture:
+  track: false
+
+00_1c_bf_ab_45_7a:
+  hide_if_away: false
+  icon:
+  mac: 00:1C:BF:AB:45:7A
+  name: 00 1c bf ab 45 7a
+  picture:
+  track: false
+
+d8_80_3c_10_6b_ae:
+  hide_if_away: false
+  icon:
+  mac: D8:80:3C:10:6B:AE
+  name: d8 80 3c 10 6b ae
+  picture:
+  track: false
+
+bc_ee_7b_d2_83_b0:
+  hide_if_away: false
+  icon:
+  mac: BC:EE:7B:D2:83:B0
+  name: bc ee 7b d2 83 b0
+  picture:
+  track: false
+
+00_0c_43_60_18_60:
+  hide_if_away: false
+  icon:
+  mac: 00:0C:43:60:18:60
+  name: 00 0c 43 60 18 60
+  picture:
+  track: false
+
+ec_d0_9f_01_1a_60:
+  hide_if_away: false
+  icon:
+  mac: EC:D0:9F:01:1A:60
+  name: Rui Melo
+  picture:
+  track: false
+
+68_c6_3a_cd_41_68:
+  hide_if_away: false
+  icon:
+  mac: 68:C6:3A:CD:41:68
+  name: 68 c6 3a cd 41 68
+  picture:
+  track: false
+
+50_8f_4c_e1_d2_4c:
+  hide_if_away: false
+  icon:
+  mac: 50:8F:4C:E1:D2:4C
+  name: 50 8f 4c e1 d2 4c
+  picture:
+  track: false
+
+60_01_94_a1_9f_c9:
+  hide_if_away: false
+  icon:
+  mac: 60:01:94:A1:9F:C9
+  name: 60 01 94 a1 9f c9
+  picture:
+  track: false
+
+60_e3_27_bc_be_f2:
+  hide_if_away: false
+  icon:
+  mac: 60:E3:27:BC:BE:F2
+  name: 60 e3 27 bc be f2
+  picture:
+  track: false
+
+4c_b0_08_28_ee_1f:
+  hide_if_away: false
+  icon:
+  mac: 4C:B0:08:28:EE:1F
+  name: 4c b0 08 28 ee 1f
+  picture:
+  track: false
+
+bc_44_34_f9_69_5d:
+  hide_if_away: false
+  icon:
+  mac: BC:44:34:F9:69:5D
+  name: bc 44 34 f9 69 5d
+  picture:
+  track: false
+
+dc_4f_22_96_f2_3d:
+  hide_if_away: false
+  icon:
+  mac: DC:4F:22:96:F2:3D
+  name: dc 4f 22 96 f2 3d
+  picture:
+  track: false
+
+84_0d_8e_5a_84_cc:
+  hide_if_away: false
+  icon:
+  mac: 84:0D:8E:5A:84:CC
+  name: 84 0d 8e 5a 84 cc
+  picture:
+  track: false
+
+dc_4f_22_f8_9c_dc:
+  hide_if_away: false
+  icon:
+  mac: DC:4F:22:F8:9C:DC
+  name: dc 4f 22 f8 9c dc
+  picture:
+  track: false
+
+94_0e_6b_41_ea_94:
+  hide_if_away: false
+  icon:
+  mac: 94:0E:6B:41:EA:94
+  name: 94 0e 6b 41 ea 94
+  picture:
+  track: false
+
+04_cf_8c_f9_67_0e:
+  hide_if_away: false
+  icon:
+  mac: 04:CF:8C:F9:67:0E
+  name: 04 cf 8c f9 67 0e
+  picture:
+  track: false
+
+40_e2_30_9f_66_f2:
+  hide_if_away: false
+  icon:
+  mac: 40:E2:30:9F:66:F2
+  name: 40 e2 30 9f 66 f2
+  picture:
+  track: false
+
+54_5a_a6_2f_b2_81:
+  hide_if_away: false
+  icon:
+  mac: 54:5A:A6:2F:B2:81
+  name: 54 5a a6 2f b2 81
+  picture:
+  track: false
+
+78_00_9e_e4_89_8a:
+  hide_if_away: false
+  icon:
+  mac: 78:00:9E:E4:89:8A
+  name: 78 00 9e e4 89 8a
+  picture:
+  track: false
+
+50_46_5d_7b_a6_33:
+  hide_if_away: false
+  icon:
+  mac: 50:46:5D:7B:A6:33
+  name: 50 46 5d 7b a6 33
+  picture:
+  track: false
+
+ac_c1_ee_5e_53_2f:
+  hide_if_away: false
+  icon:
+  mac: AC:C1:EE:5E:53:2F
+  name: ac c1 ee 5e 53 2f
+  picture:
+  track: false
+
+c0_ee_fb_df_ec_5a:
+  hide_if_away: false
+  icon:
+  mac: C0:EE:FB:DF:EC:5A
+  name: c0 ee fb df ec 5a
+  picture:
+  track: false
+
+formuler_z7_plus:
   hide_if_away: false
   icon:
   mac:
-  name: bruno
+  name: formuler z7 plus
+  picture:
+  track: false
+
+10_66_75_13_8a_da:
+  hide_if_away: false
+  icon:
+  mac: 10:66:75:13:8A:DA
+  name: 10 66 75 13 8a da
+  picture:
+  track: false
+
+4c_b0_08_9f_0d_fd:
+  hide_if_away: false
+  icon:
+  mac: 4C:B0:08:9F:0D:FD
+  name: 4c b0 08 9f 0d fd
+  picture:
+  track: false
+
+18_01_f1_cd_23_35:
+  hide_if_away: false
+  icon:
+  mac: 18:01:F1:CD:23:35
+  name: 18 01 f1 cd 23 35
+  picture:
+  track: false
+
+4c_b0_08_37_0b_c2:
+  hide_if_away: false
+  icon:
+  mac: 4C:B0:08:37:0B:C2
+  name: 4c b0 08 37 0b c2
+  picture:
+  track: false
+
+44_b2_95_3f_6c_5d:
+  hide_if_away: false
+  icon:
+  mac: 44:B2:95:3F:6C:5D
+  name: 44 b2 95 3f 6c 5d
+  picture:
+  track: false
+
+20_16_d8_01_c1_c9:
+  hide_if_away: false
+  icon:
+  mac: 20:16:D8:01:C1:C9
+  name: 20 16 d8 01 c1 c9
+  picture:
+  track: false
+
+dc_4f_22_60_67_90:
+  hide_if_away: false
+  icon:
+  mac: DC:4F:22:60:67:90
+  name: dc 4f 22 60 67 90
+  picture:
+  track: false
+
+24_62_ab_00_7f_28:
+  hide_if_away: false
+  icon:
+  mac: 24:62:AB:00:7F:28
+  name: 24 62 ab 00 7f 28
+  picture:
+  track: false
+
+24_62_ab_00_af_c3:
+  hide_if_away: false
+  icon:
+  mac: 24:62:AB:00:AF:C3
+  name: 24 62 ab 00 af c3
+  picture:
+  track: false
+
+bc_dd_c2_94_4b_35:
+  hide_if_away: false
+  icon:
+  mac: BC:DD:C2:94:4B:35
+  name: bc dd c2 94 4b 35
+  picture:
+  track: false
+
+mi_box_s:
+  hide_if_away: false
+  icon:
+  mac: BT_C8:28:32:2D:AE:16
+  name: MI BOX S
+  picture:
+  track: false
+
+00_0c_43_a0_89_da:
+  hide_if_away: false
+  icon:
+  mac: 00:0C:43:A0:89:DA
+  name: 00 0c 43 a0 89 da
+  picture:
+  track: false
+
+90_97_f3_f8_d4_78:
+  hide_if_away: false
+  icon:
+  mac: 90:97:F3:F8:D4:78
+  name: 90 97 f3 f8 d4 78
+  picture:
+  track: false
+
+10_44_00_1c_80_47:
+  hide_if_away: false
+  icon:
+  mac: 10:44:00:1C:80:47
+  name: 10 44 00 1c 80 47
+  picture:
+  track: false
+
+44_07_0b_4f_ca_22:
+  hide_if_away: false
+  icon:
+  mac: 44:07:0B:4F:CA:22
+  name: 44 07 0b 4f ca 22
+  picture:
+  track: false
+
+78_0f_77_d9_0c_02:
+  hide_if_away: false
+  icon:
+  mac: 78:0F:77:D9:0C:02
+  name: 78 0f 77 d9 0c 02
+  picture:
+  track: false
+
+2c_f4_32_69_1d_a5:
+  hide_if_away: false
+  icon:
+  mac: 2C:F4:32:69:1D:A5
+  name: 2c f4 32 69 1d a5
+  picture:
+  track: false
+
+c4_4f_33_8c_7b_f9:
+  hide_if_away: false
+  icon:
+  mac: C4:4F:33:8C:7B:F9
+  name: c4 4f 33 8c 7b f9
+  picture:
+  track: false
+
+c4_4f_33_8c_7c_63:
+  hide_if_away: false
+  icon:
+  mac: C4:4F:33:8C:7C:63
+  name: c4 4f 33 8c 7c 63
+  picture:
+  track: false
+
+dc_4f_22_91_ad_bf:
+  hide_if_away: false
+  icon:
+  mac: DC:4F:22:91:AD:BF
+  name: dc 4f 22 91 ad bf
+  picture:
+  track: false
+
+2c_f4_32_68_8e_a8:
+  hide_if_away: false
+  icon:
+  mac: 2C:F4:32:68:8E:A8
+  name: 2c f4 32 68 8e a8
+  picture:
+  track: false
+
+80_7d_3a_68_4d_d9:
+  hide_if_away: false
+  icon:
+  mac: 80:7D:3A:68:4D:D9
+  name: 80 7d 3a 68 4d d9
+  picture:
+  track: false
+
+cc_50_e3_69_64_12:
+  hide_if_away: false
+  icon:
+  mac: CC:50:E3:69:64:12
+  name: cc 50 e3 69 64 12
   picture:
   track: true
-  vendor:
+
+a4_cf_12_ba_5b_b5:
+  hide_if_away: false
+  icon:
+  mac: A4:CF:12:BA:5B:B5
+  name: a4 cf 12 ba 5b b5
+  picture:
+  track: true
+
+00_1b_38_ed_fc_b5:
+  hide_if_away: false
+  icon:
+  mac: 00:1B:38:ED:FC:B5
+  name: 00 1b 38 ed fc b5
+  picture:
+  track: true
+
+4c_b0_08_b1_ea_dc:
+  hide_if_away: false
+  icon:
+  mac: 4C:B0:08:B1:EA:DC
+  name: 4c b0 08 b1 ea dc
+  picture:
+  track: true
+
+android_bluetooth:
+  hide_if_away: false
+  icon:
+  mac: BT_D8:47:10:5B:58:49
+  name: Android Bluetooth
+  picture:
+  track: true
+
+dtvbluetooth:
+  hide_if_away: false
+  icon:
+  mac: BT_8C:C8:CD:30:9A:D2
+  name: DTVBluetooth
+  picture:
+  track: true
+
+redmi:
+  hide_if_away: false
+  icon:
+  mac: BT_00:EC:0A:FC:E7:38
+  name: Redmi
+  picture:
+  track: true
+
+redmi_2:
+  hide_if_away: false
+  icon:
+  mac: BT_04:B1:67:1D:12:DD
+  name: Redmi
+  picture:
+  track: true
+
+xiaomi_redmi_note_4:
+  hide_if_away: false
+  icon:
+  mac: BT_EC:D0:9F:01:1A:5F
+  name: Xiaomi Redmi Note 4
+  picture:
+  track: true
+
+00_1e_33_01_f4_84:
+  hide_if_away: false
+  icon:
+  mac: 00:1E:33:01:F4:84
+  name: 00 1e 33 01 f4 84
+  picture:
+  track: true
+
+00_16_44_1d_a6_3b:
+  hide_if_away: false
+  icon:
+  mac: 00:16:44:1D:A6:3B
+  name: 00 16 44 1d a6 3b
+  picture:
+  track: true
+
+a8_c8_3a_25_45_1d:
+  hide_if_away: false
+  icon:
+  mac: A8:C8:3A:25:45:1D
+  name: a8 c8 3a 25 45 1d
+  picture:
+  track: true
+
+sbh_3_0_c1:
+  hide_if_away: false
+  icon:
+  mac: BT_00:6A:8E:16:C5:02
+  name: SBH 3.0 C1
+  picture:
+  track: true
+
+redmi_3:
+  hide_if_away: false
+  icon:
+  mac: BT_50:8F:4C:D2:69:9C
+  name: Redmi
+  picture:
+  track: true
+
+samsung_smart_tv:
+  hide_if_away: false
+  icon:
+  mac:
+  name: samsung smart tv
+  picture:
+  track: true
+
+xiaomi_mi_box_s_2:
+  hide_if_away: false
+  icon:
+  mac:
+  name: xiaomi mi box s 2
+  picture:
+  track: true
+
+amazfit_pace_201a:
+  hide_if_away: false
+  icon:
+  mac: BT_D8:80:3C:0E:20:1A
+  name: Amazfit Pace-201A
+  picture:
+  track: true
+
+9e_e3_e5_15_64_d5:
+  hide_if_away: false
+  icon:
+  mac: 9E:E3:E5:15:64:D5
+  name: 9e e3 e5 15 64 d5
+  picture:
+  track: true
+
+9e_b5_74_f4_8b_60:
+  hide_if_away: false
+  icon:
+  mac: 9E:B5:74:F4:8B:60
+  name: 9e b5 74 f4 8b 60
+  picture:
+  track: true
+
+82_d7_02_22_e7_19:
+  hide_if_away: false
+  icon:
+  mac: 82:D7:02:22:E7:19
+  name: 82 d7 02 22 e7 19
+  picture:
+  track: true
+
+9e_a5_b0_73_9d_0e:
+  hide_if_away: false
+  icon:
+  mac: 9E:A5:B0:73:9D:0E
+  name: 9e a5 b0 73 9d 0e
+  picture:
+  track: true
+
+0e_25_cd_0f_04_ca:
+  hide_if_away: false
+  icon:
+  mac: 0E:25:CD:0F:04:CA
+  name: 0e 25 cd 0f 04 ca
+  picture:
+  track: true
+
+e6_ec_a0_ba_89_3d:
+  hide_if_away: false
+  icon:
+  mac: E6:EC:A0:BA:89:3D
+  name: e6 ec a0 ba 89 3d
+  picture:
+  track: true
+
+1a_c9_d4_8f_a2_43:
+  hide_if_away: false
+  icon:
+  mac: 1A:C9:D4:8F:A2:43
+  name: 1a c9 d4 8f a2 43
+  picture:
+  track: true
+
+b8_27_eb_ce_61_05:
+  hide_if_away: false
+  icon:
+  mac: B8:27:EB:CE:61:05
+  name: b8 27 eb ce 61 05
+  picture:
+  track: true
+
+mando_pc_2_lan:
+  hide_if_away: false
+  icon:
+  mac: 00:1E:33:C6:1B:67
+  name: Mando-PC-2.lan
+  picture:
+  track: true
+
+vidtemp_lan:
+  hide_if_away: false
+  icon:
+  mac: A4:CF:12:04:D8:20
+  name: vidtemp.lan
+  picture:
+  track: true
+
+desktop_3td1uhd_lan:
+  hide_if_away: false
+  icon:
+  mac: A4:17:31:EE:1E:D5
+  name: DESKTOP-3TD1UHD.lan
+  picture:
+  track: true
+
+shelly1pm_ba1a8d_lan:
+  hide_if_away: false
+  icon:
+  mac: A4:CF:12:BA:1A:8D
+  name: shelly1pm-BA1A8D.lan
+  picture:
+  track: true
+
+iphonecjeronimo_lan:
+  hide_if_away: false
+  icon:
+  mac: 18:81:0E:34:80:D5
+  name: Iphonecjeronimo.lan
+  picture:
+  track: true
+
+iphonedeleonor_lan:
+  hide_if_away: false
+  icon:
+  mac: 1C:91:48:34:19:84
+  name: iPhonedeLeonor.lan
+  picture:
+  track: true
+
+bruno_ariela:
+  hide_if_away: false
+  icon:
+  mac:
+  name: Bruno ariela
+  picture:
+  track: true
+
+networkowl_004a83_lan:
+  hide_if_away: false
+  icon:
+  mac: 44:37:19:00:4A:83
+  name: NetworkOWL 004A83.lan
+  picture:
+  track: true
+
+cc_50_e3_02_a1_99:
+  hide_if_away: false
+  icon:
+  mac: CC:50:E3:02:A1:99
+  name: cc 50 e3 02 a1 99
+  picture:
+  track: true
+
+8c_c8_cd_6a_15_7a:
+  hide_if_away: false
+  icon:
+  mac: 8C:C8:CD:6A:15:7A
+  name: 8c c8 cd 6a 15 7a
+  picture:
+  track: true
+
+b8_27_eb_9b_34_50:
+  hide_if_away: false
+  icon:
+  mac: B8:27:EB:9B:34:50
+  name: b8 27 eb 9b 34 50
+  picture:
+  track: true
+
+freesbell_lan:
+  hide_if_away: false
+  icon:
+  mac: 00:B9:41:EE:4A:A5
+  name: freesbell.lan
+  picture:
+  track: true
+
+google_home_lan:
+  hide_if_away: false
+  icon:
+  mac: D4:F5:47:6F:3B:FC
+  name: Google-Home.lan
+  picture:
+  track: true
+
+ec_fa_bc_9b_cc_b1:
+  hide_if_away: false
+  icon:
+  mac: EC:FA:BC:9B:CC:B1
+  name: ec fa bc 9b cc b1
+  picture:
+  track: true
+
+44_c3_46_49_32_83:
+  hide_if_away: false
+  icon:
+  mac: 44:C3:46:49:32:83
+  name: 44 c3 46 49 32 83
+  picture:
+  track: true
+
+84_f3_eb_3e_8a_dd:
+  hide_if_away: false
+  icon:
+  mac: 84:F3:EB:3E:8A:DD
+  name: 84 f3 eb 3e 8a dd
+  picture:
+  track: true
+
+android_cf302239db702838_lan:
+  hide_if_away: false
+  icon:
+  mac: D8:47:10:5B:58:48
+  name: android-cf302239db702838.lan
+  picture:
+  track: true
+
+00_0a_f5_8b_31_4c:
+  hide_if_away: false
+  icon:
+  mac: 00:0A:F5:8B:31:4C
+  name: 00 0a f5 8b 31 4c
+  picture:
+  track: true
+
+48_5d_60_86_0d_62:
+  hide_if_away: false
+  icon:
+  mac: 48:5D:60:86:0D:62
+  name: 48 5d 60 86 0d 62
+  picture:
+  track: true
+
+android_95ebcf7ff361ab62_lan:
+  hide_if_away: false
+  icon:
+  mac: E0:DB:10:03:EA:31
+  name: android-95ebcf7ff361ab62.lan
+  picture:
+  track: true
+
+teste_5_lan:
+  hide_if_away: false
+  icon:
+  mac: 80:7D:3A:68:41:FA
+  name: teste-5.lan
+  picture:
+  track: true
+
+android_d1b8d8e1c5e0b656_lan:
+  hide_if_away: false
+  icon:
+  mac: 98:29:A6:AD:12:5E
+  name: android-d1b8d8e1c5e0b656.lan
+  picture:
+  track: true
+
+gears3_87bc_lan:
+  hide_if_away: false
+  icon:
+  mac: 84:98:66:7F:D7:BD
+  name: GearS3-87BC.lan
+  picture:
+  track: true
+
+galaxy_s10e_lan:
+  hide_if_away: false
+  icon:
+  mac: FA:CB:73:06:AE:14
+  name: Galaxy-S10e.lan
+  picture:
+  track: true
+
+galaxy_s10e_2_lan:
+  hide_if_away: false
+  icon:
+  mac: E2:78:0F:10:ED:FA
+  name: Galaxy-S10e-2.lan
+  picture:
+  track: true
+
+galaxy_s10e_3_lan:
+  hide_if_away: false
+  icon:
+  mac: A8:DB:03:E0:3B:67
+  name: Galaxy-S10e-3.lan
+  picture:
+  track: true
+
+ipad_lan:
+  hide_if_away: false
+  icon:
+  mac: 04:52:F3:30:5B:B6
+  name: iPad.lan
+  picture:
+  track: true
+
+android_e206ebb3df72b631_lan:
+  hide_if_away: false
+  icon:
+  mac: BC:B1:F3:B2:40:9E
+  name: android-e206ebb3df72b631.lan
+  picture:
+  track: true
