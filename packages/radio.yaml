@@ -1,294 +1,82 @@
-homeassistant:
-
-###############################################################################
-#                                                                             #
-#                           C U S T O M I Z E                                 #
-#                                                                             #
-###############################################################################
-  customize:
- 
-    script.radio_play_geral:
-      friendly_name: Tocar
-      icon: mdi:play
-    script.radio_pause_geral:
-      friendly_name: Parar
-      icon: mdi:stop
-    sensor.radio:
-      icon: mdi:surround-sound
-    switch.carregar_bateria_s3:
-      friendly_name: Carregar Telemovel
-      icon: mdi:power
-
-###############################################################################
-#                                                                             #
-#                      S W I T C H  S O N O F F                               #
-#                                                                             #
-############################################################################### 
-switch:    
-  - platform: mqtt
-    name: "Carregar Bateria S3"
-    state_topic: "stat/s3_radio/POWER"
-    command_topic: "cmnd/s3_radio/power"
-    availability_topic: "tele/s3_radio/LWT"
-    payload_available: "Online"
-    payload_not_available: "Offline"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-###############################################################################
-#                                                                             #
-#                          M E D I A  P L A Y E R                             #
-#                                                                             #
-###############################################################################
-
-###############################################################################
-#                                                                             #
-#                           A U T O M A Ç Õ E S                               #
-#                                                                             #
-###############################################################################   
-automation:
-  - alias: 'Ajustar o Volume'
-    trigger:
-      platform: state
-      entity_id: input_number.volume_radio
-    action:
-      service: media_player.volume_set
-      data_template:
-        entity_id: media_player.Radio
-        volume_level: '{{states.input_number.volume_radio.state}}'
-        
-
-  - alias: Liga tomada para carregar bateria
-    initial_state: true
-    trigger:
-      platform: numeric_state
-      entity_id: sensor.bateria_estacao_de_radio
-      below: 17
-    action:
-      - service: switch.turn_on
-        entity_id: switch.carregar_bateria_s3
-
-  - alias: Desliga tomada apos carregar bateria
-    initial_state: true
-    trigger:
-      platform: numeric_state
-      entity_id: sensor.bateria_estacao_de_radio
-      above: 99
-    action:
-      - service: switch.turn_off
-        entity_id: switch.carregar_bateria_s3
-  
-###############################################################################
-#                                                                             #
-#                           S C R I P T S                                     #
-#                                                                             #
-###############################################################################
 script:
 
-  radio_play_geral:
-    alias: Tocar
-    sequence:
-      - service: media_player.play_media
-        data_template:
-          entity_id: media_player.Radio
-          media_content_id: >
-              {%- if is_state('input_select.estacoes_de_radio', 'Orbital') -%}
-                 http://stream.radio.com.pt/ROLI-ENC-401
-              {%- elif is_state('input_select.estacoes_de_radio', 'Oxigenio') -%}
-                 http://stream.radio.com.pt/ROLI-ENC-498
-              {%- elif is_state('input_select.estacoes_de_radio', 'Meo Sudoeste') -%}   
-                 http://stream.radio.com.pt/ROLI-ENC-495
-              {%- elif is_state('input_select.estacoes_de_radio', 'Mega Hits') -%}  
-                 http://19553.live.streamtheworld.com:80/MEGA_HITS_SC
-              {%- elif is_state('input_select.estacoes_de_radio', 'Cidade FM') -%}  
-                 http://mcrscast.mcr.iol.pt/cidadefm
-              {%- elif is_state('input_select.estacoes_de_radio', 'Radio Comercial') -%}  
-                 http://mcrscast1.mcr.iol.pt/comercial.mp3
-              {%- elif is_state('input_select.estacoes_de_radio', 'Nova Era') -%}
-                 http://centova.radios.pt:9478/stream/1/  
-              {%- elif is_state('input_select.estacoes_de_radio', 'RFM') -%}                 
-                 http://19553.live.streamtheworld.com:3690/RFM_SC    
-              {%- elif is_state('input_select.estacoes_de_radio', 'Renascença') -%}
-                 http://19593.live.streamtheworld.com:80/RADIO_RENASCENCA_SC     
-              {%- elif is_state('input_select.estacoes_de_radio', 'Oceano Pacífico') -%}   
-                 http://19553.live.streamtheworld.com:80/OCEANPACIFIC_SC  
-              {%- elif is_state('input_select.estacoes_de_radio', 'TSF') -%}
-                http://tsfdirecto.tsf.pt/tsfdirecto.mp3 
-              {%- elif is_state('input_select.estacoes_de_radio', 'Antena 1') -%} 
-                http://radiocast.rtp.pt/antena180a.mp3   
-              {%- elif is_state('input_select.estacoes_de_radio', 'Antena 2') -%} 
-                http://radiocast.rtp.pt/antena2jazzin80a.mp3                 
-              {%- elif is_state('input_select.estacoes_de_radio', 'Antena 3') -%} 
-                 http://radiocast.rtp.pt/antena380a.mp3  
-              {%- elif is_state('input_select.estacoes_de_radio', 'M80') -%} 
-                 http://mcrscast.mcr.iol.pt/m80  
-              {%- elif is_state('input_select.estacoes_de_radio', 'Tropical FM') -%} 
-                 http://suaradio1.dyndns.ws:10308/stream  
-              {%- elif is_state('input_select.estacoes_de_radio', 'Musica Anos 80') -%}
-                 http://stm15.conectastm.com:30890/live
-              {%- elif is_state('input_select.estacoes_de_radio', 'Vodafone FM') -%}
-                 http://195.23.102.207/vodafone
-              {%- endif -%}
-          media_content_type: 'audio/mp3'
-      - service: media_player.play_media
-        data_template:
-          entity_id: media_player.sala
-          media_content_id: >
-              {%- if is_state('input_select.estacoes_de_radio', 'Orbital') -%}
-                 http://stream.radio.com.pt/ROLI-ENC-401
-              {%- elif is_state('input_select.estacoes_de_radio', 'Oxigenio') -%}
-                 http://stream.radio.com.pt/ROLI-ENC-498
-              {%- elif is_state('input_select.estacoes_de_radio', 'Meo Sudoeste') -%}   
-                 http://stream.radio.com.pt/ROLI-ENC-495
-              {%- elif is_state('input_select.estacoes_de_radio', 'Mega Hits') -%}  
-                 http://19553.live.streamtheworld.com:80/MEGA_HITS_SC
-              {%- elif is_state('input_select.estacoes_de_radio', 'Cidade FM') -%}  
-                 http://mcrscast.mcr.iol.pt/cidadefm
-              {%- elif is_state('input_select.estacoes_de_radio', 'Radio Comercial') -%}  
-                 http://mcrscast1.mcr.iol.pt/comercial.mp3
-              {%- elif is_state('input_select.estacoes_de_radio', 'Nova Era') -%}
-                 http://centova.radios.pt:9478/stream/1/  
-              {%- elif is_state('input_select.estacoes_de_radio', 'RFM') -%}                 
-                 http://19553.live.streamtheworld.com:3690/RFM_SC    
-              {%- elif is_state('input_select.estacoes_de_radio', 'Renascença') -%}
-                 http://19593.live.streamtheworld.com:80/RADIO_RENASCENCA_SC     
-              {%- elif is_state('input_select.estacoes_de_radio', 'Oceano Pacífico') -%}   
-                 http://19553.live.streamtheworld.com:80/OCEANPACIFIC_SC  
-              {%- elif is_state('input_select.estacoes_de_radio', 'TSF') -%}
-                http://tsfdirecto.tsf.pt/tsfdirecto.mp3 
-              {%- elif is_state('input_select.estacoes_de_radio', 'Antena 1') -%} 
-                http://radiocast.rtp.pt/antena180a.mp3   
-              {%- elif is_state('input_select.estacoes_de_radio', 'Antena 2') -%} 
-                http://radiocast.rtp.pt/antena2jazzin80a.mp3                 
-              {%- elif is_state('input_select.estacoes_de_radio', 'Antena 3') -%} 
-                 http://radiocast.rtp.pt/antena380a.mp3  
-              {%- elif is_state('input_select.estacoes_de_radio', 'M80') -%} 
-                 http://mcrscast.mcr.iol.pt/m80  
-              {%- elif is_state('input_select.estacoes_de_radio', 'Tropical FM') -%} 
-                 http://suaradio1.dyndns.ws:10308/stream  
-              {%- elif is_state('input_select.estacoes_de_radio', 'Musica Anos 80') -%}
-                 http://stm15.conectastm.com:30890/live                 
-              {%- elif is_state('input_select.estacoes_de_radio', 'Vodafone FM') -%}
-                 http://195.23.102.207/vodafone
-              {%- endif -%}
-          media_content_type: 'audio/mp3'
-         
-        
-  radio_stop_geral:
+  radio_comercial:
+   alias: Radio Comercial
+   sequence:
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sala
+        volume_level: '0.30'
+    -  service: media_player.play_media
+       data_template:
+        entity_id: media_player.sala
+        media_content_id: http://mcrscast1.mcr.iol.pt/comercial.mp3
+        media_content_type: 'audio/mp4'
+
+  rfm:
+   alias: RFM
+   sequence:
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sala
+        volume_level: '0.30'
+    -  service: media_player.play_media
+       data_template:
+        entity_id: media_player.sala
+        media_content_id: http://19553.live.streamtheworld.com:3690/RFM_SC
+        media_content_type: 'audio/mp4'
+
+  m80:
+   alias: M80
+   sequence:
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sala
+        volume_level: '0.30'
+    -  service: media_player.play_media
+       data_template:
+        entity_id: media_player.sala
+        media_content_id: http://mcrscast.mcr.iol.pt/m80
+        media_content_type: 'audio/mp4'
+
+  vodafone:
+   alias: Vodafone
+   sequence:
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.sala
+        volume_level: '0.30'
+    -  service: media_player.play_media
+       data_template:
+        entity_id: media_player.sala
+        media_content_id: http://195.23.102.207/vodafone
+        media_content_type: 'audio/mp4'
+
+  radio_stop:
     alias: Parar rádio
     sequence:
       - service: media_player.media_stop
         data:
-          entity_id: media_player.Radio
-      - service: media_player.media_stop
+          entity_id: media_player.sala
+
+automation:
+
+  - alias: Ligar radio de manha
+    initial_state: true
+    trigger:
+      - platform: time
+        at: "07:15:00"
+    condition:
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'on'
+    action:
+      - service: media_player.volume_set
         data:
-          entity_id: media_player.Sala
-
-###############################################################################
-#                                                                             #
-#                           S E N S O R S                                     #
-#                                                                             #
-###############################################################################  
-sensor:
-
-  - platform: template
-    sensors:
-      radio:  
-        friendly_name: 'Sistema de Som'
-        value_template: >
-         {%- if is_state('media_player.radio', 'off') -%}
-         Sistema Desactivado
-         {%- elif is_state('media_player.radio', 'idle') -%}
-         Pronto para reproduzir
-         {%- elif is_state('media_player.radio', 'playing') -%}
-         A reproduzir         
-         {%- endif -%}
-
-  - platform: mqtt
-    state_topic: "zanzito/s3/battery_level"
-    name: "Bateria Estação de Rádio"
-    unit_of_measurement: '%'
-###############################################################################
-#                                                                             #
-#                           I N P U T  N U M B E R S                          #
-#                                                                             #
-###############################################################################
-input_number:
-
-  volume_radio:
-    name: Volume
-    icon: mdi:volume-high
-    initial: 0.4
-    min: 0
-    max: 1
-    step: 0.01
-
-###############################################################################
-#                                                                             #
-#                           I N P U T   S E L E C T                           #
-#                                                                             #
-###############################################################################  
-input_select:
-  
-  estacoes_de_radio:
-    name: 'Seleciona a estacao de Radio:'
-    options:
-      - Radio Comercial
-      - RFM
-      - M80
-      - Vodafone FM
-      - Orbital
-      - Oxigenio
-      - Mega Hits
-      - Meo Sudoeste
-      - Cidade FM
-      - Nova Era
-      - Renascença
-      - Oceano Pacífico
-      - TSF
-      - Antena 1
-      - Antena 2
-      - Antena 3
-      - Tropical FM
-      - Musica Anos 80
-      - Smooth FM
-      - Radio Radar
-      
-  zona_onde_toca:
-    name: 'A tocar em:'
-    options:
-      - Casa
-    icon: mdi:speaker-wireless
-
-###############################################################################
-#                                                                             #
-#                           G R O U P S                                       #
-#                                                                             #
-###############################################################################
-group:
-
-  radio:
-    view: yes
-    name: Rádio
-    entities:
-      - group.radiogrupo
-       
-  radiogrupo:
-    control: hidden
-    name: Ouvir Rádio
-    entities:
-      - sensor.Radio
-      - input_select.estacoes_de_radio
-      - input_select.zona_onde_toca
-      - input_number.volume_radio
-      - script.radio_play
-      - script.radio_stop
-      - script.radio_play_geral
-      - script.radio_stop_geral
-     
-
-      
-
-
-
-  
+          entity_id: media_player.sala
+          volume_level: '0.30'
+      -  service: media_player.play_media
+         data_template:
+          entity_id: media_player.sala
+          media_content_id: http://mcrscast1.mcr.iol.pt/comercial.mp3
+          media_content_type: 'audio/mp4'

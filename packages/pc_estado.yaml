@@ -8,9 +8,9 @@ homeassistant:
 light:
   - platform: mqtt
     name: "Leds Armário sala"
-    state_topic: "stat/leds_pc/POWER1"
-    command_topic: "cmnd/leds_pc/power1"
-    availability_topic: "tele/leds_pc/LWT"
+    state_topic: "stat/leds_sala/POWER1"
+    command_topic: "cmnd/leds_sala/power1"
+    availability_topic: "tele/leds_sala/LWT"
     payload_available: "Online"
     payload_not_available: "Offline"
     qos: 1
@@ -26,9 +26,21 @@ light:
 switch:
   - platform: mqtt
     name: "ON OFF PC"
-    state_topic: "stat/leds_pc/POWER2"
-    command_topic: "cmnd/leds_pc/power2"
-    availability_topic: "tele/leds_pc/LWT"
+    state_topic: "stat/pc_power/POWER2"
+    command_topic: "cmnd/pc_power/power2"
+    availability_topic: "tele/pc_power/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+
+  - platform: mqtt
+    name: "Monitor do PC"
+    state_topic: "stat/monitor/POWER"
+    command_topic: "cmnd/monitor/power"
+    availability_topic: "tele/monitor/LWT"
     payload_available: "Online"
     payload_not_available: "Offline"
     qos: 1
@@ -74,27 +86,180 @@ sensor:
 
 ###############################################################################
 #                                                                             #
+#                       I N P U T _ B O O L E A N                             #
+#                                                                             #
+############################################################################### 
+input_boolean:
+  pc_status:
+    name: Status
+    initial: on
+
+###############################################################################
+#                                                                             #
+#                     I N P U T _ D A T E T I M E                             #
+#                                                                             #
+############################################################################### 
+input_datetime:
+  pc_on:
+    name: "Ligar o PC às"
+    has_date: false
+    has_time: true
+    initial: "02:45"
+
+  pc_off:
+    name: "Desligar o PC às"
+    has_date: false
+    has_time: true
+    initial: "09:20"
+###############################################################################
+#                                                                             #
 #                         A U T O M A T I O N                                 #
 #                                                                             #
 ###############################################################################
 automation:
 
-  - alias: Ligar pc
-    initial_state: true
+#  - alias: Ligar pc
+#    initial_state: false
+#    trigger:
+#      platform: time
+#      at: 02:45:00
+#    action:
+#      - service: switch.turn_on
+#        entity_id: switch.on_off_pc
+
+#  - alias: Desligar pc
+#    initial_state: false
+#    trigger:
+#      platform: time
+#      at: 09:15:00
+#    action:
+#      - service: switch.turn_on
+#        entity_id: switch.on_off_pc
+#Desliga pc
+
+  - alias: Desliga pc
+    initial_state: 'on'
     trigger:
-      platform: time
-      at: 02:45:00
+      - platform: template
+        value_template: "{{ states('sensor.time') == (states.input_datetime.pc_off.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: input_boolean.pc_status
+          state: 'on'
+        - condition: state
+          entity_id: sensor.pc_on_off
+          state: 'Ligado'
     action:
       - service: switch.turn_on
         entity_id: switch.on_off_pc
 
-  - alias: Desligar pc
-    initial_state: true
+
+
+#teste
+
+  - alias: Liga pc
+    initial_state: 'on'
     trigger:
-      platform: time
-      at: 09:15:00
+      - platform: template
+        value_template: "{{ states('sensor.time') == (states.input_datetime.pc_on.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: input_boolean.pc_status
+          state: 'on'
+        - condition: state
+          entity_id: sensor.pc_on_off
+          state: 'Desligado'
     action:
       - service: switch.turn_on
         entity_id: switch.on_off_pc
 
-# leds armario sala
+
+#Liga pc
+#  - alias: Liga pc
+#    initial_state: 'on'
+#    trigger:
+#      - platform: time_pattern
+#        minutes: '/1'
+#        seconds: 01
+#    condition:
+#      condition: and
+#      conditions:
+#        - condition: state
+#          entity_id: input_boolean.pc_status
+#          state: 'on'
+#        - condition: state
+#          entity_id: sensor.pc_on_off
+#          state: 'Desligado'
+#        - condition: template
+#          value_template: "{{ states('sensor.time') == (states.input_datetime.pc_on.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+#    action:
+#      - service: switch.turn_on
+#        entity_id: switch.on_off_pc
+
+#telegram
+
+  - alias: Estado do pc
+    initial_state: true
+    trigger:
+      platform: time
+      at: '09:30:00'
+    condition:
+      - condition: state
+        entity_id: 'sensor.pc_on_off'
+        state: 'Ligado'
+    action:
+      service: notify.telegram
+      data:
+        title: 'Informação PC'
+        message: 'O pc continua ligado, queres desligar?'
+        data:
+          inline_keyboard:
+            - "SIM:/simquero"
+            - "NÃO:/naoquero"
+
+#resposta a não da automacao de cima
+  - alias: 'Resposta a sim' 
+    initial_state: false
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/simquero'            
+    action:
+      - service: switch.turn_on
+        entity_id: switch.on_off_pc
+#zigbee botao ligar desligar pc
+
+  - alias: Ligar pc botão zigbee
+    initial_state: true
+    trigger: 
+      platform: state
+      entity_id: sensor.0x000d6ffffebcd992_click
+      to: 'brightness_up'
+    action:
+      - service: switch.turn_on
+        data:
+          entity_id: 
+            - switch.on_off_pc
+            - switch.monitor_do_pc
+
+  - alias: Desligar pc botão zigbee
+    initial_state: true
+    trigger: 
+      platform: state
+      entity_id: sensor.0x000d6ffffebcd992_click
+      to: 'brightness_down'
+    action:
+      - service: switch.turn_off
+        data:
+          entity_id: 
+            - switch.on_off_pc
+            - switch.monitor_do_pc
+      - service: switch.turn_on
+        data:
+          entity_id: 
+            - switch.on_off_pc

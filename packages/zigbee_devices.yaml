@@ -19,7 +19,25 @@ binary_sensor:
     device_class: motion
     qos: 1
 
-#sensor movimento xiaomi
+#sensor janela quarto mafalda
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/janela_mafalda"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    payload_on: false
+    payload_off: true
+    value_template: "{{ value_json.contact }}"
+    device_class: "window"
+
+#sensor janela sala
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/janela_sala"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    payload_on: false
+    payload_off: true
+    value_template: "{{ value_json.contact }}"
+    device_class: "window"
+
+#sensor movimento sala xiaomi
 sensor:
   - platform: mqtt
     name: "lx sala"
@@ -44,21 +62,26 @@ sensor:
     device_class: "battery"
     value_template: "{{ value_json.battery }}"
 
-#tomada ikea mafalda
+#tomada ikea corredor
   - platform: "mqtt"
     state_topic: "zigbee2mqtt/tomada_hall"
     availability_topic: "zigbee2mqtt/bridge/state"
     unit_of_measurement: "db"
     value_template: "{{ value_json.linkquality }}"
 
+#tomada ikea sala
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/tomada_sala"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    unit_of_measurement: "-"
+    value_template: "{{ value_json.linkquality }}"
+
 #botao ikea
-
   - platform: "mqtt"
     state_topic: "zigbee2mqtt/botao_leds"
     availability_topic: "zigbee2mqtt/bridge/state"
     icon: "mdi:toggle-switch"
     value_template: "{{ value_json.click }}"
-
 
   - platform: "mqtt"
     state_topic: "zigbee2mqtt/botao_leds"
@@ -67,15 +90,13 @@ sensor:
     device_class: "battery"
     value_template: "{{ value_json.battery }}"
 
-
   - platform: "mqtt"
     state_topic: "zigbee2mqtt/botao_leds"
     availability_topic: "zigbee2mqtt/bridge/state"
     unit_of_measurement: "-"
     value_template: "{{ value_json.linkquality }}"
 
-#botao iluminacao exterior
-
+#botao iluminacao exterior xiaomi
   - platform: "mqtt"
     state_topic: "zigbee2mqtt/botao_ilu_exterior"
     availability_topic: "zigbee2mqtt/bridge/state"
@@ -95,7 +116,35 @@ sensor:
     unit_of_measurement: "-"
     value_template: "{{ value_json.linkquality }}"
 
-#tomada ikea mafalda
+#sensor janela quarto mafalda
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/janela_mafalda"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    unit_of_measurement: "%"
+    device_class: "battery"
+    value_template: "{{ value_json.battery }}"
+
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/janela_mafalda"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    unit_of_measurement: "-"
+    value_template: "{{ value_json.linkquality }}"
+
+#sensor janela da sala
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/janela_sala"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    unit_of_measurement: "%"
+    device_class: "battery"
+    value_template: "{{ value_json.battery }}"
+
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/janela_sala"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    unit_of_measurement: "-"
+    value_template: "{{ value_json.linkquality }}"
+
+#tomada ikea corredor
 switch:
   - platform: "mqtt"
     state_topic: "zigbee2mqtt/tomada_hall"
@@ -105,3 +154,11 @@ switch:
     value_template: "{{ value_json.state }}"
     command_topic: "zigbee2mqtt/tomada_hall/set"
 
+#tomada ikea sala
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/tomada_sala"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    payload_off: "OFF"
+    payload_on: "ON"
+    value_template: "{{ value_json.state }}"
+    command_topic: "zigbee2mqtt/tomada_sala/set"

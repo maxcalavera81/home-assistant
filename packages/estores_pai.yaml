@@ -1,0 +1,338 @@
+homeassistant:
+
+#######################################################################
+#                                                                     #
+#                          C O V E R                                  #
+#                                                                     #
+#######################################################################   
+cover:
+  - platform: mqtt
+    name: Estore Varanda Shelly
+    state_topic: "shellies/shellyswitch25-007F28/roller/0"
+    command_topic: "shellies/shellyswitch25-007F28/roller/0/command"
+    position_topic: "shellies/shellyswitch25-007F28/roller/0/pos"
+    set_position_topic: "shellies/shellyswitch25-007F28/roller/0/command/pos"
+    payload_available: "true"
+    payload_not_available: "false"
+    qos: 1
+    retain: false
+    optimistic: false
+    payload_open: "open"
+    payload_close: "close"
+    payload_stop: "stop"
+    position_open: 100
+    position_closed: 0
+
+  - platform: mqtt
+    name: Estore q. pequeno Shelly
+    state_topic: "shellies/shellyswitch25-00AFC3/roller/0"
+    command_topic: "shellies/shellyswitch25-00AFC3/roller/0/command"
+    position_topic: "shellies/shellyswitch25-00AFC3/roller/0/pos"
+    set_position_topic: "shellies/shellyswitch25-00AFC3/roller/0/command/pos"
+    payload_available: "true"
+    payload_not_available: "false"
+    qos: 1
+    retain: false
+    optimistic: false
+    payload_open: "open"
+    payload_close: "close"
+    payload_stop: "stop"
+    position_open: 100
+    position_closed: 0
+
+#######################################################################
+#                                                                     #
+#                            S E N S O R S                            #
+#                                                                     #
+#######################################################################
+sensor:
+  - platform: mqtt
+    state_topic : "shellies/shellyswitch25-007F28/temperature"
+    unit_of_measurement: "°C"
+    name: "Estore Varanda"
+
+  - platform: mqtt
+    state_topic : "shellies/shellyswitch25-00AFC3/temperature"
+    unit_of_measurement: "°C"
+    name: "Estore Q. pequeno"
+
+  - platform: mqtt
+    name: "Power Varanda"
+    state_topic: "shellies/shellyswitch25-007F28/relay/power"    
+    unit_of_measurement: "Watts"
+    
+  - platform: mqtt
+    name: "Energy Varanda"
+    state_topic: "shellies/shellyswitch25-007F28/relay/energy"    
+    unit_of_measurement: "KWh"
+
+  - platform: mqtt
+    name: "Power Q. pequeno"
+    state_topic: "shellies/shellyswitch25-00AFC3/relay/power"    
+    unit_of_measurement: "Watts"
+    
+  - platform: mqtt
+    name: "Energy Q. pequeno"
+    state_topic: "shellies/shellyswitch25-00AFC3/relay/energy"    
+    unit_of_measurement: "KWh"
+
+#sensores estores pai
+
+  - platform: template
+    sensors:
+      estore_quarto_pequeno:
+        friendly_name: "Estado estore q. pequeno"
+        value_template: >-
+          {% if is_state('cover.estore_q_pequeno_shelly', 'open') %}
+            aberto
+          {% else %}
+            fechado
+          {% endif %}
+
+  - platform: template
+    sensors:
+      estore_quarto_varanda:
+        friendly_name: "Estado estore q. varanda"
+        value_template: >-
+          {% if is_state('cover.estore_varanda_shelly', 'open') %}
+            aberto
+          {% else %}
+            fechado
+          {% endif %}
+
+#percentagem
+
+  - platform: mqtt
+    name: "percentagem estore varanda"
+    state_topic: "shellies/shellyswitch25-007F28/roller/0/pos"
+    unit_of_measurement: "%"
+    icon: mdi:percent
+
+  - platform: mqtt
+    name: "percentagem estore q pqueno"
+    state_topic: "shellies/shellyswitch25-00AFC3/roller/0/pos"
+    unit_of_measurement: "%"
+    icon: mdi:percent
+
+#######################################################################
+#                                                                     #
+#                         A U T O M A T I O N                         #
+#                                                                     #
+#######################################################################
+automation:
+#automacoes abrir e fechar dos estores
+
+  - alias: Abrir estores ao nascer do sol pai
+    initial_state: true
+    trigger: 
+      platform: sun
+      event: sunrise
+      offset: '+00:30:00'
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id:
+            - cover.estore_varanda_shelly
+            - cover.estore_q_pequeno_shelly
+          position: 100
+
+  - alias: Fechar estores ao pôr do sol pai
+    initial_state: true
+    trigger:
+      platform: sun
+      event: sunset
+      offset: '+00:30:00'
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id:
+            - cover.estore_varanda_shelly
+            - cover.estore_q_pequeno_shelly
+          position: 0
+
+#ligar desligar automações em casa
+
+  - alias: Desligar automação estore quando em casa
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: device_tracker.armando_melo
+      from: 'not_home'
+      to: 'home'
+    action:
+      - service: automation.turn_off
+        entity_id: 
+          - automation.abrir_estores_ao_nascer_do_sol_pai
+
+  - alias: Ligar automação estore quando fora casa
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: device_tracker.armando_melo
+      from: 'home'
+      to: 'not_home'
+    action:
+      - service: automation.turn_on
+        entity_id: 
+          - automation.abrir_estores_ao_nascer_do_sol_pai
+
+#abrir estores 9 da manhã
+
+  - alias: Abrir estores 9 da manhã
+    initial_state: true
+    trigger:
+      platform: time
+      at: '09:00:00'
+    condition:
+      - condition: state
+        entity_id: cover.estore_varanda_shelly
+        state: 'closed'
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_varanda_shelly
+            - cover.estore_q_pequeno_shelly
+          position: 100
+
+#estores pai telegram
+
+  - alias: callback estores pai
+    hide_entity: true
+    trigger:
+      platform: event
+      event_type: telegram_command
+      event_data:
+        command: '/estores_pai'
+    action:
+      - service: notify.telegram
+        data:
+          title: "Posição dos estores"
+          message: "O estore do quarto do quarto pequeno está {{ states('sensor.estore_quarto_pequeno') }} a {{ states('sensor.percentagem_estore_q_pqueno') }} %, o estore do quarto da varanda está {{ states('sensor.estore_quarto_varanda') }} a {{ states('sensor.percentagem_estore_varanda') }} % . Queres abrir ou fechar algum?"
+          data:
+            inline_keyboard:
+              - "Abrir todos os estores:/abrirtodospai"
+              - "Fechar q. varanda:/fvaranda, Fechar q. pequeno:/fqpequeno"
+              - "Abrir q. varanda:/avaranda, Abrir q. pequeno:/aqpequeno"
+              - "Fechar todos os estores:/fechartodospai"
+
+#fechar estores pai
+
+  - alias: 'Fechar quarto varanda' 
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/fvaranda'            
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_varanda_shelly
+          position: 0
+
+  - alias: 'Fechar quarto pequeno' 
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/fqpequeno'            
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_q_pequeno_shelly
+          position: 0
+
+#abrir estores pai
+  - alias: 'Abrir quarto varanda' 
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/avaranda'            
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_varanda_shelly
+          position: 100
+
+  - alias: 'Abrir quarto pequeno' 
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/aqpequeno'            
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_q_pequeno_shelly
+          position: 100
+
+#abrir fechar todos estores pai
+
+  - alias: 'Abrir todos os estores pai' 
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/abrirtodospai'            
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_q_pequeno_shelly
+            - cover.estore_varanda_shelly
+          position: 100
+
+  - alias: 'Fechar todos os estores pai' 
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/fechartodospai'            
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_q_pequeno_shelly
+            - cover.estore_varanda_shelly
+          position: 0
+
+#abrir fechar estores botao zigbee
+
+  - alias: Abrir estores pai zigbee
+    initial_state: true
+    trigger: 
+      platform: state
+      entity_id: sensor.0x00158d000359e754_click
+      to: 'quadruple'
+    action:
+      service_template: >
+       {% if is_state('group.estores_casa_do_pai', 'closed') %}
+       cover.open_cover
+       {%- elif is_state('group.estores_casa_do_pai', 'open') -%}
+       cover.close_cover
+       {% endif %}
+      entity_id: group.estores_casa_do_pai
+
+###############################################################################
+#                                                                             #
+#                         G R O U P S                                         #
+#                                                                             #
+###############################################################################
+group:
+
+  Estores casa do pai:
+    control: hidden
+    entities:
+      - cover.estore_q_pequeno_shelly
+      - cover.estore_varanda_shelly

@@ -1,0 +1,22 @@
+homeassistant:
+
+binary_sensor:
+  - platform: mqtt
+    name: Amazfit Pace
+    state_topic: "presence_nodes/esp32"
+    json_attributes_topic: "presence_nodes/esp32_esp32/tele"
+    payload_on: "CONNECTED"
+    payload_off: "DISCONNECTED"
+    device_class: connectivity
+
+
+
+
+sensor:
+  - platform: mqtt_room
+    device_id: "D8:80:3C:0E:20:1A"
+    name: 'Xiaomi Presence'
+    state_topic: 'room_presence'
+    timeout: 30
+    away_timeout: 60
+    

@@ -1,0 +1,364 @@
+homeassistant:
+###############################################################################
+#                                                                             #
+#                       I N P U T _ B O O L E A N                             #
+#                                                                             #
+############################################################################### 
+input_boolean:
+  pinheiro_semana_status:
+    name: Status
+
+  pinheiro_fimsemana_status:
+    name: Status
+###############################################################################
+#                                                                             #
+#                     I N P U T _ D A T E T I M E                             #
+#                                                                             #
+############################################################################### 
+input_datetime:
+  pinheiro_semana_on:
+    name: "Ligar Pinheiro às"
+    has_date: false
+    has_time: true
+
+  pinheiro_semana_off:
+    name: "Desligar Pinheiro às"
+    has_date: false
+    has_time: true
+
+
+  pinheiro_fimsemana_on:
+    name: "Ligar Pinheiro fim semana às"
+    has_date: false
+    has_time: true
+
+  pinheiro_fimsemana_off:
+    name: "Desligar Pinheiro fim semana às"
+    has_date: false
+    has_time: true
+
+###############################################################################
+#                                                                             #
+#                           A U T O M A Ç Õ E S                               #
+#                                                                             #
+###############################################################################   
+automation:
+
+  - alias: Liga Pinheirinho semana
+    initial_state: true
+    trigger:
+      - platform: template
+        value_template: "{{ states('sensor.time') == (states.input_datetime.pinheiro_semana_on.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+      condition: and
+      conditions:
+      - condition: state
+        entity_id: input_boolean.pinheiro_semana_status
+        state: 'on'
+      - condition: state
+        entity_id: group.wifi
+        state: home
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'on'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.0x000d6ffffe2efe21_switch
+
+
+
+#  - alias: Liga Pinheirinho semana
+#    initial_state: false
+#    trigger:
+#      - platform: time_pattern
+#        minutes: '/1'
+#        seconds: 01
+#    condition:
+#      condition: and
+#      conditions:
+#      - condition: state
+#        entity_id: input_boolean.pinheiro_semana_status
+#        state: 'on'
+#      - condition: state
+#        entity_id: group.wifi
+#        state: home
+#      - condition: state
+#        entity_id: 'binary_sensor.workday_sensor'
+#        state: 'on'
+#      - condition: template
+#        value_template: "{{ states('sensor.time') == (states.input_datetime.pinheiro_semana_on.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+#    action:
+#      - service: switch.turn_on
+#        entity_id: switch.0x000d6ffffe2efe21_switch
+
+  - alias: Desliga Pinheirinho semana
+    initial_state: false
+    trigger:
+      - platform: template
+        value_template: "{{ states('sensor.time') == (states.input_datetime.pinheiro_semana_off.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: input_boolean.pinheiro_semana_status
+          state: 'on'
+        - condition: state
+          entity_id: 'binary_sensor.workday_sensor'
+          state: 'on'
+    action:
+      - service: switch.turn_off
+        entity_id: switch.0x000d6ffffe2efe21_switch
+
+  - alias: Liga Pinheirinho fim semana
+    initial_state: false
+    trigger:
+      - platform: template
+        value_template: "{{ states('sensor.time') == (states.input_datetime.pinheiro_fimsemana_on.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+      condition: and
+      conditions:
+      - condition: state
+        entity_id: group.wifi
+        state: home
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'off'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.0x000d6ffffe2efe21_switch
+
+  - alias: Desliga Pinheirinho fim semana
+    initial_state: false
+    trigger:
+      - platform: template
+        value_template: "{{ states('sensor.time') == (states.input_datetime.pinheiro_fimsemana_off.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+      condition: and
+      conditions:
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'off'
+    action:
+      - service: switch.turn_off
+        entity_id: switch.0x000d6ffffe2efe21_switch
+
+#automação ligar pinheirinho semana
+#  - alias: Ligar Pinheiro semana
+#    initial_state: true
+#    trigger:
+#      - platform: time
+#        at: '18:00:00'
+#    condition:
+#      - condition: state
+#        entity_id: group.wifi
+#        state: home
+#      - condition: state
+#        entity_id: 'binary_sensor.workday_sensor'
+#        state: 'on'
+#    action:
+#      - service: switch.turn_on
+#        data:
+#          entity_id: switch.0x000d6ffffe2efe21_switch
+
+
+#ligar pinheiro ao chegar a casa quando deligado semana
+  - alias: Ligar Pinheiro semana quando chega a casa
+    initial_state: false
+    trigger:
+      - platform: state
+        entity_id: group.wifi
+        from: 'not_home'
+        to: 'home'
+    condition:
+      - condition: state
+        entity_id: input_boolean.pinheiro_semana_status
+        state: 'on'
+      - condition: time
+        after: '18:01:00'
+        before: '22:00:00'
+      - condition: state
+        entity_id: switch.0x000d6ffffe2efe21_switch
+        state: 'off'
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'on'
+    action:
+      - service: switch.turn_on
+        data:
+          entity_id: switch.0x000d6ffffe2efe21_switch
+
+#desligar pinheirinho na ausencia semana
+  - alias: Desligar Pinheiro semana ausencia
+    initial_state: false
+    trigger:
+      - platform: state
+        entity_id: group.wifi
+        from: 'home'
+        to: 'not_home'
+    condition:
+      - condition: time
+        after: '18:01:00'
+        before: '22:30:00'
+      - condition: state
+        entity_id: input_boolean.pinheiro_semana_status
+        state: 'on'
+      - condition: state
+        entity_id: switch.0x000d6ffffe2efe21_switch
+        state: 'on'
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'on'
+    action:
+      - service: switch.turn_off
+        data:
+          entity_id: switch.0x000d6ffffe2efe21_switch
+
+#ligar pinheiro ao chegar a casa quando desligado fim semana
+  - alias: Ligar Pinheiro fim semana quando chega a casa
+    initial_state: false
+    trigger:
+      - platform: state
+        entity_id: group.wifi
+        from: 'not_home'
+        to: 'home'
+    condition:
+      - condition: time
+        after: '18:01:00'
+        before: '23:00:00'
+      - condition: state
+        entity_id: input_boolean.pinheiro_fimsemana_status
+        state: 'on'
+      - condition: state
+        entity_id: switch.0x000d6ffffe2efe21_switch
+        state: 'off'
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'off'
+    action:
+      - service: switch.turn_on
+        data:
+          entity_id: switch.0x000d6ffffe2efe21_switch
+
+#desligar pinheirinho na ausencia fim semana
+  - alias: Desligar Pinheiro fim semana ausencia
+    initial_state: false
+    trigger:
+      - platform: state
+        entity_id: group.wifi
+        from: 'home'
+        to: 'not_home'
+    condition:
+      - condition: time
+        after: '18:01:00'
+        before: '23:00:00'
+      - condition: state
+        entity_id: input_boolean.pinheiro_fimsemana_status
+        state: 'on'
+      - condition: state
+        entity_id: switch.0x000d6ffffe2efe21_switch
+        state: 'on'
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'off'
+    action:
+      - service: switch.turn_off
+        data:
+          entity_id: switch.0x000d6ffffe2efe21_switch
+
+#desligar pinheirinho semana
+#  - alias: Desligar Pinheiro semana
+#    initial_state: true
+#    trigger:
+#      - platform: time
+#        at: '22:30:00'
+#    condition:
+#      - condition: state
+#        entity_id: 'binary_sensor.workday_sensor'
+#        state: 'on'
+#    action:
+#      - service: switch.turn_off
+#        data:
+#          entity_id: switch.0x000d6ffffe2efe21_switch
+
+#automação ligar pinheirinho fim semana
+
+#  - alias: Ligar Pinheiro fim semana
+#    initial_state: true
+#    trigger:
+#      - platform: time
+#        at: '18:00:00'
+#    condition:
+#      - condition: state
+#        entity_id: group.wifi
+#        state: home
+#      - condition: state
+#        entity_id: 'binary_sensor.workday_sensor'
+#        state: 'off'
+#    action:
+#      - service: switch.turn_on
+#        data:
+#          entity_id: switch.0x000d6ffffe2efe21_switch
+
+
+
+#desligar pinheirinho fim de semana
+#  - alias: Desligar Pinheiro fim semana
+#    initial_state: true
+#    trigger:
+#      - platform: time
+#        at: '23:30:00'
+#    condition:
+#      - condition: state
+#        entity_id: 'binary_sensor.workday_sensor'
+#        state: 'off'
+#    action:
+#      - service: switch.turn_off
+#        data:
+#          entity_id: switch.0x000d6ffffe2efe21_switch
+
+#notificações
+  - alias: Pinheirinho ligado
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: switch.0x000d6ffffe2efe21_switch
+      from: 'off'
+      to: 'on'
+    action:
+      service: notify.telegram
+      data:
+        title: “Pinheiro Ligado”
+        message: “O pinheirinho está ligado”
+        data:
+          photo:
+            url: https://dl.dropboxusercontent.com/s/2v4dkslcpohfey2/IMG_20181203_133505.jpg?dl=0
+            caption: "O pinheirinho está ligado"
+
+  - alias: Pinheirinho desligado
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: switch.0x000d6ffffe2efe21_switch
+      from: 'on'
+      to: 'off'
+    action:
+      service: notify.telegram
+      data:
+        title: “Pinheiro Desligado”
+        message: “O pinheirinho foi desligado”
+        data:
+          photo:
+            url: https://dl.dropboxusercontent.com/s/gcezyt8zg8pmquy/IMG_20181203_133412.jpg?dl=0
+            caption: "O pinheirinho foi desligado"
+
+###############################################################################
+#                                                                             #
+#                         G R O U P S                                         #
+#                                                                             #
+###############################################################################
+group:
+
+  Arvore de natal:
+    control: hidden
+    entities:
+      - switch.0x000d6ffffe2efe21_switch

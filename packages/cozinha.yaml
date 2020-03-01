@@ -92,19 +92,19 @@ light:
     name: Xiaomi Philips zhirui
     host: !secret xiaomi_philips_zhirui_ip
     token: !secret xiaomi_philips_zhirui_token
-    model: philips.light.bulb
+    model: philips.light.downlight
 
   - platform: xiaomi_miio
     name: Xiaomi Philips zhirui 1
     host: !secret xiaomi_philips_zhirui_1_ip
     token: !secret xiaomi_philips_zhirui_1_token
-    model: philips.light.bulb
+    model: philips.light.downlight
 
   - platform: xiaomi_miio
     name: Xiaomi Philips zhirui 2
     host: !secret xiaomi_philips_zhirui_2_ip
     token: !secret xiaomi_philips_zhirui_2_token
-    model: philips.light.bulb
+    model: philips.light.downlight
 
   - platform: mqtt
     name: "Leds Armário"
@@ -129,7 +129,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: group.grupo_sensor
+      entity_id: group.sensores_despensa
       from: 'off'
       to: 'on'
     action:
@@ -141,7 +141,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: group.grupo_sensor
+      entity_id: group.sensores_despensa
       from: 'on'
       to: 'off'
     action:
@@ -164,7 +164,7 @@ automation:
       entity_id: sensor.illumination_158d00029be9c3
       below: 60
     action:
-      - service: light.xiaomi_miio_set_scene
+      - service: xiaomi_miio.light_set_scene
         data:
           entity_id: 
             - light.xiaomi_philips_zhirui
@@ -187,7 +187,7 @@ automation:
       entity_id: sensor.illumination_158d00029be9c3
       below: 60
     action:
-      - service: light.xiaomi_miio_set_scene
+      - service: xiaomi_miio.light_set_scene
         data:
           entity_id:
             - light.xiaomi_philips_zhirui_1
@@ -215,7 +215,7 @@ automation:
 #    action:
 #      - delay:
 #          seconds: 4
-#      - service: light.xiaomi_miio_set_scene
+#      - service: xiaomi_miio.light_set_scene
 #        data:
 #          entity_id: light.xiaomi_philips_zhirui
 #          scene: 1
@@ -248,7 +248,7 @@ automation:
       entity_id: sensor.illumination_158d00029be9c3
       below: 60
     action:
-      - service: light.xiaomi_miio_set_scene
+      - service: xiaomi_miio.light_set_scene
         data:
           entity_id:
             - light.xiaomi_philips_zhirui_1
@@ -381,59 +381,15 @@ automation:
           - light.xiaomi_philips_zhirui_1
           - light.xiaomi_philips_zhirui_2
 
-##############################################################################
+###############################################################################
 #                                                                             #
 #                         G R O U P S                                         #
 #                                                                             #
 ###############################################################################      
 group:
 
-  Iluminação da cozinha:
-    control: hidden
-    entities:
-      - light.xiaomi_philips_zhirui
-      - light.xiaomi_philips_zhirui_1
-      - light.xiaomi_philips_zhirui_2
-      - light.leds_armario
-
-  Grupo Sensor:
+  Sensores Despensa:
     control: hidden
     entities:
       - binary_sensor.door_window_sensor_158d0002bfae0f
       - binary_sensor.door_window_sensor_158d0002bf9d6d
-
-
-  Sensor de Movimento Cozinha:
-    control: hidden
-    entities:
-      - binary_sensor.motion_sensor_158d00029be9c3
-      - sensor.illumination_158d00029be9c3
-
-  Ligar Automações Cozinha:
-    control: hidden
-    entities:
-      - automation.ligar_downlights_06h30_23h
-      - automation.ligar_downlights_23h_02h
-      - automation.ligar_downlights_02h_06h30
-      - automation.ligar_leds_despensa_merciaria
-
-  Desligar Automações Cozinha:
-    control: hidden
-    entities:      
-      - automation.desligar_downlights_06h30_09h
-      - automation.desligar_downlights_09h_11h
-      - automation.desligar_downlights_11h_23h
-      - automation.desligar_downlights_23h_06h30
-      - automation.desligar_leds_despensa_merciaria
-      - automation.desligar_downlights_a_cima_dos_61_lx
-      - automation.desligar_downlights_a_cima_dos_61_lx_2
-
-  cozinha:
-    view: yes
-    name: cozinha
-    entities:
-      - group.grupo_sensor
-      - group.iluminacao_da_cozinha
-      - group.sensor_de_movimento_cozinha
-      - group.ligar_automacoes_cozinha
-      - group.desligar_automacoes_cozinha

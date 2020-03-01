@@ -297,39 +297,3 @@ sensor:
           {% else %}
             mdi:battery-alert
           {% endif %}
-
-###############################################################################
-#                                                                             #
-#                         G R O U P S                                         #
-#                                                                             #
-###############################################################################      
-
-group:
-
-  Niveis das baterias:
-    control: hidden
-    entities:
-        - sensor.sensor_porta_entrada_battery_level
-        - sensor.sensor_porta_escritorio_battery_level
-        - sensor.sensor_portao_entrada_battery_level
-        - sensor.sensor_portao_jardim_battery_level
-        - sensor.sensor_movimento_sala_battery_level
-        - sensor.sensor_movimento_quarto_battery_level
-        - sensor.sensor_movimento_cozinha_battery_level
-        - sensor.sensor_movimento_despensa_battery_level
-        - sensor.sensor_temperatura_sala_battery_level
-        - sensor.cubo_magico_battery_level
-        - sensor.interruptor_battery_level
-        - sensor.sensor_chuva_battery_level
-
-  Automacão baterias:
-    control: hidden
-    entities:
-      - automation.substituir_a_bateria_dos_sensores    
-
-  Battery Levels:
-    view: yes
-    name: Carga dos sensores
-    entities:
-      - group.niveis_das_baterias
-      - group.automacao_baterias

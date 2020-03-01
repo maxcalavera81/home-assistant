@@ -69,12 +69,16 @@ cover:
 automation:
 #automacoes abrir e fechar dos estores
 
-  - alias: Abrir estores ao nascer do sol
+  - alias: Abrir estores ao nascer do sol Semana
     initial_state: true
     trigger: 
       platform: sun
       event: sunrise
       offset: '+00:30:00'
+    condition:
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'on'
     action:
       - service: cover.set_cover_position
         data:
@@ -84,12 +88,69 @@ automation:
             - cover.estore_cozinha
           position: 100
 
-  - alias: Fechar estores ao pôr do sol
+  - alias: Abrir estores ao nascer do sol Fim Semana mafalda
+    initial_state: true
+    trigger: 
+      platform: time
+      at: 09:30:00
+    condition:
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'off'
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_mafalda
+          position: 100
+
+  - alias: Abrir estores ao nascer do sol Fim Semana resto casa
+    initial_state: true
+    trigger: 
+      platform: sun
+      event: sunrise
+      offset: '+00:30:00'
+    condition:
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'off'
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_sala
+            - cover.estore_cozinha
+          position: 100
+
+  - alias: Fechar estores ao pôr do sol semana
     initial_state: true
     trigger: 
       platform: sun
       event: sunset
       offset: '+00:30:00'
+    condition:
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'on'
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id:
+            - cover.estore_sala
+            - cover.estore_mafalda
+            - cover.estore_cozinha
+          position: 0
+
+  - alias: Fechar estores ao pôr do sol fim semana
+    initial_state: true
+    trigger: 
+      platform: sun
+      event: sunset
+      offset: '+01:00:00'
+    condition:
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'off'
     action:
       - service: cover.set_cover_position
         data:

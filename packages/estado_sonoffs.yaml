@@ -67,3 +67,12 @@ automation:
       - service: mqtt.publish
         data:
          topic: cmnd/lamp3_4/power2
+      - service: mqtt.publish
+        data:
+         topic: cmnd/leds_sala/power
+      - service: mqtt.publish
+        data:
+         topic: cmnd/pc_power/power
+      - service: mqtt.publish
+        data:
+         topic: cmnd/monitor/power

@@ -240,33 +240,8 @@ automation:
 ############################################################################### 
 group:
 
-  Pai:
-    control: hidden
-    entities:
-      - device_tracker.armando_melo
-
-  Bruno:
-    control: hidden
-    entities:
-      - device_tracker.bruno_melo
-
-  Armanda:
-    control: hidden
-    entities:
-      - device_tracker.armanda_rodrigues
-
   Wifi:     
     name: presenças
     entities: 
-      - group.armanda
-      - group.bruno
-
-  Wi-Fi:
-    view: yes
-    name: Presença Wi-Fi
-    entities:
-      - group.notificacoes_wifi
-      - group.pai
-      - group.bruno
-      - group.armanda
-      - group.wifi
+      - device_tracker.bruno_melo
+      - device_tracker.armanda_rodrigues

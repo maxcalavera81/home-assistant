@@ -6,7 +6,7 @@ homeassistant:
 #                                                                             #
 ###############################################################################   
   customize:
-    binary_sensor.door_window_sensor_158d0002e7f816:
+    binary_sensor.0x00158d0002e7f816_contact:
       friendly_name: Portão do Jardim
       icon: mdi:gate
     light.iluminacao_do_jardim:
@@ -17,7 +17,7 @@ homeassistant:
       icon: mdi:lightbulb-on
 ###############################################################################
 #                                                                             #
-#                         S W I T C H                                         #
+#                         L I G T H S                                         #
 #                                                                             #
 ############################################################################### 
 light:
@@ -67,13 +67,13 @@ sensor:
       portao_jardim:
         friendly_name: "Estado Portão do Jardim"
         value_template: >-
-          {% if is_state('binary_sensor.door_window_sensor_158d0002e7f816', 'on') %}       
+          {% if is_state('binary_sensor.0x00158d0002e7f816_contact', 'on') %}       
             Portão Aberto
           {% else %}
             Portão Fechado
           {% endif %}
         icon_template: >-
-          {% if is_state('binary_sensor.door_window_sensor_158d0002e7f816', 'on') %}      
+          {% if is_state('binary_sensor.0x00158d0002e7f816_contact', 'on') %}      
             mdi:door-open
           {% else %}
             mdi:door-closed
@@ -89,7 +89,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.door_window_sensor_158d0002e7f816
+      entity_id: binary_sensor.0x00158d0002e7f816_contact
       to: 'on'
     condition:
       condition: or
@@ -110,7 +110,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.door_window_sensor_158d0002e7f816
+      entity_id: binary_sensor.0x00158d0002e7f816_contact
       to: 'off'
       for:
         minutes: 2
@@ -122,41 +122,40 @@ automation:
             - light.iluminacao_lateral
             - light.iluminacao_coberto
 
-###############################################################################
-#                                                                             #
-#                           L U Z E S                                         #
-#                                                                             #
-###############################################################################  
+#botao zigbee para iluminacao do jardim
+
+  - alias: Ligar iluminacao do jardim e coberto
+    initial_state: true
+    trigger: 
+      platform: state
+      entity_id: sensor.0x00158d000359e754_click
+      to: 'triple'
+    condition:
+      condition: or
+      conditions:
+      - condition: sun
+        after: sunset
+      - condition: sun
+        before: sunrise
+    action:
+      service_template: >
+       {% if is_state('group.iluminacao_do_jardim', 'off') %}
+       light.turn_on  
+       {%- elif is_state('group.iluminacao_do_jardim', 'on') -%}
+       light.turn_off
+       {% endif %}
+      entity_id: group.iluminacao_do_jardim
 
 ###############################################################################
 #                                                                             #
 #                         G R O U P S                                         #
-#                                                                             
+#                                                                             #
 ###############################################################################      
-
 group:
 
-  Estado do portão do Jardim:
-    control: hidden
-    entities:
-      - binary_sensor.door_window_sensor_158d0002e7f816
-
-  Interruptores do Jardim:
+  Iluminação do jardim:
     control: hidden
     entities:
       - light.iluminacao_do_jardim
       - light.iluminacao_lateral
-
-  Automações do Jardim:
-    control: hidden
-    entities:
-      - automation.ligar_iluminacao_do_jardim
-      - automation.desligar_iluminacao_do_jardim
-
-  iluminacao jardins:
-    view: yes
-    name: Iluminação do Jardim
-    entities:
-      - group.estado_do_portao_do_jardim
-      - group.interruptores_do_jardim
-      - group.automacoes_do_jardim
+      - light.iluminacao_coberto

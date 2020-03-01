@@ -142,12 +142,57 @@ automation:
         data:
           entity_id: light.candeeiro_patio_1
 
+#botao zigbee para iluminacao do patio
+
+  - alias: Ligar iluminacao patio 2 lampadas
+    initial_state: true
+    trigger: 
+      platform: state
+      entity_id: sensor.0x00158d000359e754_click
+      to: 'single'
+    condition:
+      condition: or
+      conditions:
+      - condition: sun
+        after: sunset
+      - condition: sun
+        before: sunrise
+    action:
+      service_template: >
+       {% if is_state('group.duas_lampadas_do_patio', 'off') %}
+       light.turn_on  
+       {%- elif is_state('group.duas_lampadas_do_patio', 'on') -%}
+       light.turn_off
+       {% endif %}
+      entity_id: group.duas_lampadas_do_patio
+
+  - alias: Ligar iluminacao patio
+    initial_state: true
+    trigger: 
+      platform: state
+      entity_id: sensor.0x00158d000359e754_click
+      to: 'double'
+    condition:
+      condition: or
+      conditions:
+      - condition: sun
+        after: sunset
+      - condition: sun
+        before: sunrise
+    action:
+      service_template: >
+       {% if is_state('group.lampadas_do_patio', 'off') %}
+       light.turn_on  
+       {%- elif is_state('group.lampadas_do_patio', 'on') -%}
+       light.turn_off
+       {% endif %}
+      entity_id: group.lampadas_do_patio
+
 ###############################################################################
 #                                                                             #
 #                         G R O U P S                                         #
 #                                                                             #
-###############################################################################      
-
+###############################################################################
 group:
 
   Duas lâmpadas do pátio:
@@ -163,3 +208,4 @@ group:
       - light.candeeiro_patio_2
       - light.candeeiro_patio_3
       - light.candeeiro_patio_4
+      - light.iluminacao_das_garagens

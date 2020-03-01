@@ -36,7 +36,7 @@ light:
     command_topic: "shellies/shelly1-944B35/relay/0/command"
     payload_on: "on"
     payload_off: "off"
-    retain: true
+    retain: false
 
 ###############################################################################
 #                                                                             #
@@ -330,45 +330,43 @@ automation:
       - service: light.turn_off
         entity_id: light.yeelight_color1_7811dce0fe41
 
-###############################################################################
-#                                                                             #
-#                         G R O U P S                                         #
-#                                                                             
-###############################################################################      
+#Zigbee
 
-group:
+  - alias: Ligar luz
+    initial_state: true
+    trigger: 
+      platform: state
+      entity_id: sensor.botao_leds_click
+      to: 'on'
+    action:
+      - service: light.turn_on
+        entity_id: light.yeelight_color1_7811dce0fe41
+        data:
+          brightness: 10
+          color_name: orangered
 
-  Lâmpada Quarto Mafalda:
-    control: hidden
-    entities:
-      - light.yeelight_color1_7811dce0fe41
+  - alias: Desligar luz
+    initial_state: true
+    trigger: 
+      platform: state
+      entity_id: sensor.botao_leds_click
+      to: 'off'
+    action:
+      - service: light.turn_off
+        entity_id: light.yeelight_color1_7811dce0fe41
 
-  Sensor de Movimento Mafalda:
-    control: hidden
-    entities:
-      - binary_sensor.motion_sensor_158d000272b7c0
-      - sensor.illumination_158d000272b7c0
-
-  Ligar Automações Mafalda:
-    control: hidden
-    entities:
-      - automation.ligar_candeeiro_17h00_20h00
-      - automation.ligar_candeeiro_20h00_22h30
-      - automation.mudar_fraldas_quarto_22h30_07h00
-      - automation.mudar_fraldas_quarto_07h00_09h00
-
-  Desligar Automações Mafalda:
-    control: hidden
-    entities:
-      - automation.desligar_candeeiro_17h00_22h30
-      - automation.desligar_mudar_fraldas_quarto_22h30_09h00
-      - automation.desligar_candeeiro_mafalda_a_cima_dos_31_lx
-
-  Quarto da Mafalda:
-    view: yes
-    name: Quarto da Mafalda
-    entities:
-      - group.lampada_quarto_mafalda
-      - group.sensor_de_movimento_mafalda
-      - group.ligar_automacoes_mafalda
-      - group.desligar_automacoes_mafalda
+  - alias: Desligar luzes da sala e cozinha
+    initial_state: true
+    trigger: 
+      platform: state
+      entity_id: sensor.botao_leds_click
+      to: 'brightness_down'
+    action:
+      - service: light.turn_off
+        entity_id: 
+          - light.yeelight_color1_7811dc6b98cb
+          - light.yeelight_color1_7811dc6b9b10
+          - light.xiaomi_philips_zhirui
+          - light.xiaomi_philips_zhirui_1
+          - light.xiaomi_philips_zhirui_2
+          - light.leds_armario_sala

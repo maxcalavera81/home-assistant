@@ -14,18 +14,6 @@ homeassistant:
       icon: mdi:lightbulb-on
     light.teto_da_sala:
       icon: mdi:lightbulb-on
-    binary_sensor.movimento_sala:
-      friendly_name: Sensor de Movimento Sala
-      icon: mdi:run
-    sensor.lx_sala:
-      friendly_name: Sensor LX Sala
-      icon: mdi:brightness-4
-    sensor.humidity_158d00023203e4:
-      friendly_name: Sensor de Humidade da Sala
-      icon: mdi:water-percent
-    sensor.temperature_158d00023203e4:
-      friendly_name: Sensor de Temperatura da Sala
-      icon: mdi:temperature-celsius
     binary_sensor.cube_158d00027984b3:
       friendly_name: Cubo Mágico
       icon: mdi:cube-outline
@@ -46,7 +34,7 @@ light:
     command_topic: "shellies/shelly1-944EA4/relay/0/command"
     payload_on: "on"
     payload_off: "off"
-    retain: true
+    retain: false
 
 yeelight:
   devices: 
@@ -644,7 +632,7 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'off'
     - condition: state
-      entity_id: 'media_player.samsung_smart_tv'
+      entity_id: 'media_player.samsung_tv'
       state: 'off'
     action:
       - service: light.turn_off
@@ -668,7 +656,7 @@ automation:
       state: 'off'
     - condition: numeric_state
       entity_id: sensor.lx_sala
-      below: 5
+      below: 8
     action:
       - service: light.turn_on
         entity_id:
@@ -743,7 +731,7 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'off'
     - condition: state
-      entity_id: 'media_player.samsung_smart_tv'
+      entity_id: 'media_player.samsung_tv'
       state: 'off'
     action:
       - service: light.turn_off
@@ -794,7 +782,7 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'off'
     - condition: state
-      entity_id: 'media_player.samsung_smart_tv'
+      entity_id: 'media_player.samsung_tv'
       state: 'off'
     action:
       - service: light.turn_off
@@ -847,7 +835,7 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'on'
     - condition: state
-      entity_id: 'media_player.samsung_smart_tv'
+      entity_id: 'media_player.samsung_tv'
       state: 'off'
     action:
       - service: light.turn_off
@@ -991,7 +979,7 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'on'
     - condition: state
-      entity_id: 'media_player.samsung_smart_tv'
+      entity_id: 'media_player.samsung_tv'
       state: 'off'
     action:
       - service: light.turn_off
@@ -1042,7 +1030,7 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'on'
     - condition: state
-      entity_id: 'media_player.samsung_smart_tv'
+      entity_id: 'media_player.samsung_tv'
       state: 'off'
     action:
       - service: light.turn_off
@@ -1093,7 +1081,7 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'on'
     - condition: state
-      entity_id: 'media_player.samsung_smart_tv'
+      entity_id: 'media_player.samsung_tv'
       state: 'off'
     action:
       - service: light.turn_off
@@ -1139,21 +1127,6 @@ automation:
       data:
         message: 'Movimento detectado'
 
-
-  - alias: Alerta de temperatura em casa
-    initial_state: true
-    trigger:
-      platform: time_pattern
-      hours: '/2'
-    condition:
-    - condition: state
-      entity_id: 'device_tracker.bruno_melo'
-      state: 'not_home'
-    action:
-      - service: notify.telegram
-        data:
-          title: "Temperatura da sala é de "
-          message: "{{ states('sensor.temperatura_sala') }} °C e a húmidade é de {{ states('sensor.humidade_sala') }} %. E a temperatura no quarto é de {{ states('sensor.temperature_158d00023203e4') }} °C e a húmidade é de {{ states('sensor.humidity_158d00023203e4') }} %."
 ###############################################################################
 #                                                                             #
 #                         G R O U P S                                         #

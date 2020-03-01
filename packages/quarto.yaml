@@ -18,11 +18,45 @@ homeassistant:
 ###############################################################################  
 light:
 
-  - platform: flux_led
-    devices:
-      !secret leds_quarto:
-        name: Led Strip Quarto
-        mode: "rgbw"
+#  - platform: flux_led
+#    devices:
+#      !secret leds_quarto:
+#        name: Led Strip Quarto
+#        mode: "rgbw"
+
+  - platform: mqtt
+    name: "LEDs Quarto"
+    command_topic: "cmnd/magic_home/POWER"
+    state_topic: "stat/magic_home/RESULT"
+    state_value_template: "{{value_json.POWER}}"
+    availability_topic: "tele/magic_home/LWT"
+    brightness_command_topic: "cmnd/magic_home/Dimmer"
+    brightness_state_topic: "stat/magic_home/RESULT"
+    brightness_scale: 100
+    on_command_type: "brightness"
+    brightness_value_template: "{{value_json.Dimmer}}"
+    white_value_state_topic: "stat/magic_home/RESULT"
+    white_value_command_topic: "cmnd/magic_home/Channel4"
+    white_value_scale: 100
+    white_value_template: "{{ value_json.Channel[3] }}"
+    rgb_command_topic: "cmnd/magic_home/Color2"
+    rgb_state_topic: "stat/magic_home/RESULT"
+    rgb_value_template: "{{value_json.Color.split(',')[0:3]|join(',')}}"
+    effect_command_topic: "cmnd/magic_home/Scheme"
+    effect_state_topic: "stat/magic_home/RESULT"
+    effect_value_template: "{{value_json.Scheme}}"
+    effect_list:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    retain: false
 
   - platform: mqtt
     name: "Teto Quarto"
@@ -30,7 +64,7 @@ light:
     command_topic: "shellies/shelly1-688EA8/relay/0/command"
     payload_on: "on"
     payload_off: "off"
-    retain: true
+    retain: false
 ###############################################################################
 #                                                                             #
 #                           A U T O M A Ç Õ E S                               #
@@ -38,147 +72,128 @@ light:
 ###############################################################################   
 automation:
 
-  - alias: Ligar Leds quarto
-    initial_state: false
-    trigger: 
-      platform: sun
-      event: sunset
-      offset: '+00:40:00'
-    condition:
-      condition: state
-      entity_id: group.wifi
-      state: home
-    action:
-      - service: light.turn_on
-        entity_id: light.led_strip_quarto
-        data:
-          brightness: 255
-          kelvin: 5000
+#  - alias: Ligar Leds quarto
+#    initial_state: false
+#    trigger: 
+#      platform: sun
+#      event: sunset
+#      offset: '+00:40:00'
+#    condition:
+#      condition: state
+#      entity_id: group.wifi
+#      state: home
+#    action:
+#      - service: light.turn_on
+#        entity_id: light.led_strip_quarto
+#        data:
+#          brightness: 255
+#          kelvin: 5000
 
-  - alias: Reduzir intensidade Leds quarto
-    initial_state: false
-    trigger: 
-      platform: time
-      at: '23:00:00'
-    condition:
-      condition: state
-      entity_id: group.wifi
-      state: home
-    action:
-      - service: light.turn_on
-        entity_id: light.led_strip_quarto
-        data:
-          brightness: 125
-          kelvin: 5000
+#  - alias: Reduzir intensidade Leds quarto
+#    initial_state: false
+#    trigger: 
+#      platform: time
+#      at: '23:00:00'
+#    condition:
+#      condition: state
+#      entity_id: group.wifi
+#      state: home
+#    action:
+#      - service: light.turn_on
+#        entity_id: light.led_strip_quarto
+#        data:
+#          brightness: 125
+#          kelvin: 5000
 
-  - alias: 2 reduzir intensidade Leds quarto
-    initial_state: false
-    trigger: 
-      platform: time
-      at: '01:00:00'
-    condition:
-      condition: state
-      entity_id: group.wifi
-      state: home
-    action:
-      - service: light.turn_on
-        entity_id: light.led_strip_quarto
-        data:
-          brightness: 50
-          kelvin: 5000
+#  - alias: 2 reduzir intensidade Leds quarto
+#    initial_state: false
+#    trigger: 
+#      platform: time
+#      at: '01:00:00'
+#    condition:
+#      condition: state
+#      entity_id: group.wifi
+#      state: home
+#    action:
+#      - service: light.turn_on
+#        entity_id: light.led_strip_quarto
+#        data:
+#          brightness: 50
+#          kelvin: 5000
 
-  - alias: Ligar Leds quarto ao chegar a casa
-    initial_state: true
-    trigger: 
-      platform: state
-      entity_id: group.wifi
-      from: 'not_home'
-      to: 'home'
-    condition:
-    - condition: time
-      after: '22:00:00'
-      before: '04:00:00'
-    action:
-      - service: light.turn_on
-        entity_id: light.led_strip_quarto
-        data:
-          brightness: 100
-          color_name: orangered
+#  - alias: Ligar Leds quarto ao chegar a casa
+#    initial_state: true
+#    trigger: 
+#      platform: state
+#      entity_id: group.wifi
+#      from: 'not_home'
+#      to: 'home'
+#    condition:
+#    - condition: time
+#      after: '22:00:00'
+#      before: '04:00:00'
+#    action:
+#      - service: light.turn_on
+#        entity_id: light.led_strip_quarto
+#        data:
+#          brightness: 100
+#          color_name: orangered
 
-  - alias: Desligar Leds quarto semana
-    initial_state: true
-    trigger: 
-      platform: time
-      at: '07:20:00'
-    condition:
-    - condition: state
-      entity_id: 'binary_sensor.workday_sensor'
-      state: 'on'
-    action:
-      - service: light.turn_off
-        entity_id: light.led_strip_quarto
+#  - alias: Desligar Leds quarto semana
+#    initial_state: true
+#    trigger: 
+#      platform: time
+#      at: '07:20:00'
+#    condition:
+#    - condition: state
+#      entity_id: 'binary_sensor.workday_sensor'
+#      state: 'on'
+#    action:
+#      - service: light.turn_off
+#        entity_id: light.led_strip_quarto
 
 #Zigbee
 
-  - alias: Ligar com botão 09h 21h
-    initial_state: true
-    trigger: 
-      platform: state
-      entity_id: sensor.botao_leds_click
-      to: 'on'
-    condition:
-    - condition: time
-      after: '09:00:00'
-      before: '21:00:00'
-    action:
-      - service: light.turn_on
-        entity_id: light.led_strip_quarto
-        data:
-          brightness: 255
-          color_name: white
+#  - alias: Ligar com botão 09h 21h
+#    initial_state: true
+#    trigger: 
+#      platform: state
+#      entity_id: sensor.botao_leds_click
+#      to: 'on'
+#    condition:
+#    - condition: time
+#      after: '09:00:00'
+#      before: '21:00:00'
+#    action:
+#      - service: light.turn_on
+#        entity_id: light.led_strip_quarto
+#        data:
+#          brightness: 255
+#          color_name: white
 
-  - alias: Ligar com botão 21h 9h
-    initial_state: true
-    trigger: 
-      platform: state
-      entity_id: sensor.botao_leds_click
-      to: 'on'
-    condition:
-    - condition: time
-      after: '21:00:00'
-      before: '09:00:00'
-    action:
-      - service: light.turn_on
-        entity_id: light.led_strip_quarto
-        data:
-          brightness: 100
-          color_name: orangered
+#  - alias: Ligar com botão 21h 9h
+#    initial_state: true
+#    trigger: 
+#      platform: state
+#      entity_id: sensor.botao_leds_click
+#      to: 'on'
+#    condition:
+#    - condition: time
+#      after: '21:00:00'
+#      before: '09:00:00'
+#    action:
+#      - service: light.turn_on
+#        entity_id: light.led_strip_quarto
+#        data:
+#          brightness: 100
+#          color_name: orangered
 
-  - alias: Desligar com botão
-    initial_state: true
-    trigger: 
-      platform: state
-      entity_id: sensor.botao_leds_click
-      to: 'off'
-    action:
-      - service: light.turn_off
-        entity_id: light.led_strip_quarto
-
-###############################################################################
-#                                                                             #
-#                         G R O U P S                                         #
-#                                                                             #
-###############################################################################      
-
-group:
-
-  Strip Quarto Grande:
-    control: hidden
-    entities:
-      - light.led_strip_quarto
-
-  Quarto Grande:
-    view: yes
-    name: Quarto Grande
-    entities:
-      - group.strip_quarto_grande
+#  - alias: Desligar com botão
+#    initial_state: true
+#    trigger: 
+#      platform: state
+#      entity_id: sensor.botao_leds_click
+#      to: 'off'
+#    action:
+#      - service: light.turn_off
+#        entity_id: light.led_strip_quarto

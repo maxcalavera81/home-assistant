@@ -13,10 +13,16 @@ homeassistant:
       icon: mdi:lightbulb-on
     light.downlight_esquerdo:
       icon: mdi:lightbulb-on
+    sensor.temperature_158d00023203e4:
+      friendly_name: Sensor de Temperatura do escritório
+      icon: mdi:temperature-celsius
+    sensor.humidity_158d00023203e4:
+      friendly_name: Sensor de Humidade do escritório
+      icon: mdi:water-percent
 
 ###############################################################################
 #                                                                             #
-#                           S W I T C H                                       #
+#                            L I G H T S                                      #
 #                                                                             #
 ###############################################################################
 light:
@@ -140,50 +146,3 @@ automation:
       data:
         title: "Porta do Escritório"
         message: "Continua aberta"
-
-###############################################################################
-#                                                                             #
-#                           l U Z E S                                         #
-#                                                                             #
-###############################################################################  
-
-###############################################################################
-#                                                                             #
-#                         G R O U P S                                         #
-#                                                                             #
-###############################################################################      
-
-group:
-
-  Iluminação Escritório:
-    control: hidden
-    entities:
-      - light.downlight_direito
-      - light.downlight_esquerdo
-
-  Estado porta escritório:
-    control: hidden
-    entities:
-      - binary_sensor.door_window_sensor_158d00024e0c7b
-
-  Automações escritório:
-    control: hidden
-    entities:
-      - automation.liga_luz_do_escritorio
-      - automation.desliga_luz_do_escritorio
-
-  Notificações escritório:
-    control: hidden
-    entities:
-      - automation.porta_escritorio_aberta
-      - automation.porta_escritorio_fechada
-      - automation.porta_do_escritorio_aberta_a_10_mim
-
-  Escritório:
-    view: yes
-    name: Escritório
-    entities:
-      - group.estado_porta_escritorio
-      - group.iluminacao_escritorio
-      - group.automacoes_escritorio
-      - group.notificacoes_escritorio

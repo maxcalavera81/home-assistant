@@ -5,17 +5,17 @@ homeassistant:
 #                                                                             #
 ############################################################################### 
 script:
-  message_temperature_test:
+  message_temperature:
     sequence:
       - service: notify.tv_sala
         data_template:
-          message: A temperatura da sala é de {{ states('sensor.temperatura_sala') }} °C e a húmidade é de {{ states('sensor.humidade_sala') }} %.
+          message: A temperatura da sala é de {{ states('sensor.temperatura_sala') }} °C e a húmidade é de {{ states('sensor.humidade_sala') }} %, a temperatura do quarto é de {{ states('sensor.temperatura_quarto') }} °C e a húmidade é de {{ states('sensor.humidade_quarto') }} % e a temperatura do escritório é de {{ states('sensor.temperature_158d00023203e4') }} °C e a húmidade é de {{ states('sensor.humidity_158d00023203e4') }} %.
 
   message_temperature_mi_box_s:
     sequence:
       - service: notify.mi_box_s
         data_template:
-          message: A temperatura do quarto é de {{ states('sensor.temperature_158d00023203e4') }} °C e a húmidade é de {{ states('sensor.humidity_158d00023203e4') }} %.
+          message: A temperatura do quarto é de {{ states('sensor.temperatura_quarto') }} °C e a húmidade é de {{ states('sensor.humidade_quarto') }} %.
 
   temperature_status:
     alias: 'Temperaturas da casa'
@@ -24,7 +24,7 @@ script:
       entity_id: media_player.sala
       data_template:
         message: >-
-          A temperatura da sala é de {{ states('sensor.temperatura_sala') }} °C e a húmidade é de {{ states('sensor.humidade_sala') }} %, e a temperatura do quarto é de {{ states('sensor.temperature_158d00023203e4') }} °C e a húmidade é de {{ states('sensor.humidity_158d00023203e4') }} %.
+          A temperatura da sala é de {{ states('sensor.temperatura_sala') }} °C e a húmidade é de {{ states('sensor.humidade_sala') }} %, a temperatura do quarto é de {{ states('sensor.temperatura_quarto') }} °C e a húmidade é de {{ states('sensor.humidade_quarto') }} % e a temperatura do escritório é de {{ states('sensor.temperature_158d00023203e4') }} °C e a húmidade é de {{ states('sensor.humidity_158d00023203e4') }} %.
 
 ###############################################################################
 #                                                                             #
@@ -56,5 +56,20 @@ automation:
     action:
       - service: notify.mi_box_s
         data:
-          title: "A temperatura da sala é de "
-          message: "{{ states('sensor.temperature_158d00023203e4') }} °C e a húmidade é de {{ states('sensor.humidity_158d00023203e4') }} %."
+          title: "A temperatura do quarto é de "
+          message: "{{ states('sensor.temperatura_quarto') }} °C e a húmidade é de {{ states('sensor.humidade_quarto') }} %."
+
+  - alias: Alerta de temperatura em casa
+    initial_state: true
+    trigger:
+      platform: time_pattern
+      hours: '/2'
+    condition:
+    - condition: state
+      entity_id: 'device_tracker.bruno_melo'
+      state: 'not_home'
+    action:
+      - service: notify.telegram
+        data:
+          title: "Temperatura da sala é de "
+          message: "{{ states('sensor.temperatura_sala') }} °C e a húmidade é de {{ states('sensor.humidade_sala') }} %. A temperatura no quarto é de {{ states('sensor.temperatura_quarto') }} °C e a húmidade é de {{ states('sensor.humidade_quarto') }} % e a temperatura do escritório é de {{ states('sensor.temperature_158d00023203e4') }} °C e a húmidade é de {{ states('sensor.humidity_158d00023203e4') }} %."

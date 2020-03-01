@@ -1,0 +1,44 @@
+homeassistant:
+
+automation:
+
+  - alias: Temas Automáticos day and night
+    initial_state: true
+    trigger:
+    - platform: homeassistant
+      event: start
+    - platform: state
+      entity_id: sun.sun
+      to: above_horizon
+    - platform: state
+      entity_id: sun.sun
+      to: below_horizon
+    action:
+      - service_template: frontend.set_theme
+        data_template:
+          name: >
+            {% if states.sun.sun.state == "above_horizon" %}
+              Light - Cyan
+            {% else %}
+              Dark - Cyan
+            {% endif %}
+
+
+  - alias: hass_theme
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: input_select.hass_theme
+    action:
+      - service: frontend.set_theme
+        data_template:
+          name: "{{ states.input_select.hass_theme.state }}"
+
+
+input_select:
+  hass_theme:
+    name: Escolha um tema
+    options:
+      - azulescuro
+      - laranjaclaro
+    icon: mdi:theme-light-dark

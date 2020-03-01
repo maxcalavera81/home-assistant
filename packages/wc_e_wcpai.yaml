@@ -1,0 +1,311 @@
+homeassistant:
+
+###############################################################################
+#                                                                             #
+#                           C U S T O M I Z E                                 #
+#                                                                             #
+###############################################################################
+  customize:
+    light.teto_casa_de_banho:
+      icon: mdi:lightbulb-on
+    light.espelho_casa_de_banho:
+      icon: mdi:lightbulb-on
+    light.wc_pai:
+      friendly_name: WC Pai
+      icon: mdi:lightbulb-on
+
+###############################################################################
+#                                                                             #
+#                            I N P U T _ B O O L E A N                        #
+#                                                                             #
+###############################################################################
+input_boolean:
+  toalheiro_status:
+    name: Status
+    initial: on 
+
+###############################################################################
+#                                                                             #
+#                         I N P U T _ D A T E T I M E                         #
+#                                                                             #
+###############################################################################
+input_datetime:
+  toalheiro_on:
+    name: "Ligar o toalheiro às"
+    has_date: false
+    has_time: true
+    initial: "05:00"
+
+  toalheiro_off:
+    name: "Desligar o toalheiro às"
+    has_date: false
+    has_time: true
+    initial: "07:45"
+
+###############################################################################
+#                                                                             #
+#                               L I G H T S                                   #
+#                                                                             #
+###############################################################################
+light:
+
+  - platform: mqtt
+    name: "Teto Casa de Banho"
+    state_topic: "shellies/shellyswitch25-691DA5/relay/0"
+    command_topic: "shellies/shellyswitch25-691DA5/relay/0/command"
+    payload_on: "on"
+    payload_off: "off"
+    retain: false
+
+  - platform: mqtt
+    name: "Espelho Casa de Banho"
+    state_topic: "shellies/shellyswitch25-691DA5/relay/1"
+    command_topic: "shellies/shellyswitch25-691DA5/relay/1/command"
+    payload_on: "on"
+    payload_off: "off"
+    retain: false
+
+#WC pai
+  - platform: mqtt
+    name: "WC Pai"
+    state_topic: "stat/wcpai/POWER"
+    command_topic: "cmnd/wcpai/power"
+    availability_topic: "tele/wcpai/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+#######################################################################
+#                                                                     #
+#                            S E N S O R S                            #
+#                                                                     #
+#######################################################################
+sensor:
+  - platform: mqtt
+    state_topic : "shellies/shellyswitch25-691DA5/temperature"
+    unit_of_measurement: "°C"
+    name: "Shelly WC"
+
+  - platform: mqtt
+    name: "Teto Casa de Banho Watts"
+    state_topic: "shellies/shellyswitch25-691DA5/relay/0/power"    
+    unit_of_measurement: "Watts"
+    
+  - platform: mqtt
+    name: "Teto Casa de Banho Kwh"
+    state_topic: "shellies/shellyswitch25-691DA5/relay/0/energy"    
+    unit_of_measurement: "Kwh"
+
+  - platform: mqtt
+    name: "Espelho Casa de Banho Watts"
+    state_topic: "shellies/shellyswitch25-691DA5/relay/1/power"    
+    unit_of_measurement: "Watts"
+    
+  - platform: mqtt
+    name: "Espelho Casa de Banho Kwh"
+    state_topic: "shellies/shellyswitch25-691DA5/relay/1/energy"    
+    unit_of_measurement: "KWh"
+
+###############################################################################
+#                                                                             #
+#                           S C R I P T                                       #
+#                                                                             #
+###############################################################################
+script:
+
+  turn_off_wc_pai:
+    sequence:
+      - service: light.turn_on
+        entity_id: light.wc_pai
+      - delay:
+         minutes: 30
+      - service: light.turn_off
+        entity_id: light.wc_pai
+
+  toalheiro:
+    sequence:
+      - service: switch.turn_on
+        entity_id: switch.toalheiro_wc
+      - delay: '01:45:00'
+      - service: switch.turn_off
+        entity_id: switch.toalheiro_wc
+
+###############################################################################
+#                                                                             #
+#                         S W I T C H  S O N O F F                            #
+#                                                                             #
+###############################################################################  
+switch:
+  - platform: mqtt
+    name: "toalheiro WC"
+    state_topic: "stat/toalheiro/POWER"
+    command_topic: "cmnd/toalheiro/power"
+    availability_topic: "tele/toalheiro/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+###############################################################################
+#                                                                             #
+#                           A U T O M A Ç Õ E S                               #
+#                                                                             #
+###############################################################################
+automation:
+
+  - alias: Desligar WC Pai
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: light.wc_pai
+      to: 'on'
+      for:
+        minutes: 30
+    action:
+      - service: light.turn_off
+        entity_id: light.wc_pai
+
+#  - alias: Desligar wc pai
+#    initial_state: true
+#    trigger:
+#      platform: state
+#      entity_id: light.wc_pai
+#      to: 'on'
+#    action:
+#      - delay: '00:00:10'
+#      - service: light.turn_off
+#        data:
+#          entity_id: light.wc_pai
+
+#  - alias: Turn off wc father
+#    initial_state: true
+#    trigger:
+#      platform: state
+#      entity_id: light.wc_pai
+#      to: 'on'
+#    action:
+#      - service: script.turn_off_wc_pai
+
+#toalheiro
+  - alias: Ligar toalheiro
+    initial_state: false
+    trigger:
+      - platform: time
+        at: '06:00:00'
+    condition:
+      - condition: state
+        entity_id: group.wifi
+        state: home
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'on'
+    action:
+      - service: script.turn_on
+        data:
+          entity_id: script.toalheiro
+
+#notificações toalheiro
+  - alias: O toalheiro está ligado
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: switch.toalheiro_wc
+      from: 'off'
+      to: 'on'
+    action:
+      service: notify.telegram
+      data:
+        title: "Notificação toalheiro - "
+        message: "O toalheiro do wc está ligado"
+        
+  - alias: O toalheiro foi desligado
+    initial_state: true
+    trigger:
+    - platform: state
+      entity_id: switch.toalheiro_wc
+      from: 'on'
+      to: 'off'
+    action:
+      service: notify.telegram
+      data:
+        title: "Notificação toalheiro - "
+        message: "O toalheiro do wc foi desligado"
+
+#Desliga toalheiro
+
+  - alias: Desliga toalheiro
+    initial_state: 'on'
+    trigger:
+      - platform: time_pattern
+        minutes: '/1'
+        seconds: 01
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: input_boolean.toalheiro_status
+          state: 'on'
+        - condition: template
+          value_template: "{{ states('sensor.time') == (states.input_datetime.toalheiro_off.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+    action:
+      - service: switch.turn_off
+        entity_id: switch.toalheiro_wc
+
+#Liga toalheiro
+  - alias: Liga toalheiro
+    initial_state: 'on'
+    trigger:
+      - platform: time_pattern
+        minutes: '/1'
+        seconds: 01
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: input_boolean.toalheiro_status
+          state: 'on'
+        - condition: state
+          entity_id: group.wifi
+          state: home
+        - condition: state
+          entity_id: 'binary_sensor.workday_sensor'
+          state: 'on'
+        - condition: template
+          value_template: "{{ states('sensor.time') == (states.input_datetime.toalheiro_on.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+    action:
+      - service: switch.turn_on
+        entity_id: switch.toalheiro_wc
+
+#telegram
+
+  - alias: Estado do toalheiro
+    initial_state: true
+    trigger:
+      platform: time
+      at: '08:00:00'
+    condition:
+      - condition: state
+        entity_id: 'switch.toalheiro_wc'
+        state: 'on'
+    action:
+      service: notify.telegram
+      data:
+        title: 'Informação toalheiro'
+        message: 'O toalheiro continua ligado, queres desligar?'
+        data:
+          inline_keyboard:
+            - "SIM:/simquero"
+            - "NÃO:/naoquero"
+
+#resposta a não da automacao de cima
+  - alias: 'Resposta a sim' 
+    initial_state: false
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/simquero'            
+    action:
+      - service: switch.turn_off
+        entity_id: switch.toalheiro_wc

@@ -31,22 +31,3 @@ rest_command:
   google_backup:
     url: 'http://192.168.1.250:8055/gb/doBackup'
     timeout: '300'
-
-###############################################################################
-#                                                                             #
-#                                 G R O U P S                                 #
-#                                                                             #
-############################################################################### 
-group:
-      
-  Backups:
-    control: hidden
-    entities:
-      - automation.backup_hassio_03_am
-      - automation.envio_dropbox_04_am
-      
-  Google Drive:
-    view: yes
-    name: Google Drive
-    entities:
-      - group.backups
