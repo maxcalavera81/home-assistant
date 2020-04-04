@@ -48,7 +48,7 @@ automation:
     initial_state: true
     trigger:
       - platform: template
-        value_template: "{{ states('sensor.time') == (states.input_datetime.pinheiro_semana_on.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+        value_template: "{{ states('sensor.time') == (states.input_datetime.pinheiro_semana_on.attributes.timestamp | int | timestamp_custom('%h:%m', False)) }}"
     condition:
       condition: and
       conditions:
@@ -92,10 +92,10 @@ automation:
 #        entity_id: switch.0x000d6ffffe2efe21_switch
 
   - alias: Desliga Pinheirinho semana
-    initial_state: false
+    initial_state: true
     trigger:
       - platform: template
-        value_template: "{{ states('sensor.time') == (states.input_datetime.pinheiro_semana_off.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+        value_template: "{{ states('sensor.time') == (states.input_datetime.pinheiro_semana_off.attributes.timestamp | int | timestamp_custom('%h:%m', False)) }}"
     condition:
       condition: and
       conditions:
@@ -110,7 +110,7 @@ automation:
         entity_id: switch.0x000d6ffffe2efe21_switch
 
   - alias: Liga Pinheirinho fim semana
-    initial_state: false
+    initial_state: 'on'
     trigger:
       - platform: template
         value_template: "{{ states('sensor.time') == (states.input_datetime.pinheiro_fimsemana_on.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
@@ -128,7 +128,7 @@ automation:
         entity_id: switch.0x000d6ffffe2efe21_switch
 
   - alias: Desliga Pinheirinho fim semana
-    initial_state: false
+    initial_state: 'on'
     trigger:
       - platform: template
         value_template: "{{ states('sensor.time') == (states.input_datetime.pinheiro_fimsemana_off.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
@@ -359,6 +359,6 @@ automation:
 group:
 
   Arvore de natal:
-    control: hidden
+    name: Arvore de Natal
     entities:
       - switch.0x000d6ffffe2efe21_switch
