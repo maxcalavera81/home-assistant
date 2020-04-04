@@ -48,7 +48,7 @@ automation:
     initial_state: true
     trigger:
       - platform: template
-        value_template: "{{ states('sensor.time') == (states.input_datetime.pinheiro_semana_on.attributes.timestamp | int | timestamp_custom('%h:%m', False)) }}"
+        value_template: "{{ states('sensor.time') == (states.input_datetime.pinheiro_semana_on.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
     condition:
       condition: and
       conditions:
@@ -95,7 +95,7 @@ automation:
     initial_state: true
     trigger:
       - platform: template
-        value_template: "{{ states('sensor.time') == (states.input_datetime.pinheiro_semana_off.attributes.timestamp | int | timestamp_custom('%h:%m', False)) }}"
+        value_template: "{{ states('sensor.time') == (states.input_datetime.pinheiro_semana_off.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
     condition:
       condition: and
       conditions:
