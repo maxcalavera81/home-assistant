@@ -1,0 +1,171 @@
+##
+## Main arguments, all optional
+##
+title: Segundo Painel
+widget_dimensions: [120, 120]
+widget_size: [1, 1]
+widget_margins: [5, 5]
+columns: 10
+global_parameters:
+    use_comma: 0
+    precision: 1
+    use_hass_icon: 0
+
+temperatura_sala:
+    widget_type: sensor
+    title: Temperetura sala
+    entity: sensor.temperatura_sala
+    sub_entity: sensor.humidade_sala
+
+temperature_158d00023203e4:
+    widget_type: sensor
+    title: Temperatura Escritório
+    entity: sensor.temperature_158d00023203e4
+
+humidity_158d00023203e4:
+    widget_type: sensor
+    title: Humidade Escritório
+    entity: sensor.humidity_158d00023203e4
+
+0x00158d00044b86f8_temperature:
+    widget_type: sensor
+    title: Temperatura Stuva
+    entity: sensor.0x00158d00044b86f8_temperature
+
+0x00158d00044b86f8_humidity:
+    widget_type: sensor
+    title: Humidade Stuva
+    entity: sensor.0x00158d00044b86f8_humidity
+
+on_off_pc:
+    widget_type: switch
+    title: Ligar/Desligar PC
+    entity: switch.on_off_pc
+    icon_on: mdi-power-standby
+    icon_off: mdi-power-standby
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+sensor_pc_on_off:
+    widget_type: sensor
+    title: Estado do PC
+    entity: switch.on_off_pc
+    state_map:
+      "on": Ligado
+      "off": Desligado
+    text_style: "color: white; font-size: 200%"
+
+monitor_do_pc:
+    widget_type: switch
+    title: Ligar/Desligar Monitor
+    entity: switch.monitor_do_pc
+    state_text: 1
+    state_map:
+      "on": Ligado
+      "off": Desligado
+    icon_on: mdi-monitor-screenshot
+    icon_off: mdi-monitor-screenshot
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+    state_text_style: "color: white"
+
+sensor_portao_entrada:
+    widget_type: sensor
+    title: Portão entrada principal
+    entity: sensor.portao_entrada
+    text_style: "color: white; font-size: 250%"
+
+sensor_portao_jardim:
+    widget_type: sensor
+    title: Portão entrada jardim
+    entity: sensor.portao_jardim
+    text_style: "color: white; font-size: 200%"
+
+abrir_portao_grande:
+    widget_type: switch
+    title: Abrir Portão Grande
+    entity: switch.abrir_portao_grande
+    state_text: 1
+    state_map:
+      "on": Aberto
+      "off": Fechado
+    icon_on: mdi-gate-arrow-right
+    icon_off: mdi-gate-arrow-right
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+    state_text_style: "color: white"
+
+abrir_portao_pequeno:
+    widget_type: switch
+    title: Abrir Portão Pequeno
+    entity: switch.abrir_portao_pequeno
+    state_text: 1
+    state_map:
+      "on": Aberto
+      "off": Fechado
+    icon_on: mdi-gate-arrow-right
+    icon_off: mdi-gate-arrow-right
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+    state_text_style: "color: white"
+
+fechar_portao:
+    widget_type: switch
+    title: Fechar Portão
+    entity: switch.fechar_portao
+    state_text: 1
+    state_map:
+      "on": Aberto
+      "off": Fechado
+    icon_on: mdi-gate-arrow-right
+    icon_off: mdi-gate-arrow-right
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+    state_text_style: "color: white"
+
+portao_30:
+    widget_type: script
+    title: Entrar/Sair a Pé
+    entity: script.portao_30
+    state_text: 1
+    state_map:
+      "on": Aberto
+      "off": Fechado
+    icon_on: mdi-gate-arrow-right
+    icon_off: mdi-gate-arrow-right
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+    state_text_style: "color: white"
+
+load_main_panel:
+    widget_type: navigate
+    title: Painel Principal
+    icon_inactive: mdi-home-assistant
+    dashboard: ha_dashboard
+    title_style: "color: Black"
+    icon_inactive_style: "color: blue"
+    title_style: "color: white; font-size: 130%"
+
+load_radio_panel:
+    widget_type: navigate
+    title: Rádio
+    icon_inactive: mdi-radio
+    dashboard: radio
+    title_style: "color: Black"
+    icon_inactive_style: "color: blue"
+
+load_aspirador_panel:
+    widget_type: navigate
+    title: RoboRock S50
+    icon_inactive: mdi-robot-vacuum
+    dashboard: aspirador
+    title_style: "color: Black"
+    icon_inactive_style: "color: black"
+
+layout:
+    - temperatura_sala, sensor.humidade_sala, sensor.temperatura_quarto, sensor.humidade_quarto, temperature_158d00023203e4, humidity_158d00023203e4, 0x00158d00044b86f8_temperature, 0x00158d00044b86f8_humidity
+    - sensor_portao_entrada (2x1), sensor_portao_jardim (2x1), abrir_portao_grande, abrir_portao_pequeno, portao_30, fechar_portao
+    - 
+    - spacer (3x1), on_off_pc, sensor_pc_on_off (2x1), monitor_do_pc
+    -
+    - spacer (7x1), load_main_panel(1x1), load_radio_panel, load_aspirador_panel

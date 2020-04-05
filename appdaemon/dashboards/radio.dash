@@ -1,0 +1,231 @@
+##
+## Main arguments, all optional
+##
+title: Rádio
+widget_dimensions: [120, 120]
+widget_size: [1, 1]
+widget_margins: [5, 5]
+columns: 10
+global_parameters:
+    use_comma: 0
+    precision: 1
+    use_hass_icon: 0
+
+script_radio_comercial_sala:
+    widget_type: script
+    title: Comercial Sala
+    entity: script.radio_comercial_sala
+    title_style: "color: white"
+    icon_on: ""
+    icon_off: ""
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+    widget_style: "background-image: url(/custom_css/icon/Comercial.jpg); background-size: 40%; background-position:center; background-repeat: no-repeat"
+
+script_rfm_sala:
+    widget_type: script
+    title: RFM Sala
+    entity: script.rfm_sala
+    title_style: "color: white"
+    icon_on: ""
+    icon_off: ""
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+    widget_style: "background-image: url(/custom_css/icon/rfm.png); background-size: 40%; background-position:center; background-repeat: no-repeat"
+
+script_m80_sala:
+    widget_type: script
+    title: M80 Sala
+    entity: script.m80_sala
+    title_style: "color: white"
+    icon_on: ""
+    icon_off: ""
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+    widget_style: "background-image: url(/custom_css/icon/m80.png); background-size: 40%; background-position:center; background-repeat: no-repeat"
+
+script_vodafone_sala:
+    widget_type: script
+    title: Vodafone Sala
+    entity: script.vodafone_sala
+    title_style: "color: white"
+    title_style: "color: white"
+    icon_on: ""
+    icon_off: ""
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+    widget_style: "background-image: url(/custom_css/icon/vodafone.jpg); background-size: 40%; background-position:center; background-repeat: no-repeat"
+
+script_radio_stop_sala:
+    widget_type: script
+    title: Parar Rádio Sala
+    entity: script.radio_stop_sala
+    title_style: "color: white"
+    icon_on: ""
+    icon_off: ""
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: black"
+    widget_style: "background-image: url(/custom_css/icon/stop.png); background-size: 40%; background-position:center; background-repeat: no-repeat"
+
+script_radio_comercial_cozinha:
+    widget_type: script
+    title: Comercial cozinha
+    entity: script.radio_comercial_cozinha
+    title_style: "color: white"
+    icon_on: ""
+    icon_off: ""
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+    widget_style: "background-image: url(/custom_css/icon/Comercial.jpg); background-size: 40%; background-position:center; background-repeat: no-repeat"
+
+script_rfm_cozinha:
+    widget_type: script
+    title: RFM cozinha
+    entity: script.rfm_cozinha
+    title_style: "color: white"
+    icon_on: ""
+    icon_off: ""
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+    widget_style: "background-image: url(/custom_css/icon/rfm.png); background-size: 40%; background-position:center; background-repeat: no-repeat"
+
+script_m80_cozinha:
+    widget_type: script
+    title: M80 cozinha
+    entity: script.m80_cozinha
+    title_style: "color: white"
+    icon_on: ""
+    icon_off: ""
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+    widget_style: "background-image: url(/custom_css/icon/m80.png); background-size: 40%; background-position:center; background-repeat: no-repeat"
+
+script_vodafone_cozinha:
+    widget_type: script
+    title: Vodafone cozinha
+    entity: script.vodafone_cozinha
+    title_style: "color: white"
+    icon_on: ""
+    icon_off: ""
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+    widget_style: "background-image: url(/custom_css/icon/vodafone.jpg); background-size: 40%; background-position:center; background-repeat: no-repeat"
+
+script_radio_stop_cozinha:
+    widget_type: script
+    title: Parar Rádio cozinha
+    entity: script.radio_stop_cozinha
+    title_style: "color: white"
+    icon_on: ""
+    icon_off: ""
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: black"
+    widget_style: "background-image: url(/custom_css/icon/stop.png); background-size: 40%; background-position:center; background-repeat: no-repeat"
+
+script_radio_comercial_ambiente:
+    widget_type: script
+    title: Comercial casa
+    entity: script.radio_comercial_ambiente
+    title_style: "color: white"
+    icon_on: ""
+    icon_off: ""
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+    widget_style: "background-image: url(/custom_css/icon/Comercial.jpg); background-size: 40%; background-position:center; background-repeat: no-repeat"
+
+script_rfm_ambiente:
+    widget_type: script
+    title: RFM casa
+    entity: script.rfm_ambiente
+    title_style: "color: white"
+    icon_on: ""
+    icon_off: ""
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+    widget_style: "background-image: url(/custom_css/icon/rfm.png); background-size: 40%; background-position:center; background-repeat: no-repeat"
+
+script_m80_ambiente:
+    widget_type: script
+    title: M80 casa
+    entity: script.m80_ambiente
+    title_style: "color: white"
+    icon_on: ""
+    icon_off: ""
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+    widget_style: "background-image: url(/custom_css/icon/m80.png); background-size: 40%; background-position:center; background-repeat: no-repeat"
+
+script_vodafone_ambiente:
+    widget_type: script
+    title: Vodafone casa
+    entity: script.vodafone_ambiente
+    title_style: "color: white"
+    icon_on: ""
+    icon_off: ""
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+    widget_style: "background-image: url(/custom_css/icon/vodafone.jpg); background-size: 40%; background-position:center; background-repeat: no-repeat"
+
+script_radio_stop_som_ambiente:
+    widget_type: script
+    title: Parar Rádio casa
+    entity: script.radio_stop_som_ambiente
+    title_style: "color: white"
+    icon_on: ""
+    icon_off: ""
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: black"
+    widget_style: "background-image: url(/custom_css/icon/stop.png); background-size: 40%; background-position:center; background-repeat: no-repeat"
+
+input_number_sala_volume:
+    widget_type: new_input_slider
+    entity: input_number.sala_volume
+    title: Volume sala
+
+input_number_cozinha_volume:
+    widget_type: new_input_slider
+    entity: input_number.cozinha_volume
+    title: Volume Cozinha
+
+input_number_ambiente_volume:
+    widget_type: new_input_slider
+    entity: input_number.ambiente_volume
+    title: Volume ambiente
+
+media_player.spotify_bruno_melo:
+    widget_type: media_player
+    entity: media_player.spotify_bruno_melo
+    title: Spotify
+
+load_main_panel:
+    widget_type: navigate
+    title: Painel Principal
+    icon_inactive: mdi-home-assistant
+    dashboard: ha_dashboard
+    title_style: "color: Black"
+    icon_inactive_style: "color: blue"
+
+load_secundario_panel:
+    widget_type: navigate
+    title: Painel Secundário
+    icon_inactive: mdi-home-floor-2
+    dashboard: segundo_painel
+    title_style: "color: Black"
+    icon_inactive_style: "color: blue"
+
+load_aspirador_panel:
+    widget_type: navigate
+    title: RoboRock S50
+    icon_inactive: mdi-robot-vacuum
+    dashboard: aspirador
+    title_style: "color: Black"
+    icon_inactive_style: "color: black"
+
+layout:
+    
+    - script_radio_comercial_sala, script_rfm_sala, script_m80_sala, script_vodafone_sala, script_radio_stop_sala, input_number.sala_volume (2x1)
+    - script_radio_comercial_cozinha, script_rfm_cozinha, script_m80_cozinha, script_vodafone_cozinha, script_radio_stop_cozinha, input_number.cozinha_volume (2x1)
+    - script_radio_comercial_ambiente, script_rfm_ambiente, script_m80_ambiente, script_vodafone_ambiente, script_radio_stop_som_ambiente, input_number.ambiente_volume (2x1)
+    - spacer (4x1), media_player.spotify_bruno_melo(2x2)
+    - 
+    - spacer (7x1), load_main_panel(1x1), load_secundario_panel, load_aspirador_panel

@@ -1,0 +1,2382 @@
+
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  background-color: #222;
+  font-size: 15px;
+  color: #fff;
+  padding: 0;
+  line-height: 1;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Open Sans', 'Arial'
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+img, object {
+  max-width: 100%;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;}
+
+iframe {
+  max-width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+td {
+  vertical-align: middle;
+}
+
+ul, ol {
+  padding: 0;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, p {
+  padding: 0;
+  margin: 0;
+}
+h1 {
+  margin-bottom: 6px;
+  text-align: center;
+  font-size: 100%;
+  font-weight: 200;
+}
+h2 {
+  font-size: 300%;
+  font-weight: 400;
+  color: #fff;
+}
+h3 {
+  font-size: 125%;
+  font-weight: 300;
+  color: #fff;
+}
+
+input {
+  background-color: #444;
+  border: none;
+}
+
+.dashboard_main {
+	margin: 0px auto;
+}
+
+.gridster {
+  margin: 0px auto;
+}
+
+.icon-background {
+  pointer-events: none;
+  width: 100%!important;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0.1;
+  font-size: 1375%;
+  text-align: center;
+  margin-top: 82px;
+}
+
+.list-nostyle {
+  list-style: none;
+}
+
+.gridster ul {
+  list-style: none;
+}
+
+.gs-w {
+  width: 100%;
+  display: table;
+  cursor: pointer;
+  z-index: auto !important;
+}
+
+.iframe {
+  position: relative;
+  overflow: hidden;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;}
+
+.widget {
+  padding: 0px 0px;
+  text-align: center;
+  width: 100%;
+  display: table-cell;
+  vertical-align: middle;
+  background-color: #444444;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;}
+
+.title {
+  color: #fff;
+}
+
+.icon-inactive {
+  color: #888;
+}
+
+.icon-active {
+  color: #aaff00;
+}
+
+
+#container {
+  padding-top: 0px;
+}
+
+.modalDialog {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgba(0,0,0,0.8);
+	z-index: 9999;
+	opacity:0;
+	-webkit-transition: opacity 400ms ease-in;
+	-moz-transition: opacity 400ms ease-in;
+	transition: opacity 400ms ease-in;
+	pointer-events: none;
+}
+
+.modalDialogOpen {
+	opacity:0.95;
+	pointer-events: auto;
+}
+
+.modalDialogClose {
+	opacity:0;
+	pointer-events: none;
+}
+
+.modalDialog > div {
+	width: 275px;
+	position: relative;
+	margin: 3% auto;
+	padding: 5px 20px 13px 20px;
+	border-radius: 10px;
+}
+
+.modalDialogCloseButton {
+	line-height: 50px;
+	position: absolute;
+	right: -25px;
+	text-align: center;
+	top: -20px;
+	width: 50px;
+	text-decoration: none;
+	font-weight: bold;
+	-webkit-border-radius: 25px;
+	-moz-border-radius: 25px;
+	border-radius: 25px;
+}
+
+.modalDialogCloseButton:hover { background: #444; }
+
+.widget-basedisplay-default-sensor-time .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-sensor-time .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-time .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-time .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-time .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-time .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-cozinha .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-cozinha .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-cozinha .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-cozinha .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-cozinha .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-mafalda .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-mafalda .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-mafalda .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-mafalda .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-mafalda .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-sala .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-sala .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-sala .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-sala .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-sala .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-q-pequeno-shelly .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-q-pequeno-shelly .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-q-pequeno-shelly .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-q-pequeno-shelly .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-q-pequeno-shelly .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-varanda-shelly .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-varanda-shelly .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-varanda-shelly .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-varanda-shelly .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-cover-estore-varanda-shelly .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.widget-baselight-default-light-iluminacao-das-garagens .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-iluminacao-das-garagens .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-iluminacao-das-garagens .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-iluminacao-das-garagens .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-iluminacao-das-garagens .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-iluminacao-das-garagens .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-iluminacao-das-garagens .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-iluminacao-das-garagens .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-iluminacao-das-garagens .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-iluminacao-das-garagens .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-iluminacao-das-garagens .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-iluminacao-das-garagens .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-iluminacao-das-garagens .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-iluminacao-das-garagens .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-candeeiro-patio-1 .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-1 .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-1 .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-1 .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-1 .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-1 .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-1 .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-candeeiro-patio-1 .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-candeeiro-patio-1 .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-1 .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-candeeiro-patio-1 .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-candeeiro-patio-1 .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-candeeiro-patio-1 .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-candeeiro-patio-1 .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-candeeiro-patio-2 .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-2 .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-2 .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-2 .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-2 .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-2 .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-2 .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-candeeiro-patio-2 .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-candeeiro-patio-2 .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-2 .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-candeeiro-patio-2 .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-candeeiro-patio-2 .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-candeeiro-patio-2 .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-candeeiro-patio-2 .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-candeeiro-patio-3 .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-3 .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-3 .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-3 .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-3 .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-3 .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-3 .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-candeeiro-patio-3 .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-candeeiro-patio-3 .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-3 .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-candeeiro-patio-3 .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-candeeiro-patio-3 .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-candeeiro-patio-3 .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-candeeiro-patio-3 .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-candeeiro-patio-4 .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-4 .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-4 .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-4 .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-4 .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-4 .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-4 .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-candeeiro-patio-4 .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-candeeiro-patio-4 .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-candeeiro-patio-4 .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-candeeiro-patio-4 .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-candeeiro-patio-4 .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-candeeiro-patio-4 .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-candeeiro-patio-4 .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-downlight-direito .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-downlight-direito .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-downlight-direito .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-downlight-direito .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-downlight-direito .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-downlight-direito .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-downlight-direito .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-downlight-direito .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-downlight-direito .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-downlight-direito .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-downlight-direito .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-downlight-direito .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-downlight-direito .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-downlight-direito .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-downlight-esquerdo .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-downlight-esquerdo .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-downlight-esquerdo .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-downlight-esquerdo .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-downlight-esquerdo .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-downlight-esquerdo .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-downlight-esquerdo .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-downlight-esquerdo .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-downlight-esquerdo .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-downlight-esquerdo .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-downlight-esquerdo .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-downlight-esquerdo .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-downlight-esquerdo .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-downlight-esquerdo .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-espelho-casa-de-banho .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-espelho-casa-de-banho .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-espelho-casa-de-banho .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-espelho-casa-de-banho .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-espelho-casa-de-banho .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-espelho-casa-de-banho .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-espelho-casa-de-banho .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-espelho-casa-de-banho .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-espelho-casa-de-banho .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-espelho-casa-de-banho .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-espelho-casa-de-banho .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-espelho-casa-de-banho .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-espelho-casa-de-banho .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-espelho-casa-de-banho .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-iluminacao-coberto .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-iluminacao-coberto .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-iluminacao-coberto .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-iluminacao-coberto .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-iluminacao-coberto .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-iluminacao-coberto .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-iluminacao-coberto .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-iluminacao-coberto .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-iluminacao-coberto .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-iluminacao-coberto .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-iluminacao-coberto .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-iluminacao-coberto .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-iluminacao-coberto .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-iluminacao-coberto .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-0x680ae2fffec92973-light .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-0x680ae2fffec92973-light .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-0x680ae2fffec92973-light .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-0x680ae2fffec92973-light .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-0x680ae2fffec92973-light .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-0x680ae2fffec92973-light .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-0x680ae2fffec92973-light .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-0x680ae2fffec92973-light .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-0x680ae2fffec92973-light .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-0x680ae2fffec92973-light .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-0x680ae2fffec92973-light .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-0x680ae2fffec92973-light .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-0x680ae2fffec92973-light .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-0x680ae2fffec92973-light .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-iluminacao-do-jardim .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-iluminacao-do-jardim .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-iluminacao-do-jardim .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-iluminacao-do-jardim .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-iluminacao-do-jardim .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-iluminacao-do-jardim .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-iluminacao-do-jardim .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-iluminacao-do-jardim .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-iluminacao-do-jardim .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-iluminacao-do-jardim .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-iluminacao-do-jardim .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-iluminacao-do-jardim .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-iluminacao-do-jardim .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-iluminacao-do-jardim .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-leds-armario .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-leds-armario .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-leds-armario .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-leds-armario .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-leds-armario .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-leds-armario .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-leds-armario .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-leds-armario .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-leds-armario .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-leds-armario .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-leds-armario .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-leds-armario .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-leds-armario .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-leds-armario .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-leds-armario-sala .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-leds-armario-sala .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-leds-armario-sala .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-leds-armario-sala .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-leds-armario-sala .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-leds-armario-sala .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-leds-armario-sala .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-leds-armario-sala .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-leds-armario-sala .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-leds-armario-sala .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-leds-armario-sala .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-leds-armario-sala .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-leds-armario-sala .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-leds-armario-sala .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-teto-casa-de-banho .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-teto-casa-de-banho .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-teto-casa-de-banho .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-teto-casa-de-banho .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-teto-casa-de-banho .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-teto-casa-de-banho .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-teto-casa-de-banho .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-teto-casa-de-banho .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-teto-casa-de-banho .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-teto-casa-de-banho .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-teto-casa-de-banho .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-teto-casa-de-banho .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-teto-casa-de-banho .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-teto-casa-de-banho .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-teto-da-sala .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-teto-da-sala .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-teto-da-sala .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-teto-da-sala .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-teto-da-sala .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-teto-da-sala .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-teto-da-sala .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-teto-da-sala .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-teto-da-sala .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-teto-da-sala .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-teto-da-sala .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-teto-da-sala .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-teto-da-sala .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-teto-da-sala .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-teto-quarto .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-teto-quarto .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-teto-quarto .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-teto-quarto .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-teto-quarto .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-teto-quarto .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-teto-quarto .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-teto-quarto .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-teto-quarto .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-teto-quarto .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-teto-quarto .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-teto-quarto .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-teto-quarto .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-teto-quarto .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-teto-quarto-mafalda .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-teto-quarto-mafalda .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-teto-quarto-mafalda .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-teto-quarto-mafalda .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-teto-quarto-mafalda .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-teto-quarto-mafalda .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-teto-quarto-mafalda .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-teto-quarto-mafalda .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-teto-quarto-mafalda .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-teto-quarto-mafalda .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-teto-quarto-mafalda .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-teto-quarto-mafalda .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-teto-quarto-mafalda .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-teto-quarto-mafalda .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-wc-pai .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-wc-pai .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-wc-pai .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-wc-pai .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-wc-pai .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-wc-pai .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-wc-pai .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-wc-pai .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-wc-pai .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-wc-pai .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-wc-pai .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-wc-pai .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-wc-pai .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-wc-pai .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-xiaomi-philips-zhirui .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-xiaomi-philips-zhirui-1 .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-1 .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-1 .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-1 .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-1 .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-1 .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-1 .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-1 .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-1 .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-1 .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-1 .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-1 .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-1 .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-1 .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-xiaomi-philips-zhirui-2 .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-2 .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-2 .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-2 .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-2 .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-2 .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-2 .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-2 .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-2 .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-2 .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-2 .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-2 .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-2 .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-xiaomi-philips-zhirui-2 .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-yeelight-color1-7811dc6b98cb .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b98cb .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b98cb .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b98cb .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b98cb .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b98cb .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b98cb .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b98cb .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b98cb .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b98cb .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b98cb .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b98cb .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b98cb .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b98cb .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-yeelight-color1-7811dc6b9b10 .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b9b10 .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b9b10 .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b9b10 .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b9b10 .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b9b10 .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b9b10 .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b9b10 .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b9b10 .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b9b10 .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b9b10 .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b9b10 .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b9b10 .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dc6b9b10 .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-yeelight-color1-7811dce0fe41 .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce0fe41 .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce0fe41 .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce0fe41 .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce0fe41 .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce0fe41 .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce0fe41 .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce0fe41 .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce0fe41 .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce0fe41 .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce0fe41 .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce0fe41 .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce0fe41 .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce0fe41 .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-light-yeelight-color1-7811dce12676 .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce12676 .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce12676 .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce12676 .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce12676 .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce12676 .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce12676 .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce12676 .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce12676 .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce12676 .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce12676 .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce12676 .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce12676 .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-light-yeelight-color1-7811dce12676 .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}
+.widget-baselight-default-group-lampadas-do-patio .state_text {
+	font-size: 85%;
+}
+
+.widget-baselight-default-group-lampadas-do-patio .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-group-lampadas-do-patio .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baselight-default-group-lampadas-do-patio .state_text {
+	position: absolute;
+	top: 38px;
+	width: 100%;
+}
+
+.widget-baselight-default-group-lampadas-do-patio .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baselight-default-group-lampadas-do-patio .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 75%;
+}
+
+.widget-baselight-default-group-lampadas-do-patio .level {
+	display: inline-block;
+}
+
+.widget-baselight-default-group-lampadas-do-patio .unit {
+	display: inline-block;
+}
+
+.widget-baselight-default-group-lampadas-do-patio .levelunit {
+	position: absolute;
+	bottom: 5px;
+	width: 100%;
+}
+
+.widget-baselight-default-group-lampadas-do-patio .secondary-icon {
+	position: absolute;
+	bottom: 0px;
+	font-size: 20px;
+	width: 32px;
+	color: white;
+}
+
+.widget-baselight-default-group-lampadas-do-patio .secondary-icon.plus {
+	right: 24px;
+}
+
+.widget-baselight-default-group-lampadas-do-patio .secondary-icon.plus i {
+	padding-top: 10px;
+	padding-left: 30px;
+}
+
+.widget-baselight-default-group-lampadas-do-patio .secondary-icon.minus {
+	left: 8px;
+}
+
+.widget-baselight-default-group-lampadas-do-patio .secondary-icon.minus i {
+	padding-top: 10px;
+	padding-right: 30px;
+}

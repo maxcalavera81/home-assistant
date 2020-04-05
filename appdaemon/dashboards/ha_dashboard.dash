@@ -1,0 +1,426 @@
+##
+## Main arguments, all optional
+##
+title: Casa Inteligente
+widget_dimensions: [120, 120]
+widget_size: [1, 1]
+widget_margins: [5, 5]
+columns: 10
+global_parameters:
+    use_comma: 0
+    precision: 1
+    use_hass_icon: 0
+
+clock:
+    widget_type: clock
+    widget_style: "font-size: 200%;"
+    time_format: 24hr
+    date_format_country: "pt"
+    date_format_options:
+      weekday: "long"
+      day: "numeric"
+      month: "long"
+      year: "numeric"
+    show_seconds: 1
+    time_style: "color: black; font-size: 70pt; font-weight: bold; font-family: Courier New;"
+    date_style: "color: white; font-size: 20pt; font-weight: bold;"
+
+estore_cozinha:
+    widget_type: cover
+    title: Estore Cozinha
+    state_text: 1
+    state_map:
+      "open": Aberto
+      "closed": Fechado
+    entity: cover.estore_cozinha
+    icon_on: mdi-blinds-open
+    icon_off: mdi-blinds
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+estore_sala:
+    widget_type: cover
+    title: Estore Sala
+    state_text: 1
+    state_map:
+      "open": Aberto
+      "closed": Fechado
+    entity: cover.estore_sala
+    icon_on: mdi-blinds-open
+    icon_off: mdi-blinds
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+estore_mafalda:
+    widget_type: cover
+    title: Estore Mafalda
+    state_text: 1
+    state_map:
+      "open": Aberto
+      "closed": Fechado
+    entity: cover.estore_mafalda
+    icon_on: mdi-blinds-open
+    icon_off: mdi-blinds
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+estore_varanda_shelly:
+    widget_type: cover
+    title: Estore Varanda
+    state_text: 1
+    state_map:
+      "open": Aberto
+      "closed": Fechado
+    entity: cover.estore_varanda_shelly
+    icon_on: mdi-blinds-open
+    icon_off: mdi-blinds
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+estore_q_pequeno_shelly:
+    widget_type: cover
+    title: Estore Q. Pequeno
+    state_text: 1
+    state_map:
+      "open": Aberto
+      "closed": Fechado
+    entity: cover.estore_q_pequeno_shelly
+    icon_on: mdi-blinds-open
+    icon_off: mdi-blinds
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+0x680ae2fffec92973_light:
+    widget_type: light
+    entity: light.0x680ae2fffec92973_light
+    title: Aplique Despensa
+    icon_on: mdi-lightbulb
+    icon_off: mdi-lightbulb
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+candeeiro_patio_1:
+    widget_type: light
+    entity: light.candeeiro_patio_1
+    title: Pátio 1
+    icon_on: mdi-coach-lamp
+    icon_off: mdi-coach-lamp
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+candeeiro_patio_2:
+    widget_type: light
+    entity: light.candeeiro_patio_2
+    title: Pátio 2
+    icon_on: mdi-coach-lamp
+    icon_off: mdi-coach-lamp
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+candeeiro_patio_3:
+    widget_type: light
+    entity: light.candeeiro_patio_3
+    title: Pátio 3
+    icon_on: mdi-coach-lamp
+    icon_off: mdi-coach-lamp
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+candeeiro_patio_4:
+    widget_type: light
+    entity: light.candeeiro_patio_4
+    title: Pátio 4
+    icon_on: mdi-coach-lamp
+    icon_off: mdi-coach-lamp
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+downlight_direito:
+    widget_type: light
+    entity: light.downlight_direito
+    title: Escritório Direita
+    icon_on: mdi-wall-sconce-flat
+    icon_off: mdi-wall-sconce-flat
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+downlight_esquerdo:
+    widget_type: light
+    entity: light.downlight_esquerdo
+    title: Escritório Esquerdo
+    icon_on: mdi-wall-sconce-flat
+    icon_off: mdi-wall-sconce-flat
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+espelho_casa_de_banho:
+    widget_type: light
+    entity: light.espelho_casa_de_banho
+    title: WC Espelho
+    icon_on: mdi-lightbulb-on
+    icon_off: mdi-lightbulb
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+teto_casa_de_banho:
+    widget_type: light
+    entity: light.teto_casa_de_banho
+    title: WC Tecto
+    icon_on: mdi-wall-sconce-flat
+    icon_off: mdi-wall-sconce-flat
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+iluminacao_coberto:
+    widget_type: light
+    entity: light.iluminacao_coberto
+    title: Coberto
+    icon_on: mdi-wall-sconce-flat
+    icon_off: mdi-wall-sconce-flat
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+iluminacao_das_garagens:
+    widget_type: light
+    entity: light.iluminacao_das_garagens
+    title: Garagens
+    icon_on: mdi-wall-sconce-flat
+    icon_off: mdi-wall-sconce-flat
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+iluminacao_do_jardim:
+    widget_type: light
+    entity: light.iluminacao_do_jardim
+    title: Iluminação do jardim
+    icon_on: mdi-coach-lamp
+    icon_off: mdi-coach-lamp
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+iluminacao_lateral:
+    widget_type: light
+    entity: light.iluminacao_lateral
+    title: Passagem do Jardim
+    icon_on: mdi-coach-lamp
+    icon_off: mdi-coach-lamp
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+leds_armario:
+    widget_type: light
+    entity: light.leds_armario
+    title: Iluminação da despensa
+    icon_on: mdi-led-strip
+    icon_off: mdi-led-strip
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+gateway_light_7811dcb38555:
+    widget_type: light
+    entity: light.gateway_light_7811dcb38555
+    title: Iluminação gateway
+    icon_on: mdi-led-strip
+    icon_off: mdi-led-strip
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+teto_da_sala:
+    widget_type: light
+    entity: light.teto_da_sala
+    title: Tecto da sala
+    icon_on: mdi-wall-sconce-flat
+    icon_off: mdi-wall-sconce-flat
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+teto_quarto:
+    widget_type: light
+    entity: light.teto_quarto
+    title: Tecto do quarto
+    icon_on: mdi-wall-sconce-flat
+    icon_off: mdi-wall-sconce-flat
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+teto_quarto_mafalda:
+    widget_type: light
+    entity: light.teto_quarto_mafalda
+    title: Tecto quarto Mafalda
+    icon_on: mdi-wall-sconce-flat
+    icon_off: mdi-wall-sconce-flat
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+wc_pai:
+    widget_type: light
+    entity: light.wc_pai
+    title: Tecto WC pai
+    icon_on: mdi-wall-sconce-flat
+    icon_off: mdi-wall-sconce-flat
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+xiaomi_philips_zhirui:
+    widget_type: light
+    entity: light.xiaomi_philips_zhirui
+    title: Downlight cozinha entrada
+    icon_on: mdi-track-light
+    icon_off: mdi-track-light
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+xiaomi_philips_zhirui_1:
+    widget_type: light
+    entity: light.xiaomi_philips_zhirui_1
+    title: Downlight cozinha meio
+    icon_on: mdi-track-light
+    icon_off: mdi-track-light
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+xiaomi_philips_zhirui_2:
+    widget_type: light
+    entity: light.xiaomi_philips_zhirui_2
+    title: Downlight cozinha janela
+    icon_on: mdi-track-light
+    icon_off: mdi-track-light
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+yeelight_color1_7811dc6b98cb:
+    widget_type: light
+    entity: light.yeelight_color1_7811dc6b98cb
+    title: Aplique esquerdo sala
+    icon_on: mdi-lamp
+    icon_off: mdi-lamp
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+yeelight_color1_7811dc6b9b10:
+    widget_type: light
+    entity: light.yeelight_color1_7811dc6b9b10
+    title: Aplique direito sala
+    icon_on: mdi-lamp
+    icon_off: mdi-lamp
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+yeelight_color1_7811dce0fe41:
+    widget_type: light
+    entity: light.yeelight_color1_7811dce0fe41
+    title: Candeeiro Mafalda
+    icon_on: mdi-floor-lamp
+    icon_off: mdi-floor-lamp
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+yeelight_color1_7811dce12676:
+    widget_type: light
+    entity: light.yeelight_color1_7811dce12676
+    title: Aplique Entrada
+    icon_on: mdi-coach-lamp
+    icon_off: mdi-coach-lamp
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+binary_sensor.0x00158d00034d844d_contact:
+    widget_type: binary_sensor
+    title: Janela da sala
+    entity: binary_sensor.0x00158d00034d844d_contact
+    state_text: 1
+    state_map:
+      "on": Aberta
+      "off": Fechada
+    icon_on: mdi-window-open
+    icon_off: mdi-window-closed
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+    state_text_style: "color: white"
+    title_style: "color: black; font-size: 130%"
+
+binary_sensor.0x00158d00034d819f_contact:
+    widget_type: binary_sensor
+    title: Janela Q. Mafalda
+    entity: binary_sensor.0x00158d00034d819f_contact
+    state_text: 1
+    state_map:
+      "on": Aberta
+      "off": Fechada
+    icon_on: mdi-window-open
+    icon_off: mdi-window-closed
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+    state_text_style: "color: white"
+    title_style: "color: black; font-size: 130%"
+
+binary_sensor.door_window_sensor_158d00022b3ad2:
+    widget_type: binary_sensor
+    title: Porta de entrada
+    entity: binary_sensor.door_window_sensor_158d00022b3ad2
+    state_text: 1
+    state_map:
+      "on": Aberta
+      "off": Fechada
+    icon_on: mdi-door-open
+    icon_off: mdi-door-closed
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+    state_text_style: "color: white"
+    title_style: "color: black; font-size: 130%"
+
+binary_sensor.door_window_sensor_158d00024e0c7b:
+    widget_type: binary_sensor
+    title: Porta do escritório
+    entity: binary_sensor.door_window_sensor_158d00024e0c7b
+    state_text: 1
+    state_map:
+      "on": Aberta
+      "off": Fechada
+    icon_on: mdi-door-open
+    icon_off: mdi-door-closed
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+    state_text_style: "color: white"
+    title_style: "color: black; font-size: 130%"
+
+leds_armario_sala:
+    widget_type: light
+    entity: light.leds_armario_sala
+    title: Leds TV
+    icon_on: mdi-led-strip
+    icon_off: mdi-led-strip
+    icon_style_active: "color: red"
+    icon_style_inactive: "color: green"
+
+load_secundario_panel:
+    widget_type: navigate
+    title: Painel Secundário
+    icon_inactive: mdi-home-floor-2
+    dashboard: segundo_painel
+    title_style: "color: Black"
+    icon_inactive_style: "color: blue"
+
+load_radio_panel:
+    widget_type: navigate
+    title: Rádio
+    icon_inactive: mdi-radio
+    dashboard: radio
+    title_style: "color: Black"
+    icon_inactive_style: "color: blue"
+
+load_aspirador_panel:
+    widget_type: navigate
+    title: RoboRock S50
+    icon_inactive: mdi-robot-vacuum
+    dashboard: aspirador
+    title_style: "color: Black"
+    icon_inactive_style: "color: black"
+
+layout:
+    - clock (4x2), estore_cozinha (1x1), estore_sala (1x1), estore_mafalda (1x1), estore_varanda_shelly (1x1), estore_q_pequeno_shelly (1x1)
+    - input_number.estorecozinha, input_number.estoresala, input_number.estoreqmafalda, input_number.estorevaranda, input_number.estoreqpequeno
+    - 0x680ae2fffec92973_light (1x1), xiaomi_philips_zhirui, xiaomi_philips_zhirui_1, xiaomi_philips_zhirui_2, candeeiro_patio_1, candeeiro_patio_2, candeeiro_patio_3, candeeiro_patio_4, downlight_direito, downlight_esquerdo
+    - iluminacao_das_garagens, iluminacao_coberto, iluminacao_do_jardim, iluminacao_lateral, espelho_casa_de_banho, teto_casa_de_banho, wc_pai, teto_da_sala, teto_quarto, teto_quarto_mafalda
+    - leds_armario, gateway_light_7811dcb38555, yeelight_color1_7811dce12676, yeelight_color1_7811dc6b98cb, yeelight_color1_7811dc6b9b10, yeelight_color1_7811dce0fe41, leds_armario_sala
+    - binary_sensor.0x00158d00034d844d_contact, binary_sensor.0x00158d00034d819f_contact, binary_sensor.door_window_sensor_158d00022b3ad2, binary_sensor.door_window_sensor_158d00024e0c7b, spacer (3x1), load_secundario_panel, load_radio_panel, load_aspirador_panel

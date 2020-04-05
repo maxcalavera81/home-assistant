@@ -1,0 +1,356 @@
+html {
+	font-size:100%;
+	-webkit-text-size-adjust:100%;
+	-ms-text-size-adjust:100%;
+	padding:0;
+}
+
+body {
+	margin:0;
+	background-color: #000;
+	font-size:15px;
+	color:#646464;
+	padding:0;
+	font-family:'Helvetica Neue','Helvetica','Open Sans','Arial';
+}
+
+body::after
+{
+  background-size:cover;
+  background-image: url(/custom_css/blur_light/img/tablet_background2.jpg);
+  content: "";
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1; 
+}
+
+b,strong {
+	font-weight:700;
+}
+
+a {
+	text-decoration:none;
+	color:inherit;
+}
+
+img {
+	border:0;
+	-ms-interpolation-mode:bicubic;
+	vertical-align:middle;
+}
+
+img,object {
+	max-width:100%;
+}
+
+iframe {
+	max-width:100%;
+}
+
+table {
+	border-collapse:collapse;
+	border-spacing:0;
+	width:100%;
+}
+
+td {
+	vertical-align:middle;
+}
+
+ul,ol {
+	padding:0;
+	margin:0;
+}
+
+h1, h2, h3, h4, h5, p {
+	padding:0;
+	margin:0;
+}
+
+h1 {
+	margin-bottom:6px;
+	text-align:center;
+	font-size:100%;
+	font-weight:200;
+}
+
+h2 {
+	font-size:220%;
+	font-weight:400;
+/	color:#646464; 
+}
+
+h3 {
+	font-size:125%;
+	font-weight:300;
+	color:#646464;
+}
+
+.dashboard_main {
+	margin: 0px auto;
+}
+
+.gridster {
+	margin: 0px auto;
+}
+
+.icon-background {
+	pointer-events:none;
+	width:100%!important;
+	height:100%;
+	position:absolute;
+	left:0;
+	top:0;
+	opacity:.1;
+	font-size:1375%;
+	text-align:center;
+	margin-top:82px;
+}
+
+.list-nostyle {
+	list-style:none;
+}
+
+.gridster ul {
+	list-style:none;
+}
+
+.gs-w {
+	width:100%;
+	display:table;
+	cursor:pointer;
+}
+
+.widget {
+	padding:0px 0px;
+	text-align:center;
+	width:100%;
+	display:table-cell;
+	vertical-align:middle;
+	/*border-radius: 12px; */
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.title
+{
+	color:#646464;
+	z-index: 1;
+	/*background-color: rgba(255, 255, 255, 0.2); 
+	margin-top: -5px;
+	height: 35px;
+	padding-top: 5px;
+	padding-bottom: 6px; */
+  
+}
+
+.title2
+{
+  z-index: 2;
+  margin-top: 0;
+}
+
+.icon-inactive {
+	color:#888;
+	font-size:300%;
+	top: 54px !important;
+}
+
+.icon-active {
+	font-size:300%;
+	top: 54px !important;
+}
+
+.icon
+{
+  font-size: 300%;
+  /* top: 56px !important; */
+}
+
+#container {
+	padding-top:0px;
+}
+
+.unit, .level {
+	font-size:120%!important;
+	vertical-align:baseline!important;
+	color: #646464 !important;
+}
+
+.value
+{
+  color: inherit;
+}
+
+.valueunit
+{
+  /*top: 62px !important; */
+}
+
+.state_text
+{
+  /* bottom: -3px !important; */
+  text-transform: capitalize;
+}
+
+.levelunit
+{
+  bottom: 0px !important;
+}
+
+.secondary-info
+{
+  font-weight: 400 !important;
+}
+
+.widget-basevacuum-default-vacuum-xiaomi-vacuum-cleaner {
+	position: relative;
+}
+
+.widget-basevacuum-default-vacuum-xiaomi-vacuum-cleaner .title {
+	position: absolute;
+	
+	top: 7px;
+	width: 120px;
+	right: 7px;
+	font-size: 14px;
+	font-weight: 500;
+	color: rgba(40,40,30,1)
+}
+.widget-basevacuum-default-vacuum-xiaomi-vacuum-cleaner .button{
+	position: absolute;
+	background: none transparent;
+	left: 40%;
+	bottom: 47%;
+	width: 46px;
+	height: 46px;
+	border-radius: 23px;
+	z-index: 10;
+	opacity: 0.3;
+}
+.widget-basevacuum-default-vacuum-xiaomi-vacuum-cleaner .frame{
+	position: absolute;
+	text-align: center;
+	color: rgb(42, 48, 42);
+	top: 0px;
+	width: 70%;
+	height: 100%;
+	left: 0px;
+	font-size: 10px;
+	font-weight: 500;
+
+	font-family: 'Helvetica Neue','Helvetica','Open Sans','Arial';
+}
+
+.widget-basevacuum-default-vacuum-xiaomi-vacuum-cleaner .robo_img{
+	position: relative;
+	width: 86%;
+	top: 10px;
+	align-content: center;
+
+	opacity: 0.6;
+	z-index: 1;
+	pointer-events: none;
+}
+.widget-basevacuum-default-vacuum-xiaomi-vacuum-cleaner .robo_dock{
+	position: absolute;
+	width: 50px;
+	right: 5px;
+	bottom: 90px; 
+	opacity: 1;
+	z-index: 1;
+}
+
+.widget-basevacuum-default-vacuum-xiaomi-vacuum-cleaner .robo_fan_0{
+	position: absolute;
+	width: 20px;
+	right: 70px;
+	bottom: 100px;
+	opacity: 1;
+	z-index: 1;
+}
+.widget-basevacuum-default-vacuum-xiaomi-vacuum-cleaner .robo_fan_1{
+	position: absolute;
+	width: 20px;
+	left: -20px;
+	bottom: 20px;
+	opacity: 0.9;
+	z-index: 1;
+}
+.widget-basevacuum-default-vacuum-xiaomi-vacuum-cleaner .robo_fan_2{
+	position: absolute;
+	width: 25px;
+	left: 8px;
+	bottom: 17.5px;
+	opacity: 0.9;
+	z-index: 1;
+	
+}
+.widget-basevacuum-default-vacuum-xiaomi-vacuum-cleaner .robo_fan_3{
+	position: absolute;
+	width: 30px;
+	left: 40px;
+	bottom: 15px;
+	opacity: 0.9;
+	z-index: 1;
+}
+
+
+.widget-basevacuum-default-vacuum-xiaomi-vacuum-cleaner .robo_fan_4{
+	position: absolute;
+	width: 35px;
+	left: 76px;
+	bottom: 12.5px;
+	opacity: 0.9;
+	z-index: 1;
+}
+
+
+.widget-basevacuum-default-vacuum-xiaomi-vacuum-cleaner .fandiv {
+	position: absolute;
+
+	right: 0px;
+	bottom: 0px;
+
+	opacity: 1;
+	width: 38%;
+	height: 80%;
+
+}
+
+.widget-basevacuum-default-vacuum-xiaomi-vacuum-cleaner .battery{
+	position: absolute;
+	left: 15%;
+	z-index: 10;
+	bottom: 50%;
+}
+
+.widget-basevacuum-default-vacuum-xiaomi-vacuum-cleaner .m2{
+	position: absolute;
+	bottom: 35%;
+	left: 20%;
+	z-index: 10;
+}
+
+.widget-basevacuum-default-vacuum-xiaomi-vacuum-cleaner .count{
+	position: absolute;
+	bottom: 50%;
+	right: 15%;
+	z-index: 10;
+}
+
+.widget-basevacuum-default-vacuum-xiaomi-vacuum-cleaner .time{
+	position: absolute;
+	bottom: 35%;
+	right: 20%;
+	z-index: 10;
+}
+.widget-basevacuum-default-vacuum-xiaomi-vacuum-cleaner .status{
+	position: absolute;
+	width: 100%;
+	bottom: 20%;
+	z-index: 10;
+	pointer-events: none;
+}

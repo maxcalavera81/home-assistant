@@ -1,0 +1,72 @@
+##
+## Main arguments, all optional
+##
+title: Aspirador
+widget_dimensions: [120, 120]
+widget_size: [1, 1]
+widget_margins: [5, 5]
+columns: 10
+global_parameters:
+    use_comma: 0
+    precision: 1
+    use_hass_icon: 0
+
+estados_de_succao:
+    widget_type: input_select
+    entity: input_select.estados_de_succao
+    title: Velocidade de Aspiração
+
+zonas_de_aspiracao:
+    widget_type: input_select
+    entity: input_select.zonas_de_aspiracao
+    title: Escolher Zona
+
+sensor_vacuum_estado_aspirador:
+    widget_type: sensor
+    entity: sensor.vacuum_estado_aspirador
+    title: Estado da Bateria
+    text_style: "color: white; font-size: 150%"
+
+sensor_vacuum_area_limpa:
+    widget_type: sensor
+    entity: sensor.vacuum_area_limpa
+    title: Última área limpa
+    text_style: "color: white; font-size: 100%"
+
+sensor_vacuum_inicio_ultima_limpeza:
+    widget_type: sensor
+    entity: sensor.vacuum_inicio_ultima_limpeza
+    title: Última limpeza 
+    text_style: "color: white; font-size: 150%"
+
+load_main_panel:
+    widget_type: navigate
+    title: Painel Principal
+    icon_inactive: mdi-home-assistant
+    dashboard: ha_dashboard
+    title_style: "color: Black"
+    icon_inactive_style: "color: blue"
+
+load_radio_panel:
+    widget_type: navigate
+    title: Rádio
+    icon_inactive: mdi-radio
+    dashboard: radio
+    title_style: "color: Black"
+    icon_inactive_style: "color: blue"
+
+load_secundario_panel:
+    widget_type: navigate
+    title: Painel Secundário
+    icon_inactive: mdi-home-floor-2
+    dashboard: segundo_painel
+    title_style: "color: Black"
+    icon_inactive_style: "color: blue"
+
+layout:
+    - estados_de_succao (2x1), zonas_de_aspiracao (2x1), sensor_vacuum_estado_aspirador, sensor_vacuum_area_limpa, sensor_vacuum_inicio_ultima_limpeza
+    - sensor.vacuum_area_limpeza_total, sensor.vacuum_fim_ultima_limpeza
+    -  sensor.vacuum_limpeza_total, sensor.vacuum_tempo_aspiraccao, sensor.vacuum_tempo_limpeza_total
+    - 
+    - sensor.vacuum_bateria_aspirador, sensor.vacuum_escova_lateral, sensor.vacuum_lavagem_filtro, sensor.vacuum_limpar_sensores
+    - spacer (7x1), load_main_panel, load_secundario_panel, load_radio_panel

@@ -1,0 +1,805 @@
+html {
+	font-size:100%;
+	-webkit-text-size-adjust:100%;
+	-ms-text-size-adjust:100%;
+	padding:0;
+}
+
+body {
+	margin:0;
+	background-color: #000;
+	font-size:15px;
+	color:#646464;
+	padding:0;
+	font-family:'Helvetica Neue','Helvetica','Open Sans','Arial';
+}
+
+body::after
+{
+  background-size:cover;
+  background-image: url(/custom_css/blur_light/img/tablet_background2.jpg);
+  content: "";
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1; 
+}
+
+b,strong {
+	font-weight:700;
+}
+
+a {
+	text-decoration:none;
+	color:inherit;
+}
+
+img {
+	border:0;
+	-ms-interpolation-mode:bicubic;
+	vertical-align:middle;
+}
+
+img,object {
+	max-width:100%;
+}
+
+iframe {
+	max-width:100%;
+}
+
+table {
+	border-collapse:collapse;
+	border-spacing:0;
+	width:100%;
+}
+
+td {
+	vertical-align:middle;
+}
+
+ul,ol {
+	padding:0;
+	margin:0;
+}
+
+h1, h2, h3, h4, h5, p {
+	padding:0;
+	margin:0;
+}
+
+h1 {
+	margin-bottom:6px;
+	text-align:center;
+	font-size:100%;
+	font-weight:200;
+}
+
+h2 {
+	font-size:220%;
+	font-weight:400;
+/	color:#646464; 
+}
+
+h3 {
+	font-size:125%;
+	font-weight:300;
+	color:#646464;
+}
+
+.dashboard_main {
+	margin: 0px auto;
+}
+
+.gridster {
+	margin: 0px auto;
+}
+
+.icon-background {
+	pointer-events:none;
+	width:100%!important;
+	height:100%;
+	position:absolute;
+	left:0;
+	top:0;
+	opacity:.1;
+	font-size:1375%;
+	text-align:center;
+	margin-top:82px;
+}
+
+.list-nostyle {
+	list-style:none;
+}
+
+.gridster ul {
+	list-style:none;
+}
+
+.gs-w {
+	width:100%;
+	display:table;
+	cursor:pointer;
+}
+
+.widget {
+	padding:0px 0px;
+	text-align:center;
+	width:100%;
+	display:table-cell;
+	vertical-align:middle;
+	/*border-radius: 12px; */
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.title
+{
+	color:#646464;
+	z-index: 1;
+	/*background-color: rgba(255, 255, 255, 0.2); 
+	margin-top: -5px;
+	height: 35px;
+	padding-top: 5px;
+	padding-bottom: 6px; */
+  
+}
+
+.title2
+{
+  z-index: 2;
+  margin-top: 0;
+}
+
+.icon-inactive {
+	color:#888;
+	font-size:300%;
+	top: 54px !important;
+}
+
+.icon-active {
+	font-size:300%;
+	top: 54px !important;
+}
+
+.icon
+{
+  font-size: 300%;
+  /* top: 56px !important; */
+}
+
+#container {
+	padding-top:0px;
+}
+
+.unit, .level {
+	font-size:120%!important;
+	vertical-align:baseline!important;
+	color: #646464 !important;
+}
+
+.value
+{
+  color: inherit;
+}
+
+.valueunit
+{
+  /*top: 62px !important; */
+}
+
+.state_text
+{
+  /* bottom: -3px !important; */
+  text-transform: capitalize;
+}
+
+.levelunit
+{
+  bottom: 0px !important;
+}
+
+.secondary-info
+{
+  font-weight: 400 !important;
+}
+
+.widget-baseselect-default-estados-de-succao .title {
+    position: absolute;
+    top: 5px;
+    width: 100%;
+}
+.widget-baseselect-default-estados-de-succao .title2 {
+    position: absolute;
+    top: 23px;
+    width: 100%;
+}
+
+.widget-baseselect-default-estados-de-succao .styled-select {
+   position: absolute;
+   top: 45px;
+   height: 29px;
+   overflow: hidden;
+   width: 100%;
+   horizontal-align: center;
+   margin:auto;
+}
+
+.widget-baseselect-default-estados-de-succao .styled-select>select {
+   background-color: #333;
+   border: none;
+   outline: none;
+   font-size: 16px;
+   height: 29px;
+   padding: 5px;
+   width: 90%;
+   color: white;
+   -webkit-border-radius: 5px;
+   -moz-border-radius: 5px;
+   border-radius: 5px;
+}
+
+
+
+
+.widget-baseselect-default-zonas-de-aspiracao .title {
+    position: absolute;
+    top: 5px;
+    width: 100%;
+}
+.widget-baseselect-default-zonas-de-aspiracao .title2 {
+    position: absolute;
+    top: 23px;
+    width: 100%;
+}
+
+.widget-baseselect-default-zonas-de-aspiracao .styled-select {
+   position: absolute;
+   top: 45px;
+   height: 29px;
+   overflow: hidden;
+   width: 100%;
+   horizontal-align: center;
+   margin:auto;
+}
+
+.widget-baseselect-default-zonas-de-aspiracao .styled-select>select {
+   background-color: #333;
+   border: none;
+   outline: none;
+   font-size: 16px;
+   height: 29px;
+   padding: 5px;
+   width: 90%;
+   color: white;
+   -webkit-border-radius: 5px;
+   -moz-border-radius: 5px;
+   border-radius: 5px;
+}
+
+
+
+
+.widget-basedisplay-default-sensor-vacuum-estado-aspirador .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-sensor-vacuum-estado-aspirador .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-estado-aspirador .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-estado-aspirador .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-estado-aspirador .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-estado-aspirador .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-area-limpa .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-sensor-vacuum-area-limpa .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-area-limpa .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-area-limpa .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-area-limpa .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-area-limpa .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-inicio-ultima-limpeza .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-sensor-vacuum-inicio-ultima-limpeza .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-inicio-ultima-limpeza .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-inicio-ultima-limpeza .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-inicio-ultima-limpeza .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-inicio-ultima-limpeza .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-area-limpeza-total .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-sensor-vacuum-area-limpeza-total .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-area-limpeza-total .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-area-limpeza-total .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-area-limpeza-total .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-area-limpeza-total .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-fim-ultima-limpeza .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-sensor-vacuum-fim-ultima-limpeza .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-fim-ultima-limpeza .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-fim-ultima-limpeza .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-fim-ultima-limpeza .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-fim-ultima-limpeza .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-limpeza-total .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-sensor-vacuum-limpeza-total .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-limpeza-total .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-limpeza-total .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-limpeza-total .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-limpeza-total .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-tempo-aspiraccao .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-sensor-vacuum-tempo-aspiraccao .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-tempo-aspiraccao .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-tempo-aspiraccao .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-tempo-aspiraccao .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-tempo-aspiraccao .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-tempo-limpeza-total .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-sensor-vacuum-tempo-limpeza-total .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-tempo-limpeza-total .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-tempo-limpeza-total .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-tempo-limpeza-total .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-tempo-limpeza-total .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-bateria-aspirador .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-sensor-vacuum-bateria-aspirador .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-bateria-aspirador .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-bateria-aspirador .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-bateria-aspirador .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-bateria-aspirador .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-escova-lateral .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-sensor-vacuum-escova-lateral .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-escova-lateral .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-escova-lateral .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-escova-lateral .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-escova-lateral .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-lavagem-filtro .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-sensor-vacuum-lavagem-filtro .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-lavagem-filtro .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-lavagem-filtro .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-lavagem-filtro .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-lavagem-filtro .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-limpar-sensores .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-sensor-vacuum-limpar-sensores .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-limpar-sensores .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-vacuum-limpar-sensores .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-limpar-sensores .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-vacuum-limpar-sensores .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-basejavascript-default-load-main-panel .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-basejavascript-default-load-main-panel .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basejavascript-default-load-main-panel .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basejavascript-default-load-main-panel .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.widget-basejavascript-default-load-secundario-panel .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-basejavascript-default-load-secundario-panel .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basejavascript-default-load-secundario-panel .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basejavascript-default-load-secundario-panel .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.widget-basejavascript-default-load-radio-panel .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-basejavascript-default-load-radio-panel .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basejavascript-default-load-radio-panel .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basejavascript-default-load-radio-panel .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}

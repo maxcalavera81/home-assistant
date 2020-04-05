@@ -1,0 +1,15 @@
+---
+secrets: /config/secrets.yaml
+appdaemon:
+  latitude: 41.76104071
+  longitude: -8.57432216
+  elevation: 93
+  time_zone: Europe/Lisbon
+  plugins:
+    HASS:
+      type: hass
+http:
+  url: https://192.168.1.133:5050
+admin:
+api:
+hadashboard:

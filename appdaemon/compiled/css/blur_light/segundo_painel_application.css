@@ -1,0 +1,890 @@
+html {
+	font-size:100%;
+	-webkit-text-size-adjust:100%;
+	-ms-text-size-adjust:100%;
+	padding:0;
+}
+
+body {
+	margin:0;
+	background-color: #000;
+	font-size:15px;
+	color:#646464;
+	padding:0;
+	font-family:'Helvetica Neue','Helvetica','Open Sans','Arial';
+}
+
+body::after
+{
+  background-size:cover;
+  background-image: url(/custom_css/blur_light/img/tablet_background2.jpg);
+  content: "";
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1; 
+}
+
+b,strong {
+	font-weight:700;
+}
+
+a {
+	text-decoration:none;
+	color:inherit;
+}
+
+img {
+	border:0;
+	-ms-interpolation-mode:bicubic;
+	vertical-align:middle;
+}
+
+img,object {
+	max-width:100%;
+}
+
+iframe {
+	max-width:100%;
+}
+
+table {
+	border-collapse:collapse;
+	border-spacing:0;
+	width:100%;
+}
+
+td {
+	vertical-align:middle;
+}
+
+ul,ol {
+	padding:0;
+	margin:0;
+}
+
+h1, h2, h3, h4, h5, p {
+	padding:0;
+	margin:0;
+}
+
+h1 {
+	margin-bottom:6px;
+	text-align:center;
+	font-size:100%;
+	font-weight:200;
+}
+
+h2 {
+	font-size:220%;
+	font-weight:400;
+/	color:#646464; 
+}
+
+h3 {
+	font-size:125%;
+	font-weight:300;
+	color:#646464;
+}
+
+.dashboard_main {
+	margin: 0px auto;
+}
+
+.gridster {
+	margin: 0px auto;
+}
+
+.icon-background {
+	pointer-events:none;
+	width:100%!important;
+	height:100%;
+	position:absolute;
+	left:0;
+	top:0;
+	opacity:.1;
+	font-size:1375%;
+	text-align:center;
+	margin-top:82px;
+}
+
+.list-nostyle {
+	list-style:none;
+}
+
+.gridster ul {
+	list-style:none;
+}
+
+.gs-w {
+	width:100%;
+	display:table;
+	cursor:pointer;
+}
+
+.widget {
+	padding:0px 0px;
+	text-align:center;
+	width:100%;
+	display:table-cell;
+	vertical-align:middle;
+	/*border-radius: 12px; */
+	background-color: rgba(255, 255, 255, 0.5);
+}
+
+.title
+{
+	color:#646464;
+	z-index: 1;
+	/*background-color: rgba(255, 255, 255, 0.2); 
+	margin-top: -5px;
+	height: 35px;
+	padding-top: 5px;
+	padding-bottom: 6px; */
+  
+}
+
+.title2
+{
+  z-index: 2;
+  margin-top: 0;
+}
+
+.icon-inactive {
+	color:#888;
+	font-size:300%;
+	top: 54px !important;
+}
+
+.icon-active {
+	font-size:300%;
+	top: 54px !important;
+}
+
+.icon
+{
+  font-size: 300%;
+  /* top: 56px !important; */
+}
+
+#container {
+	padding-top:0px;
+}
+
+.unit, .level {
+	font-size:120%!important;
+	vertical-align:baseline!important;
+	color: #646464 !important;
+}
+
+.value
+{
+  color: inherit;
+}
+
+.valueunit
+{
+  /*top: 62px !important; */
+}
+
+.state_text
+{
+  /* bottom: -3px !important; */
+  text-transform: capitalize;
+}
+
+.levelunit
+{
+  bottom: 0px !important;
+}
+
+.secondary-info
+{
+  font-weight: 400 !important;
+}
+
+.widget-basedisplay-default-temperatura-sala .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-temperatura-sala .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-temperatura-sala .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-temperatura-sala .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-temperatura-sala .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-temperatura-sala .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-humidade-sala .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-sensor-humidade-sala .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-humidade-sala .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-humidade-sala .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-humidade-sala .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-humidade-sala .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-temperatura-quarto .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-sensor-temperatura-quarto .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-temperatura-quarto .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-temperatura-quarto .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-temperatura-quarto .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-temperatura-quarto .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-humidade-quarto .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-sensor-humidade-quarto .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-humidade-quarto .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-humidade-quarto .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-humidade-quarto .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-humidade-quarto .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-temperature-158d00023203e4 .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-temperature-158d00023203e4 .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-temperature-158d00023203e4 .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-temperature-158d00023203e4 .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-temperature-158d00023203e4 .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-temperature-158d00023203e4 .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-humidity-158d00023203e4 .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-humidity-158d00023203e4 .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-humidity-158d00023203e4 .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-humidity-158d00023203e4 .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-humidity-158d00023203e4 .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-humidity-158d00023203e4 .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-0x00158d00044b86f8-temperature .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-0x00158d00044b86f8-temperature .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-0x00158d00044b86f8-temperature .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-0x00158d00044b86f8-temperature .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-0x00158d00044b86f8-temperature .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-0x00158d00044b86f8-temperature .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-0x00158d00044b86f8-humidity .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-0x00158d00044b86f8-humidity .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-0x00158d00044b86f8-humidity .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-0x00158d00044b86f8-humidity .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-0x00158d00044b86f8-humidity .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-0x00158d00044b86f8-humidity .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-portao-entrada .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-sensor-portao-entrada .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-portao-entrada .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-portao-entrada .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-portao-entrada .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-portao-entrada .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-portao-jardim .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-sensor-portao-jardim .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-portao-jardim .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-portao-jardim .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-portao-jardim .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-portao-jardim .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-abrir-portao-grande .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-abrir-portao-grande .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-abrir-portao-grande .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-abrir-portao-grande .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-abrir-portao-grande .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.widget-baseswitch-default-abrir-portao-pequeno .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-abrir-portao-pequeno .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-abrir-portao-pequeno .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-abrir-portao-pequeno .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-abrir-portao-pequeno .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.widget-baseswitch-default-portao-30 .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-portao-30 .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-portao-30 .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-portao-30 .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-portao-30 .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.widget-baseswitch-default-fechar-portao .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-fechar-portao .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-fechar-portao .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-fechar-portao .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-fechar-portao .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.widget-baseswitch-default-on-off-pc .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-on-off-pc .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-on-off-pc .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-on-off-pc .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-on-off-pc .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.widget-basedisplay-default-sensor-pc-on-off .unit {
+	font-size: 225%;
+	font-weight: 400;
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+.widget-basedisplay-default-sensor-pc-on-off .value {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-pc-on-off .valueunit {
+	width: 100%;
+	vertical-align: middle;
+}
+
+.widget-basedisplay-default-sensor-pc-on-off .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-pc-on-off .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basedisplay-default-sensor-pc-on-off .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-monitor-do-pc .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-monitor-do-pc .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-monitor-do-pc .state_text {
+	position: absolute;
+	bottom: -3px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-monitor-do-pc .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-baseswitch-default-monitor-do-pc .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.widget-basejavascript-default-load-main-panel .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-basejavascript-default-load-main-panel .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basejavascript-default-load-main-panel .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basejavascript-default-load-main-panel .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.widget-basejavascript-default-load-radio-panel .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-basejavascript-default-load-radio-panel .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basejavascript-default-load-radio-panel .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basejavascript-default-load-radio-panel .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.widget-basejavascript-default-load-aspirador-panel .icon {
+	position: absolute;
+	top: 43px;
+	width: 100%;
+}
+
+.widget-basejavascript-default-load-aspirador-panel .title {
+	position: absolute;
+	top: 5px;
+	width: 100%;
+}
+
+.widget-basejavascript-default-load-aspirador-panel .title2 {
+	position: absolute;
+	top: 23px;
+	width: 100%;
+}
+
+.widget-basejavascript-default-load-aspirador-panel .toggle-area {
+	z-index: 10;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
