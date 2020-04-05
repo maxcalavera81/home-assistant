@@ -389,7 +389,7 @@ automation:
 group:
 
   Sensores Despensa:
-    control: hidden
+    name: Sensores Despensa
     entities:
       - binary_sensor.door_window_sensor_158d0002bfae0f
       - binary_sensor.door_window_sensor_158d0002bf9d6d

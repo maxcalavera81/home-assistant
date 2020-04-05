@@ -332,7 +332,7 @@ automation:
 group:
 
   Estores casa do pai:
-    control: hidden
+    name: Estores casa do pai
     entities:
       - cover.estore_q_pequeno_shelly
       - cover.estore_varanda_shelly

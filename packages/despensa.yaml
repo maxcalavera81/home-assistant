@@ -9,10 +9,10 @@ homeassistant:
     light.yeelight_color1_7811dcaa58c8:
       friendly_name: Aplique da Despensa
       icon: mdi:lightbulb-on
-    binary_sensor.motion_sensor_158d0002f8d190:
+    binary_sensor.0x00158d0002f8d190_occupancy:
       friendly_name: Sensor Despensa
       icon: mdi:run
-    sensor.illumination_158d0002f8d190:
+    sensor.0x00158d0002f8d190_illuminance:
       friendly_name: Sensor LX Despensa
       icon: mdi:brightness-4
 
@@ -39,7 +39,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d0002f8d190
+      entity_id: binary_sensor.0x00158d0002f8d190_occupancy
       from: 'off'
       to: 'on'
     condition:
@@ -47,20 +47,19 @@ automation:
       after: '00:00:00'
       before: '06:00:00'
     - condition: numeric_state
-      entity_id: sensor.illumination_158d0002f8d190
+      entity_id: sensor.0x00158d0002f8d190_illuminance
       below: 60
     action:
       - service: light.turn_on
-        entity_id: light.yeelight_color1_7811dcaa58c8
+        entity_id: light.0x680ae2fffec92973_light
         data:
           brightness: 80
-          kelvin: 2000
 
   - alias: Ligar aplique despensa 06h 00h
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d0002f8d190
+      entity_id: binary_sensor.0x00158d0002f8d190_occupancy
       from: 'off'
       to: 'on'
     condition:
@@ -68,24 +67,23 @@ automation:
       after: '06:00:00'
       before: '00:00:00'
     - condition: numeric_state
-      entity_id: sensor.illumination_158d0002f8d190
+      entity_id: sensor.0x00158d0002f8d190_illuminance
       below: 60
     action:
       - service: light.turn_on
-        entity_id: light.yeelight_color1_7811dcaa58c8
+        entity_id: light.0x680ae2fffec92973_light
         data:
           brightness: 255
-          kelvin: 5000
 
   - alias: Desligar aplique despensa
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d0002f8d190
+      entity_id: binary_sensor.0x00158d0002f8d190_occupancy
       from: 'on'
       to: 'off'
       for:
         minutes: 2
     action:
       - service: light.turn_off
-        entity_id: light.yeelight_color1_7811dcaa58c8
+        entity_id: light.0x680ae2fffec92973_light

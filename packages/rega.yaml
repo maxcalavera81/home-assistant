@@ -91,7 +91,7 @@ script:
     sequence:
       - service: switch.turn_on
         entity_id: switch.zona_1
-      - delay: '00:07:00'
+      - delay: '00:05:00'
       - service: switch.turn_off
         entity_id: switch.zona_1
 
@@ -99,7 +99,7 @@ script:
     sequence:
       - service: switch.turn_on
         entity_id: switch.zona_2
-      - delay: '00:07:00'
+      - delay: '00:05:00'
       - service: switch.turn_off
         entity_id: switch.zona_2
 
@@ -107,7 +107,7 @@ script:
     sequence:
       - service: switch.turn_on
         entity_id: switch.zona_3
-      - delay: '00:07:00'
+      - delay: '00:05:00'
       - service: switch.turn_off
         entity_id: switch.zona_3
 

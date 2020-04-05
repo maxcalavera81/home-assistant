@@ -632,7 +632,7 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'off'
     - condition: state
-      entity_id: 'media_player.samsung_tv'
+      entity_id: 'media_player.samsung_ue40d6500'
       state: 'off'
     action:
       - service: light.turn_off
@@ -731,8 +731,11 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'off'
     - condition: state
-      entity_id: 'media_player.samsung_tv'
+      entity_id: 'media_player.samsung_ue40d6500'
       state: 'off'
+    - condition: numeric_state
+      entity_id: sensor.lx_sala
+      below: 8
     action:
       - service: light.turn_off
         entity_id:
@@ -782,7 +785,7 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'off'
     - condition: state
-      entity_id: 'media_player.samsung_tv'
+      entity_id: 'media_player.samsung_ue40d6500'
       state: 'off'
     action:
       - service: light.turn_off
@@ -835,7 +838,7 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'on'
     - condition: state
-      entity_id: 'media_player.samsung_tv'
+      entity_id: 'media_player.samsung_ue40d6500'
       state: 'off'
     action:
       - service: light.turn_off
@@ -979,7 +982,7 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'on'
     - condition: state
-      entity_id: 'media_player.samsung_tv'
+      entity_id: 'media_player.samsung_ue40d6500'
       state: 'off'
     action:
       - service: light.turn_off
@@ -1030,7 +1033,7 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'on'
     - condition: state
-      entity_id: 'media_player.samsung_tv'
+      entity_id: 'media_player.samsung_ue40d6500'
       state: 'off'
     action:
       - service: light.turn_off
@@ -1081,7 +1084,7 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'on'
     - condition: state
-      entity_id: 'media_player.samsung_tv'
+      entity_id: 'media_player.samsung_ue40d6500'
       state: 'off'
     action:
       - service: light.turn_off
@@ -1135,7 +1138,7 @@ automation:
 group:
 
   Apliques da Sala:
-    control: hidden
+    name: Apliques da Sala
     entities:
       - light.yeelight_color1_7811dc6b9b10
       - light.yeelight_color1_7811dc6b98cb

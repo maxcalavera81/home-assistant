@@ -80,7 +80,7 @@ automation:
 
   #=== Cycle 1
   - alias: Run Irrigation Cycle 1
-    initial_state: 'on'
+    initial_state: true
     trigger:
       - platform: time_pattern
         minutes: 00
@@ -91,7 +91,7 @@ automation:
         value_template: >
           {{ now().strftime('%Y-%m-%d %H:%M:00') == states('input_datetime.cycle1_next_run_time') }}
       - condition: state
-        entity_id: input_boolean.cycle1_enable
+        entity_id: 'input_boolean.cycle1_enable'
         state: 'on'
 
     action:
@@ -105,7 +105,7 @@ automation:
 
   #=== Cycle 2
   - alias: Run Irrigation Cycle 2
-    initial_state: 'on'
+    initial_state: true
     trigger:
       - platform: time_pattern
         minutes: 00
@@ -116,7 +116,7 @@ automation:
         value_template: >
           {{ now().strftime('%Y-%m-%d %H:%M:00') == states('input_datetime.cycle2_next_run_time') }}
       - condition: state
-        entity_id: input_boolean.cycle2_enable
+        entity_id: 'input_boolean.cycle2_enable'
         state: 'on'
 
     action:
@@ -132,7 +132,7 @@ automation:
 # Run A Cycle Manually
 #======================
   - alias: Run a Cycle Maually
-    initial_state: 'on'
+    initial_state: true
     trigger:
     - platform: state
       entity_id: 
@@ -205,7 +205,7 @@ automation:
   # Cancel A Manual Cycle
   #=======================
   - alias: Cancel A Manual Cycle
-    initial_state: 'on'
+    initial_state: true
     trigger:
     - platform: state
       entity_id: 
@@ -266,7 +266,7 @@ automation:
   #=== Update the last time an irrigation cycle ended
   #===================================================
   - alias: Update last run time
-    initial_state: 'on'
+    initial_state: true
     trigger:
     - platform: state
       entity_id: group.irrigation_valves
@@ -284,6 +284,7 @@ automation:
 # Run A Specific Zone Manually
 #======================
   - alias: Irrigation Zone request
+    initial_state: true
     trigger:
       - platform: state
         entity_id:

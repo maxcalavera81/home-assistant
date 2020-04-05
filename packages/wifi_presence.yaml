@@ -2,6 +2,28 @@ homeassistant:
 
 ###############################################################################
 #                                                                             #
+#                                  P E R S O N                                #
+#                                                                             #
+############################################################################### 
+person:
+  - name: Bruno
+    id: bruno1981
+    device_trackers:
+      - device_tracker.bruno_melo
+      - device_tracker.bruno_nmap
+  - name: Armanda
+    id: armanda1984
+    device_trackers:
+      - device_tracker.armanda_rodrigues
+      - device_tracker.armanda_nmap
+  - name: Armando
+    id: armando1962
+    device_trackers:
+      - device_tracker.armando_melo
+      - device_tracker.mando_nmap
+
+###############################################################################
+#                                                                             #
 #                           A U T O M A Ç Õ E S                               #
 #                                                                             #
 ###############################################################################   
@@ -13,7 +35,7 @@ automation:
     initial_state: true
     trigger:
     - platform: state
-      entity_id: device_tracker.bruno_melo
+      entity_id: person.bruno
       from: 'not_home'
       to: 'home'
     action:
@@ -26,28 +48,28 @@ automation:
             url: https://static.digit.in/default/3e3b40843f58f62562fac2fb2026c3adddef3345.jpeg
             caption: "Bruno ligou-se á rede"
 
-  - alias: Notificar quando Bruno estiver ligado ao wifiariela
-    initial_state: true
-    trigger:
-    - platform: state
-      entity_id: device_tracker.mi_a1
-      from: 'not_home'
-      to: 'home'
-    action:
-      service: notify.telegram
-      data:
-        title: "Bruno "
-        message: "acabou de se ligar á rede."
-        data:
-          photo:
-            url: https://static.digit.in/default/3e3b40843f58f62562fac2fb2026c3adddef3345.jpeg
-            caption: "Bruno ligou-se á rede pelo ariela"
+#  - alias: Notificar quando Bruno estiver ligado ao wifiariela
+#    initial_state: true
+#    trigger:
+#    - platform: state
+#      entity_id: device_tracker.mi_a1
+#      from: 'not_home'
+#      to: 'home'
+#    action:
+#      service: notify.telegram
+#      data:
+#        title: "Bruno "
+#        message: "acabou de se ligar á rede."
+#        data:
+#          photo:
+#            url: https://static.digit.in/default/3e3b40843f58f62562fac2fb2026c3adddef3345.jpeg
+#            caption: "Bruno ligou-se á rede pelo ariela"
 
   - alias: Notificar quando Bruno estiver desligado do wifi
     initial_state: true
     trigger:
     - platform: state
-      entity_id: device_tracker.bruno_melo
+      entity_id: person.bruno
       from: 'home'
       to: 'not_home'
     action:
@@ -60,28 +82,28 @@ automation:
             url: https://static.digit.in/default/3e3b40843f58f62562fac2fb2026c3adddef3345.jpeg
             caption: "Bruno desligou-se da rede"
 
-  - alias: Notificar quando Bruno estiver desligado do wifi ariela
-    initial_state: true
-    trigger:
-    - platform: state
-      entity_id: device_tracker.mi_a1
-      from: 'home'
-      to: 'not_home'
-    action:
-      service: notify.telegram
-      data:
-        title: "Bruno "
-        message: "acabou de se desligar da rede."
-        data:
-          photo:
-            url: https://static.digit.in/default/3e3b40843f58f62562fac2fb2026c3adddef3345.jpeg
-            caption: "Bruno desligou-se da rede pelo ariela"
+#  - alias: Notificar quando Bruno estiver desligado do wifi ariela
+#    initial_state: true
+#    trigger:
+#    - platform: state
+#      entity_id: device_tracker.mi_a1
+#      from: 'home'
+#      to: 'not_home'
+#    action:
+#      service: notify.telegram
+#      data:
+#        title: "Bruno "
+#        message: "acabou de se desligar da rede."
+#        data:
+#          photo:
+#            url: https://static.digit.in/default/3e3b40843f58f62562fac2fb2026c3adddef3345.jpeg
+#            caption: "Bruno desligou-se da rede pelo ariela"
 
   - alias: Notificar quando Armanda estiver ligada ao wifi
     initial_state: true
     trigger:
     - platform: state
-      entity_id: device_tracker.armanda_rodrigues
+      entity_id: person.armanda
       from: 'not_home'
       to: 'home'
     action:
@@ -98,7 +120,7 @@ automation:
     initial_state: true
     trigger:
     - platform: state
-      entity_id: device_tracker.armanda_rodrigues
+      entity_id: person.armanda
       from: 'home'
       to: 'not_home'
     action:
@@ -115,7 +137,7 @@ automation:
     initial_state: true
     trigger:
     - platform: state
-      entity_id: device_tracker.armando_melo
+      entity_id: person.armando
       from: 'not_home'
       to: 'home'
     action:
@@ -132,7 +154,7 @@ automation:
     initial_state: true
     trigger:
     - platform: state
-      entity_id: device_tracker.armando_melo
+      entity_id: person.armando
       from: 'home'
       to: 'not_home'
     action:
@@ -221,18 +243,18 @@ automation:
       entity_id: automation.desligar_luzes_na_ausencia
 
 
-  - alias: Desligar Luzes na ausencia pai
-    initial_state: false
-    trigger:
-      - platform: state
-        entity_id: device_tracker.armando_melo
-        from: 'home'
-        to: 'not_home'
-    action:
-      - service: light.turn_off
-        data:
-          entity_id:
-            - light.wc_pai
+#  - alias: Desligar Luzes na ausencia pai
+#    initial_state: false
+#    trigger:
+#      - platform: state
+#        entity_id: person.armando
+#        from: 'home'
+#        to: 'not_home'
+#    action:
+#      - service: light.turn_off
+#        data:
+#          entity_id:
+#            - light.wc_pai
 ###############################################################################
 #                                                                             #
 #                                 G R O U P S                                 #
@@ -243,5 +265,5 @@ group:
   Wifi:     
     name: presenças
     entities: 
-      - device_tracker.bruno_melo
-      - device_tracker.armanda_rodrigues
+      - person.bruno
+      - person.armanda

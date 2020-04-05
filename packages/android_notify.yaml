@@ -40,13 +40,13 @@ automation:
       minutes: '/20'
     condition:
     - condition: state
-      entity_id: 'media_player.samsung_smart_tv'
+      entity_id: 'media_player.samsung_ue40d6500'
       state: 'on'
     action:
       - service: notify.tv_sala
         data:
           title: "A temperatura da sala é de "
-          message: "{{ states('sensor.temperatura_sala') }} °C e a húmidade é de {{ states('sensor.humidade_sala') }} %."
+          message: "{{ states('sensor.temperatura_sala') }} °C e a húmidade é de {{ states('sensor.humidade_sala') }} % e a temperatura do quarto é de {{ states('sensor.temperatura_quarto') }} °C e a húmidade é de {{ states('sensor.humidade_quarto') }} %."
 
   - alias: Alerta de temperatura na tv do quarto
     initial_state: true
@@ -66,7 +66,7 @@ automation:
       hours: '/2'
     condition:
     - condition: state
-      entity_id: 'device_tracker.bruno_melo'
+      entity_id: 'person.bruno'
       state: 'not_home'
     action:
       - service: notify.telegram

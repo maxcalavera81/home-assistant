@@ -1,5 +1,50 @@
 homeassistant:
 
+###############################################################################
+#                                                                             #
+#                     I N P U T _ N U M B E R                                 #
+#                                                                             #
+###############################################################################
+input_number:
+  estoresala:
+    name: Posição estore da sala
+    min: 0
+    max: 100
+    step: 10
+    unit_of_measurement: '%'
+    icon: mdi:format-align-middle
+
+  estoreqmafalda:
+    name: Posição estore do q. Mafalda
+    min: 0
+    max: 100
+    step: 10
+    unit_of_measurement: '%'
+    icon: mdi:format-align-middle
+
+  estorecozinha:
+    name: Posição estore da cozinha
+    min: 0
+    max: 100
+    step: 10
+    unit_of_measurement: '%'
+    icon: mdi:format-align-middle
+
+  estorevaranda:
+    name: Posição estore da varanda
+    min: 0
+    max: 100
+    step: 10
+    unit_of_measurement: '%'
+    icon: mdi:format-align-middle
+
+  estoreqpequeno:
+    name: Posição estore q. pequeno
+    min: 0
+    max: 100
+    step: 10
+    unit_of_measurement: '%'
+    icon: mdi:format-align-middle
 #######################################################################
 #                                                                     #
 #                          C O V E R                                  #
@@ -61,6 +106,114 @@ cover:
     optimistic: false
     qos: 1
 
+###############################################################################
+#                                                                             #
+#                               S E N S O R                                   #
+#                                                                             #
+############################################################################### 
+sensor:
+#percentagens dos estores
+  - platform: mqtt
+    name: "Percentagem Estore Cozinha"
+    state_topic: "stat/estore_cozinha/SHUTTER1"
+    value_template: "{{value | int }}"
+    unit_of_measurement: "%"
+    availability_topic: "tele/estore_cozinha/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+
+  - platform: mqtt
+    name: "Percentagem Estore Sala"
+    state_topic: "stat/estore_sala/SHUTTER1"
+    value_template: "{{value | int }}"
+    unit_of_measurement: "%"
+    availability_topic: "tele/estore_sala/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+
+  - platform: mqtt
+    name: "Percentagem Estore Mafalda"
+    state_topic: "stat/estore_mafalda/SHUTTER1"
+    value_template: "{{value | int }}"
+    unit_of_measurement: "%"
+    availability_topic: "tele/estore_mafalda/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+
+#open closed to aberto fechado
+  - platform: template
+    sensors:
+      estore_sala:
+        friendly_name: "Estado estore da sala"
+        value_template: >-
+          {% if is_state('cover.estore_sala', 'open') %}
+            aberto
+          {% else %}
+            fechado
+          {% endif %}
+
+  - platform: template
+    sensors:
+      estore_cozinha:
+        friendly_name: "Estado estore da cozinha"
+        value_template: >-
+          {% if is_state('cover.estore_cozinha', 'open') %}
+            aberto
+          {% else %}
+            fechado
+          {% endif %}
+
+  - platform: template
+    sensors:
+      estore_mafalda:
+        friendly_name: "Estado estore q. Mafalda"
+        value_template: >-
+          {% if is_state('cover.estore_mafalda', 'open') %}
+            aberto
+          {% else %}
+            fechado
+          {% endif %}
+
+#teste slider
+  - platform: template
+    sensors:
+      posicao_estore_sala:
+        friendly_name: "Posição sala"
+        entity_id: cover.estore_sala
+        unit_of_measurement: '%'
+        value_template: "{{ states.cover.estore_sala.attributes.current_position }}"
+
+  - platform: template
+    sensors:
+      posicao_estore_qmafalda:
+        friendly_name: "Posição q. Mafalda"
+        entity_id: cover.estore_mafalda
+        unit_of_measurement: '%'
+        value_template: "{{ states.cover.estore_mafalda.attributes.current_position }}"
+
+  - platform: template
+    sensors:
+      posicao_estore_cozinha:
+        friendly_name: "Posição cozinha"
+        entity_id: cover.estore_cozinha
+        unit_of_measurement: '%'
+        value_template: "{{ states.cover.estore_cozinha.attributes.current_position }}"
+
+  - platform: template
+    sensors:
+      posicao_estore_varanda:
+        friendly_name: "Posição q. varanda"
+        entity_id: cover.estore_varanda_shelly
+        unit_of_measurement: '%'
+        value_template: "{{ states.cover.estore_varanda_shelly.attributes.current_position }}"
+
+  - platform: template
+    sensors:
+      posicao_estore_qpequeno:
+        friendly_name: "Posição q pequeno"
+        entity_id: cover.estore_q_pequeno_shelly
+        unit_of_measurement: '%'
+        value_template: "{{ states.cover.estore_q_pequeno_shelly.attributes.current_position }}"
 #######################################################################
 #                                                                     #
 #                         A U T O M A T I O N                         #
@@ -69,12 +222,11 @@ cover:
 automation:
 #automacoes abrir e fechar dos estores
 
-  - alias: Abrir estores ao nascer do sol Semana
+  - alias: Abrir estores Semana
     initial_state: true
     trigger: 
-      platform: sun
-      event: sunrise
-      offset: '+00:30:00'
+      platform: time
+      at: '07:45:00'
     condition:
       - condition: state
         entity_id: 'binary_sensor.workday_sensor'
@@ -88,7 +240,7 @@ automation:
             - cover.estore_cozinha
           position: 100
 
-  - alias: Abrir estores ao nascer do sol Fim Semana mafalda
+  - alias: Abrir estore Fim Semana mafalda
     initial_state: true
     trigger: 
       platform: time
@@ -104,12 +256,11 @@ automation:
             - cover.estore_mafalda
           position: 100
 
-  - alias: Abrir estores ao nascer do sol Fim Semana resto casa
+  - alias: Abrir estores fim Semana resto casa
     initial_state: true
     trigger: 
-      platform: sun
-      event: sunrise
-      offset: '+00:30:00'
+      platform: time
+      at: '08:30:00'
     condition:
       - condition: state
         entity_id: 'binary_sensor.workday_sensor'
@@ -352,70 +503,186 @@ automation:
             - cover.estore_cozinha
           position: 0
 
-###############################################################################
-#                                                                             #
-#                               S E N S O R                                   #
-#                                                                             #
-############################################################################### 
-sensor:
-#percentagens dos estores
-  - platform: mqtt
-    name: "Percentagem Estore Cozinha"
-    state_topic: "stat/estore_cozinha/SHUTTER1"
-    value_template: "{{value | int }}"
-    unit_of_measurement: "%"
-    availability_topic: "tele/estore_cozinha/LWT"
-    payload_available: "Online"
-    payload_not_available: "Offline"
+#slider teste
+  - alias: "Atualizar posição da cortina da sala de estar"
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: sensor.posicao_estore_sala
+    action:
+      service: input_number.set_value
+      data_template:
+        entity_id: input_number.estoresala
+        value: "{{ (states.cover.estore_sala.attributes.current_position) | int }}"
 
-  - platform: mqtt
-    name: "Percentagem Estore Sala"
-    state_topic: "stat/estore_sala/SHUTTER1"
-    value_template: "{{value | int }}"
-    unit_of_measurement: "%"
-    availability_topic: "tele/estore_sala/LWT"
-    payload_available: "Online"
-    payload_not_available: "Offline"
 
-  - platform: mqtt
-    name: "Percentagem Estore Mafalda"
-    state_topic: "stat/estore_mafalda/SHUTTER1"
-    value_template: "{{value | int }}"
-    unit_of_measurement: "%"
-    availability_topic: "tele/estore_mafalda/LWT"
-    payload_available: "Online"
-    payload_not_available: "Offline"
+  - alias: Posição do estore da sala
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_number.estoresala
+    condition:
+      - condition: template
+        value_template: "{{ states('input_number.estoresala') | int != state_attr('cover.estore_sala', 'position') | int }}"
+    action:
+      service: cover.set_cover_position
+      data_template:
+        entity_id: cover.estore_sala
+        position: "{{ states('input_number.estoresala') | int }}"
 
-#open closed to aberto fechado
-  - platform: template
-    sensors:
-      estore_sala:
-        friendly_name: "Estado estore da sala"
-        value_template: >-
-          {% if is_state('cover.estore_sala', 'open') %}
-            aberto
-          {% else %}
-            fechado
-          {% endif %}
+  - alias: "Atualizar posição estore quarto Mafalda"
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: sensor.posicao_estore_qmafalda
+    action:
+      service: input_number.set_value
+      data_template:
+        entity_id: input_number.estoreqmafalda
+        value: "{{ (states.cover.estore_mafalda.attributes.current_position) | int }}"
 
-  - platform: template
-    sensors:
-      estore_cozinha:
-        friendly_name: "Estado estore da cozinha"
-        value_template: >-
-          {% if is_state('cover.estore_cozinha', 'open') %}
-            aberto
-          {% else %}
-            fechado
-          {% endif %}
 
-  - platform: template
-    sensors:
-      estore_mafalda:
-        friendly_name: "Estado estore q. Mafalda"
-        value_template: >-
-          {% if is_state('cover.estore_mafalda', 'open') %}
-            aberto
-          {% else %}
-            fechado
-          {% endif %}
+  - alias: Posição do estore quarto Mafalda
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_number.estoreqmafalda
+    condition:
+      - condition: template
+        value_template: "{{ states('input_number.estoreqmafalda') | int != state_attr('cover.estore_mafalda', 'position') | int }}"
+    action:
+      service: cover.set_cover_position
+      data_template:
+        entity_id: cover.estore_mafalda
+        position: "{{ states('input_number.estoreqmafalda') | int }}"
+
+  - alias: "Atualizar posição estore cozinha"
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: sensor.posicao_estore_cozinha
+    action:
+      service: input_number.set_value
+      data_template:
+        entity_id: input_number.estorecozinha
+        value: "{{ (states.cover.estore_cozinha.attributes.current_position) | int }}"
+
+
+  - alias: Posição do estore cozinha
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_number.estorecozinha
+    condition:
+      - condition: template
+        value_template: "{{ states('input_number.estorecozinha') | int != state_attr('cover.estore_cozinha', 'position') | int }}"
+    action:
+      service: cover.set_cover_position
+      data_template:
+        entity_id: cover.estore_cozinha
+        position: "{{ states('input_number.estorecozinha') | int }}"
+
+  - alias: "Atualizar posição estore varanda"
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: sensor.posicao_estore_varanda
+    action:
+      service: input_number.set_value
+      data_template:
+        entity_id: input_number.estorevaranda
+        value: "{{ (states.cover.estore_varanda_shelly.attributes.current_position) | int }}"
+
+
+  - alias: Posição do estore varanda
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_number.estorevaranda
+    condition:
+      - condition: template
+        value_template: "{{ states('input_number.estorevaranda') | int != state_attr('cover.estore_varanda_shelly', 'position') | int }}"
+    action:
+      service: cover.set_cover_position
+      data_template:
+        entity_id: cover.estore_varanda_shelly
+        position: "{{ states('input_number.estorevaranda') | int }}"
+
+  - alias: "Atualizar posição estore q pequeno"
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: sensor.posicao_estore_qpequeno
+    action:
+      service: input_number.set_value
+      data_template:
+        entity_id: input_number.estoreqpequeno
+        value: "{{ (states.cover.estore_q_pequeno_shelly.attributes.current_position) | int }}"
+
+
+  - alias: Posição do estore q pequeno
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_number.estoreqpequeno
+    condition:
+      - condition: template
+        value_template: "{{ states('input_number.estoreqpequeno') | int != state_attr('cover.estore_q_pequeno_shelly', 'position') | int }}"
+    action:
+      service: cover.set_cover_position
+      data_template:
+        entity_id: cover.estore_q_pequeno_shelly
+        position: "{{ states('input_number.estoreqpequeno') | int }}"
+
+#  - alias: Abrir estores ao nascer do sol Semana
+#    initial_state: true
+#    trigger: 
+#      platform: sun
+#      event: sunrise
+#      offset: '+00:30:00'
+#    condition:
+#      - condition: state
+#        entity_id: 'binary_sensor.workday_sensor'
+#        state: 'on'
+#    action:
+#      - service: cover.set_cover_position
+#        data:
+#          entity_id: 
+#            - cover.estore_sala
+#            - cover.estore_mafalda
+#            - cover.estore_cozinha
+#          position: 100
+
+#  - alias: Abrir estores ao nascer do sol Fim Semana mafalda
+#    initial_state: true
+#    trigger: 
+#      platform: time
+#      at: 09:30:00
+#    condition:
+#      - condition: state
+#        entity_id: 'binary_sensor.workday_sensor'
+#        state: 'off'
+#    action:
+#      - service: cover.set_cover_position
+#        data:
+#          entity_id: 
+#            - cover.estore_mafalda
+#          position: 100
+
+#  - alias: Abrir estores ao nascer do sol Fim Semana resto casa
+#    initial_state: true
+#    trigger: 
+#      platform: sun
+#      event: sunrise
+#      offset: '+00:30:00'
+#    condition:
+#      - condition: state
+#        entity_id: 'binary_sensor.workday_sensor'
+#        state: 'off'
+#    action:
+#      - service: cover.set_cover_position
+#        data:
+#          entity_id: 
+#            - cover.estore_sala
+#            - cover.estore_cozinha
+#          position: 100

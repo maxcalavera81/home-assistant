@@ -82,6 +82,10 @@ automation:
       to: 'off'
       for:
         minutes: 1
+    condition:
+    - condition: state
+      entity_id: 'switch.monitor_do_pc'
+      state: 'off'
     action:
       - service: light.turn_off
         data_template:

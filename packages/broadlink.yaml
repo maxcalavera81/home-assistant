@@ -1,5 +1,10 @@
 homeassistant:
 
+
+remote:
+  - platform: broadlink
+    host: !secret ip_broadlink
+    mac: '78:0F:77:D9:0C:02'
 ###############################################################################
 #                                                                             #
 #                           S W I T C H                                       #

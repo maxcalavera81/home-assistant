@@ -15,7 +15,7 @@ homeassistant:
     sensor.illumination_158d000272b7c0:
       friendly_name: Sensor LX Mafalda
       icon: mdi:brightness-4
-    light.Teto_quarto_afalda:
+    light.Teto_quarto_mafalda:
       icon: mdi:lightbulb-on
 
 ###############################################################################

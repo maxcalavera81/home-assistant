@@ -8,8 +8,8 @@ homeassistant:
 light:
   - platform: mqtt
     name: "Leds Armário sala"
-    state_topic: "stat/leds_sala/POWER1"
-    command_topic: "cmnd/leds_sala/power1"
+    state_topic: "stat/leds_sala/POWER"
+    command_topic: "cmnd/leds_sala/power"
     availability_topic: "tele/leds_sala/LWT"
     payload_available: "Online"
     payload_not_available: "Offline"

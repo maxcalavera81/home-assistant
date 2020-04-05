@@ -15,12 +15,6 @@ homeassistant:
     switch.fechar_portao:
       friendly_name: Fechar Portão
       icon: mdi:garage
-    script.portao_pequeno:
-      friendly_name: Portão Pequeno Automático
-      icon: mdi:garage
-    script.portao_grande:
-      friendly_name: Portão Grande Automático
-      icon: mdi:garage
     binary_sensor.door_window_sensor_158d0002729eba:
       friendly_name: Portão de Entrada
       icon: mdi:door-open
@@ -44,11 +38,17 @@ sensor:
           {% else %}
             Fechado
           {% endif %}
-        icon_template: >-
+#        icon_template: >-
+#          {% if is_state('binary_sensor.door_window_sensor_158d0002729eba', 'on') %}
+#            mdi:garage-open
+#          {% else %}
+#            mdi:garage
+#          {% endif %}
+        entity_picture_template: >-
           {% if is_state('binary_sensor.door_window_sensor_158d0002729eba', 'on') %}
-            mdi:garage-open
+           /local/icon/open_gate.png
           {% else %}
-            mdi:garage
+            /local/icon/close_gate.png
           {% endif %}
 ###############################################################################
 #                                                                             #
@@ -78,6 +78,16 @@ switch:
     payload_on: "ON"
     payload_off: "OFF"
 
+  - platform: mqtt
+    name: "Fechar portão"
+    state_topic: "stat/comandoportao/POWER2"
+    command_topic: "cmnd/comandoportao/power2"
+    availability_topic: "tele/comandoportao/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
 ###############################################################################
 #                                                                             #
 #                            L I G H T S                                      #
@@ -101,22 +111,6 @@ light:
 #                                                                             #
 ###############################################################################      
 script:
-  portao_grande:
-    sequence:
-      - service: switch.turn_on
-        entity_id: switch.abrir_portao_grande
-      - delay: '00:00:50'
-      - service: switch.turn_on
-        entity_id: switch.abrir_portao_grande
-
-  portao_pequeno:
-    sequence:
-      - service: switch.turn_on
-        entity_id: switch.abrir_portao_pequeno
-      - delay: '00:00:50'
-      - service: switch.turn_on
-        entity_id: switch.abrir_portao_pequeno
-
   portao_30:
     sequence:
       - service: switch.turn_on
@@ -369,30 +363,6 @@ automation:
 
 #notificações
 
-  - alias: Abertura do portão pequeno
-    initial_state: false
-    trigger:
-      platform: state
-      entity_id: script.portao_pequeno
-      from: 'off'
-      to: 'on'
-    action:
-      service: notify.telegram
-      data:
-        message: 'Portão pequeno foi aberto'
-
-  - alias: Abertura do portão grande
-    initial_state: false
-    trigger:
-      platform: state
-      entity_id: script.portao_grande
-      from: 'off'
-      to: 'on'
-    action:
-      service: notify.telegram
-      data:
-        message: 'Portão grande foi aberto'
-
   - alias: Portão Aberto
     initial_state: true
     trigger:
@@ -416,42 +386,6 @@ automation:
       service: notify.telegram
       data:
         message: 'Portão Está Fechado'
-
-#desligar notificações
-
-  - alias: Desligar Notificações portão quando em casa
-    initial_state: true
-    trigger:
-      - platform: state
-        entity_id: device_tracker.bruno_melo
-        from: 'not_home'
-        to: 'home'
-    condition:
-    - condition: time
-      after: '06:50:00'
-      before: '07:59:00'
-    action:
-      - service: automation.turn_off
-        entity_id: 
-          - automation.portao_aberto
-          - automation.portao_fechado
-
-  - alias: Ligar Notificações portão quando fora casa
-    initial_state: true
-    trigger:
-      - platform: state
-        entity_id: device_tracker.bruno_melo
-        from: 'home'
-        to: 'not_home'
-    condition:
-    - condition: time
-      after: '08:00:00'
-    action:
-      - service: automation.turn_on
-        entity_id: 
-          - automation.portao_aberto
-          - automation.portao_fechado
-
 
 #consultar telegram
 

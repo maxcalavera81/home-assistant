@@ -119,18 +119,18 @@ sensor:
           {{ parse_time(states('sensor.geeetech_a10_time_elapsed')|int) }}
 
   - platform: mqtt
-    state_topic: "shellies/shelly1pm-BA1A8D/temperature"
+    state_topic: "shellies/shelly1pm-geeetech/temperature"
     unit_of_measurement: "°C"
     name: "Shelly Geeetech Temperatura"
 
   - platform: mqtt
     name: "Geeetech A10 Watts"
-    state_topic: "shellies/shelly1pm-BA1A8D/relay/0/power"    
+    state_topic: "shellies/shelly1pm-geeetech/relay/0/power"    
     unit_of_measurement: "Watts"
     
   - platform: mqtt
     name: "Geeetech A10 Kwh"
-    state_topic: "shellies/shelly1pm-BA1A8D/relay/0/energy"    
+    state_topic: "shellies/shelly1pm-geeetech/relay/0/energy"    
     unit_of_measurement: "Kwh"
 
   - platform: integration
@@ -389,7 +389,7 @@ automation:
 #zigbee botao ligar desligar
 
   - alias: Ligar Impressora 3D
-    initial_state: true
+    initial_state: false
     trigger: 
       platform: state
       entity_id: sensor.0x000d6ffffebcd992_click
@@ -405,7 +405,7 @@ automation:
             - automation.desligar_impressora
 
   - alias: Desligar Impressora 3D
-    initial_state: true
+    initial_state: false
     trigger: 
       platform: state
       entity_id: sensor.0x000d6ffffebcd992_click
@@ -428,8 +428,8 @@ switch:
 
   - platform: mqtt
     name: "Geeetech A10"
-    state_topic: "shellies/shelly1pm-BA1A8D/relay/0"
-    command_topic: "shellies/shelly1pm-BA1A8D/relay/0/command"
+    state_topic: "shellies/shelly1pm-geeetech/relay/0"
+    command_topic: "shellies/shelly1pm-geeetech/relay/0/command"
     payload_on: "on"
     payload_off: "off"
 
@@ -451,3 +451,5 @@ utility_meter:
     tariffs:
       - Fora de Vazio
       - Vazio
+
+

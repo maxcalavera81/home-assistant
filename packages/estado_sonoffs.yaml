@@ -76,3 +76,6 @@ automation:
       - service: mqtt.publish
         data:
          topic: cmnd/monitor/power
+      - service: mqtt.publish
+        data:
+         topic: cmnd/fervedor/power

@@ -4,14 +4,12 @@
 group:
 
   irrigation_master_control:
-    control: hidden
     name: Irrigation Pump Control
     entities:
      - switch.master_pump
      - switch.mixing_pump
 
   irrigation_information:
-    control: hidden
     name: Irrigation Information
     entities:
       - sensor.last_irrigated_time
@@ -21,7 +19,6 @@ group:
       - sensor.zone4_time_today
 
   irrigation_cycle1:
-    control: hidden
     name: 'Morning Cycle'
     entities:
       - input_boolean.cycle1_enable
@@ -35,7 +32,6 @@ group:
       - input_number.cycle1_zone4_duration
 
   irrigation_cycle1_status:
-    control: hidden
     name: 'Morning Cycle Status'
     entities:
       - sensor.cycle1_running
@@ -43,7 +39,6 @@ group:
       - timer.cycle1_zone_duration
 
   irrigation_cycle2:
-    control: hidden
     name: 'Afternoon Cycle'
     entities:
       - input_boolean.cycle2_enable
@@ -57,7 +52,6 @@ group:
       - input_number.cycle2_zone4_duration
 
   irrigation_cycle2_status:
-    control: hidden
     name: 'Afternoon Cycle Status'
     entities:
       - sensor.cycle2_running
@@ -65,7 +59,6 @@ group:
       - timer.cycle2_zone_duration
 
   irrigation_valves_status:
-    control: hidden
     name: 'Valves Status'
     entities:
       - sensor.zone1_status
@@ -74,7 +67,6 @@ group:
       - sensor.zone4_status
 
   irrigation_valves:
-    control: hidden
     name: 'Valves'
     entities:
       - switch.zone1_valve

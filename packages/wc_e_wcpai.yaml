@@ -22,7 +22,7 @@ homeassistant:
 input_boolean:
   toalheiro_status:
     name: Status
-    initial: on 
+
 
 ###############################################################################
 #                                                                             #
@@ -34,13 +34,12 @@ input_datetime:
     name: "Ligar o toalheiro às"
     has_date: false
     has_time: true
-    initial: "05:00"
+
 
   toalheiro_off:
     name: "Desligar o toalheiro às"
     has_date: false
     has_time: true
-    initial: "07:45"
 
 ###############################################################################
 #                                                                             #
@@ -188,22 +187,22 @@ automation:
 #      - service: script.turn_off_wc_pai
 
 #toalheiro
-  - alias: Ligar toalheiro
-    initial_state: false
-    trigger:
-      - platform: time
-        at: '06:00:00'
-    condition:
-      - condition: state
-        entity_id: group.wifi
-        state: home
-      - condition: state
-        entity_id: 'binary_sensor.workday_sensor'
-        state: 'on'
-    action:
-      - service: script.turn_on
-        data:
-          entity_id: script.toalheiro
+#  - alias: Ligar toalheiro
+#    initial_state: false
+#    trigger:
+#      - platform: time
+#        at: '06:00:00'
+#    condition:
+#      - condition: state
+#        entity_id: group.wifi
+#        state: home
+#      - condition: state
+#        entity_id: 'binary_sensor.workday_sensor'
+#        state: 'on'
+#    action:
+#      - service: script.turn_on
+#        data:
+#          entity_id: script.toalheiro
 
 #notificações toalheiro
   - alias: O toalheiro está ligado
@@ -232,49 +231,43 @@ automation:
         title: "Notificação toalheiro - "
         message: "O toalheiro do wc foi desligado"
 
+#Liga toalheiro
+  - alias: Liga toalheiro
+    initial_state: 'on'
+    trigger:
+      - platform: template
+        value_template: "{{ states('sensor.time') == (states.input_datetime.toalheiro_on.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: input_boolean.toalheiro_status
+          state: 'on'
+#        - condition: state
+#          entity_id: group.wifi
+#          state: home
+        - condition: state
+          entity_id: 'binary_sensor.workday_sensor'
+          state: 'on'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.toalheiro_wc
+
 #Desliga toalheiro
 
   - alias: Desliga toalheiro
     initial_state: 'on'
     trigger:
-      - platform: time_pattern
-        minutes: '/1'
-        seconds: 01
+      - platform: template
+        value_template: "{{ states('sensor.time') == (states.input_datetime.toalheiro_off.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
     condition:
       condition: and
       conditions:
-        - condition: state
-          entity_id: input_boolean.toalheiro_status
-          state: 'on'
-        - condition: template
-          value_template: "{{ states('sensor.time') == (states.input_datetime.toalheiro_off.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+      - condition: state
+        entity_id: input_boolean.toalheiro_status
+        state: 'on'
     action:
       - service: switch.turn_off
-        entity_id: switch.toalheiro_wc
-
-#Liga toalheiro
-  - alias: Liga toalheiro
-    initial_state: 'on'
-    trigger:
-      - platform: time_pattern
-        minutes: '/1'
-        seconds: 01
-    condition:
-      condition: and
-      conditions:
-        - condition: state
-          entity_id: input_boolean.toalheiro_status
-          state: 'on'
-        - condition: state
-          entity_id: group.wifi
-          state: home
-        - condition: state
-          entity_id: 'binary_sensor.workday_sensor'
-          state: 'on'
-        - condition: template
-          value_template: "{{ states('sensor.time') == (states.input_datetime.toalheiro_on.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
-    action:
-      - service: switch.turn_on
         entity_id: switch.toalheiro_wc
 
 #telegram

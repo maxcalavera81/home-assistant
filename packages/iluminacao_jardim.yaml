@@ -72,11 +72,17 @@ sensor:
           {% else %}
             Portão Fechado
           {% endif %}
-        icon_template: >-
-          {% if is_state('binary_sensor.0x00158d0002e7f816_contact', 'on') %}      
-            mdi:door-open
+#        icon_template: >-
+#          {% if is_state('binary_sensor.0x00158d0002e7f816_contact', 'on') %}
+#            mdi:door-open
+#          {% else %}
+#            mdi:door-closed
+#          {% endif %}
+        entity_picture_template: >-
+          {% if is_state('binary_sensor.0x00158d0002e7f816_contact', 'on') %}
+           /local/icon/open_gate.png
           {% else %}
-            mdi:door-closed
+            /local/icon/close_gate.png
           {% endif %}
 ###############################################################################
 #                                                                             #
@@ -154,7 +160,7 @@ automation:
 group:
 
   Iluminação do jardim:
-    control: hidden
+    name: Iluminação do jardim
     entities:
       - light.iluminacao_do_jardim
       - light.iluminacao_lateral

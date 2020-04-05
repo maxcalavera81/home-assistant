@@ -196,13 +196,13 @@ automation:
 group:
 
   Duas lâmpadas do pátio:
-    control: hidden
+    name: Duas lâmpadas do pátio
     entities:
       - light.candeeiro_patio_2
       - light.candeeiro_patio_3
 
   Lâmpadas do pátio:
-    control: hidden
+    name: Lâmpadas do pátio
     entities:
       - light.candeeiro_patio_1
       - light.candeeiro_patio_2
