@@ -1,0 +1,34 @@
+esphome:
+  name: 'bluetooth'
+  platform: ESP32
+  board: mhetesp32devkit
+wifi:
+  ssid: 'Vaitentando'
+  password: 'RESIDENCIAMELO2017'
+api:
+web_server:
+  port: 80
+logger:
+ota:
+  password: 'akcw77qw81'
+# Enable Bluetooth scanning for this ESP32
+esp32_ble_tracker:
+
+sensor:
+  - platform: xiaomi_lywsdcgq
+    mac_address: 58:2D:34:31:2B:5E
+    temperature:
+      name: "Temperatura sala"
+    humidity:
+      name: "Humidade sala"
+    battery_level:
+      name: "Bateria temperatura sala"
+
+  - platform: xiaomi_lywsdcgq
+    mac_address: 58:2D:34:34:44:01
+    temperature:
+      name: "Temperatura quarto"
+    humidity:
+      name: "Humidade quarto"
+    battery_level:
+      name: "Bateria temperatura quarto"
