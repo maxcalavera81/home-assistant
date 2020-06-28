@@ -43,6 +43,34 @@ input_datetime:
 
 ###############################################################################
 #                                                                             #
+#                         S W I T C H  S O N O F F                            #
+#                                                                             #
+###############################################################################  
+switch:
+  - platform: mqtt
+    name: "toalheiro WC"
+    state_topic: "stat/toalheiro/POWER"
+    command_topic: "cmnd/toalheiro/power"
+    availability_topic: "tele/toalheiro/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+
+  - platform: mqtt
+    name: "Air Wick"
+    state_topic: "stat/airwick/POWER"
+    command_topic: "cmnd/airwick/power"
+    availability_topic: "tele/airwick/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+
+###############################################################################
+#                                                                             #
 #                               L I G H T S                                   #
 #                                                                             #
 ###############################################################################
@@ -130,22 +158,6 @@ script:
       - service: switch.turn_off
         entity_id: switch.toalheiro_wc
 
-###############################################################################
-#                                                                             #
-#                         S W I T C H  S O N O F F                            #
-#                                                                             #
-###############################################################################  
-switch:
-  - platform: mqtt
-    name: "toalheiro WC"
-    state_topic: "stat/toalheiro/POWER"
-    command_topic: "cmnd/toalheiro/power"
-    availability_topic: "tele/toalheiro/LWT"
-    payload_available: "Online"
-    payload_not_available: "Offline"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
 ###############################################################################
 #                                                                             #
 #                           A U T O M A Ç Õ E S                               #
@@ -302,3 +314,25 @@ automation:
     action:
       - service: switch.turn_off
         entity_id: switch.toalheiro_wc
+
+#Air Wick
+
+  - alias: Pulverizar ao ligar a luz tecto 
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: light.teto_casa_de_banho
+      to: 'on'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.air_wick
+
+  - alias: Pulverizar ao desligar luz tecto 
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: light.teto_casa_de_banho
+      to: 'off'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.air_wick

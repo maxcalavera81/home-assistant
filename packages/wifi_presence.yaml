@@ -1,5 +1,9 @@
 homeassistant:
-
+  customize:
+    person.bruno:
+      entity_picture: "/local/adlocal/device_trackers/bruno.jpg"
+    person.armanda:
+      entity_picture: "/local/device_trackers/armanda.jpg"
 ###############################################################################
 #                                                                             #
 #                                  P E R S O N                                #
@@ -167,29 +171,29 @@ automation:
             url: https://static.digit.in/default/3e3b40843f58f62562fac2fb2026c3adddef3345.jpeg
             caption: "Pai desligou-se da rede"
 
-  - alias: ligar sonoff
-    initial_state: false
-    trigger:
-      - platform: state
-        entity_id: group.wifi
-        from: 'home'
-        to: 'not_home'
-    action:
-      - service: switch.turn_on
-        data:
-          entity_id: switch.arvore_de_natal
+#  - alias: ligar sonoff
+#    initial_state: false
+#    trigger:
+#      - platform: state
+#        entity_id: group.wifi
+#        from: 'home'
+#        to: 'not_home'
+#    action:
+#      - service: switch.turn_on
+#        data:
+#          entity_id: switch.arvore_de_natal
 
-  - alias: desligar sonoff
-    initial_state: false
-    trigger:
-      - platform: state
-        entity_id: group.wifi
-        from: 'not_home'
-        to: 'home'
-    action:
-      - service: switch.turn_off
-        data:
-          entity_id: switch.arvore_de_natal
+#  - alias: desligar sonoff
+#    initial_state: false
+#    trigger:
+#      - platform: state
+#        entity_id: group.wifi
+#        from: 'not_home'
+#        to: 'home'
+#    action:
+#      - service: switch.turn_off
+#        data:
+#          entity_id: switch.arvore_de_natal
 
 #desligar luzes na ausencia
 

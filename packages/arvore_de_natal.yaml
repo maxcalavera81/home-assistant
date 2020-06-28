@@ -63,7 +63,7 @@ automation:
         state: 'on'
     action:
       - service: switch.turn_on
-        entity_id: switch.0x000d6ffffe2efe21_switch
+        entity_id: switch.on_off_sala
 
 
 
@@ -107,16 +107,19 @@ automation:
           state: 'on'
     action:
       - service: switch.turn_off
-        entity_id: switch.0x000d6ffffe2efe21_switch
+        entity_id: switch.on_off_sala
 
   - alias: Liga Pinheirinho fim semana
-    initial_state: 'on'
+    initial_state: true
     trigger:
       - platform: template
         value_template: "{{ states('sensor.time') == (states.input_datetime.pinheiro_fimsemana_on.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
     condition:
       condition: and
       conditions:
+      - condition: state
+        entity_id: input_boolean.pinheiro_fimsemana_status
+        state: 'on'
       - condition: state
         entity_id: group.wifi
         state: home
@@ -125,10 +128,10 @@ automation:
         state: 'off'
     action:
       - service: switch.turn_on
-        entity_id: switch.0x000d6ffffe2efe21_switch
+        entity_id: switch.on_off_sala
 
   - alias: Desliga Pinheirinho fim semana
-    initial_state: 'on'
+    initial_state: true
     trigger:
       - platform: template
         value_template: "{{ states('sensor.time') == (states.input_datetime.pinheiro_fimsemana_off.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
@@ -136,11 +139,14 @@ automation:
       condition: and
       conditions:
       - condition: state
+        entity_id: input_boolean.pinheiro_fimsemana_status
+        state: 'on'
+      - condition: state
         entity_id: 'binary_sensor.workday_sensor'
         state: 'off'
     action:
       - service: switch.turn_off
-        entity_id: switch.0x000d6ffffe2efe21_switch
+        entity_id: switch.on_off_sala
 
 #automação ligar pinheirinho semana
 #  - alias: Ligar Pinheiro semana
@@ -177,7 +183,7 @@ automation:
         after: '18:01:00'
         before: '22:00:00'
       - condition: state
-        entity_id: switch.0x000d6ffffe2efe21_switch
+        entity_id: switch.on_off_sala
         state: 'off'
       - condition: state
         entity_id: 'binary_sensor.workday_sensor'
@@ -185,7 +191,7 @@ automation:
     action:
       - service: switch.turn_on
         data:
-          entity_id: switch.0x000d6ffffe2efe21_switch
+          entity_id: switch.on_off_sala
 
 #desligar pinheirinho na ausencia semana
   - alias: Desligar Pinheiro semana ausencia
@@ -203,7 +209,7 @@ automation:
         entity_id: input_boolean.pinheiro_semana_status
         state: 'on'
       - condition: state
-        entity_id: switch.0x000d6ffffe2efe21_switch
+        entity_id: switch.on_off_sala
         state: 'on'
       - condition: state
         entity_id: 'binary_sensor.workday_sensor'
@@ -211,7 +217,7 @@ automation:
     action:
       - service: switch.turn_off
         data:
-          entity_id: switch.0x000d6ffffe2efe21_switch
+          entity_id: switch.on_off_sala
 
 #ligar pinheiro ao chegar a casa quando desligado fim semana
   - alias: Ligar Pinheiro fim semana quando chega a casa
@@ -229,7 +235,7 @@ automation:
         entity_id: input_boolean.pinheiro_fimsemana_status
         state: 'on'
       - condition: state
-        entity_id: switch.0x000d6ffffe2efe21_switch
+        entity_id: switch.on_off_sala
         state: 'off'
       - condition: state
         entity_id: 'binary_sensor.workday_sensor'
@@ -237,7 +243,7 @@ automation:
     action:
       - service: switch.turn_on
         data:
-          entity_id: switch.0x000d6ffffe2efe21_switch
+          entity_id: switch.on_off_sala
 
 #desligar pinheirinho na ausencia fim semana
   - alias: Desligar Pinheiro fim semana ausencia
@@ -255,7 +261,7 @@ automation:
         entity_id: input_boolean.pinheiro_fimsemana_status
         state: 'on'
       - condition: state
-        entity_id: switch.0x000d6ffffe2efe21_switch
+        entity_id: switch.on_off_sala
         state: 'on'
       - condition: state
         entity_id: 'binary_sensor.workday_sensor'
@@ -263,7 +269,7 @@ automation:
     action:
       - service: switch.turn_off
         data:
-          entity_id: switch.0x000d6ffffe2efe21_switch
+          entity_id: switch.on_off_sala
 
 #desligar pinheirinho semana
 #  - alias: Desligar Pinheiro semana
@@ -321,7 +327,7 @@ automation:
     initial_state: true
     trigger:
     - platform: state
-      entity_id: switch.0x000d6ffffe2efe21_switch
+      entity_id: switch.on_off_sala
       from: 'off'
       to: 'on'
     action:
@@ -338,7 +344,7 @@ automation:
     initial_state: true
     trigger:
     - platform: state
-      entity_id: switch.0x000d6ffffe2efe21_switch
+      entity_id: switch.on_off_sala
       from: 'on'
       to: 'off'
     action:
@@ -361,4 +367,4 @@ group:
   Arvore de natal:
     name: Arvore de Natal
     entities:
-      - switch.0x000d6ffffe2efe21_switch
+      - switch.on_off_sala

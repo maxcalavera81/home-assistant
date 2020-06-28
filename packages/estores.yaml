@@ -313,38 +313,37 @@ automation:
 
 #testes
 
-  - alias: Abrir estores 50 por cento
-    initial_state: false
-    trigger: 
-      platform: state
-      entity_id: cover.estore_cozinha
-      from: closed
-      to: open
-    action:
-      - service: cover.set_cover_position
-        data:
-          entity_id: 
-            - cover.estore_cozinha
-          position: 58
+#  - alias: Abrir estores 50 por cento
+#    initial_state: false
+#    trigger: 
+#      platform: state
+#      entity_id: cover.estore_cozinha
+#      from: closed
+#      to: open
+#    action:
+#      - service: cover.set_cover_position
+#        data:
+#          entity_id: 
+#            - cover.estore_cozinha
+#          position: 58
 
-  - alias: Fechar estores 50 por cento
-    initial_state: false
-    trigger: 
-      platform: state
-      entity_id: cover.estore_cozinha
-      from: open
-      to: closed
-    action:
-      - service: cover.set_cover_position
-        data:
-          entity_id: 
-            - cover.estore_cozinha
-          position: 63
+#  - alias: Fechar estores 50 por cento
+#    initial_state: false
+#    trigger: 
+#      platform: state
+#      entity_id: cover.estore_cozinha
+#      from: open
+#      to: closed
+#    action:
+#      - service: cover.set_cover_position
+#        data:
+#          entity_id: 
+#            - cover.estore_cozinha
+#          position: 63
 
 #Telegram
 
   - alias: callback estores Bruno
-    hide_entity: true
     trigger:
       platform: event
       event_type: telegram_command
@@ -415,7 +414,6 @@ automation:
 #        entity_id: script.message_blins
 
 #  - alias: callback testes
-#    hide_entity: true
 #    trigger:
 #      platform: event
 #      event_type: telegram_command

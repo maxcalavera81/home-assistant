@@ -122,26 +122,50 @@ sensor:
 automation:
 #automacoes abrir e fechar dos estores
 
-  - alias: Abrir estores ao nascer do sol pai
+  - alias: Abrir estores Semana Pai
     initial_state: true
     trigger: 
-      platform: sun
-      event: sunrise
-      offset: '+00:30:00'
+      platform: time
+      at: '08:00:00'
+    condition:
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'on'
     action:
       - service: cover.set_cover_position
         data:
-          entity_id:
+          entity_id: 
             - cover.estore_varanda_shelly
             - cover.estore_q_pequeno_shelly
           position: 100
 
-  - alias: Fechar estores ao pôr do sol pai
+  - alias: Abrir estores fim Semana pai
     initial_state: true
-    trigger:
+    trigger: 
+      platform: time
+      at: '09:00:00'
+    condition:
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'off'
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id: 
+            - cover.estore_varanda_shelly
+            - cover.estore_q_pequeno_shelly
+          position: 100
+
+  - alias: Fechar estores ao pôr do sol semana pai
+    initial_state: true
+    trigger: 
       platform: sun
       event: sunset
       offset: '+00:30:00'
+    condition:
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'on'
     action:
       - service: cover.set_cover_position
         data:
@@ -150,31 +174,80 @@ automation:
             - cover.estore_q_pequeno_shelly
           position: 0
 
+  - alias: Fechar estores ao pôr do sol fim semana pai
+    initial_state: true
+    trigger: 
+      platform: sun
+      event: sunset
+      offset: '+01:00:00'
+    condition:
+      - condition: state
+        entity_id: 'binary_sensor.workday_sensor'
+        state: 'off'
+    action:
+      - service: cover.set_cover_position
+        data:
+          entity_id:
+            - cover.estore_varanda_shelly
+            - cover.estore_q_pequeno_shelly
+          position: 0
+#automacoes abrir e fechar dos estores
+
+#  - alias: Abrir estores ao nascer do sol pai
+#    initial_state: true
+#    trigger: 
+#      platform: sun
+#      event: sunrise
+#      offset: '+00:30:00'
+#    action:
+#      - service: cover.set_cover_position
+#        data:
+#          entity_id:
+#            - cover.estore_varanda_shelly
+#            - cover.estore_q_pequeno_shelly
+#          position: 100
+
+#  - alias: Fechar estores ao pôr do sol pai
+#    initial_state: true
+#    trigger:
+#      platform: sun
+#      event: sunset
+#      offset: '+00:30:00'
+#    action:
+#      - service: cover.set_cover_position
+#        data:
+#          entity_id:
+#            - cover.estore_varanda_shelly
+#            - cover.estore_q_pequeno_shelly
+#          position: 0
+
 #ligar desligar automações em casa
 
   - alias: Desligar automação estore quando em casa
     initial_state: true
     trigger:
       platform: state
-      entity_id: device_tracker.armando_melo
+      entity_id: person.armando
       from: 'not_home'
       to: 'home'
     action:
       - service: automation.turn_off
         entity_id: 
-          - automation.abrir_estores_ao_nascer_do_sol_pai
+          - automation.abrir_estores_semana_pai
+          - automation.abrir_estores_fim_semana_pai
 
   - alias: Ligar automação estore quando fora casa
     initial_state: true
     trigger:
       platform: state
-      entity_id: device_tracker.armando_melo
+      entity_id: person.armando
       from: 'home'
       to: 'not_home'
     action:
       - service: automation.turn_on
         entity_id: 
-          - automation.abrir_estores_ao_nascer_do_sol_pai
+          - automation.abrir_estores_semana_pai
+          - automation.abrir_estores_fim_semana_pai
 
 #abrir estores 9 da manhã
 
@@ -182,10 +255,13 @@ automation:
     initial_state: true
     trigger:
       platform: time
-      at: '09:00:00'
+      at: '09:30:00'
     condition:
       - condition: state
         entity_id: cover.estore_varanda_shelly
+        state: 'closed'
+      - condition: state
+        entity_id: cover.estore_q_pequeno_shelly
         state: 'closed'
     action:
       - service: cover.set_cover_position
@@ -198,7 +274,6 @@ automation:
 #estores pai telegram
 
   - alias: callback estores pai
-    hide_entity: true
     trigger:
       platform: event
       event_type: telegram_command
@@ -307,14 +382,16 @@ automation:
             - cover.estore_varanda_shelly
           position: 0
 
-#abrir fechar estores botao zigbee
+#abrir fechar estores conbee
 
   - alias: Abrir estores pai zigbee
     initial_state: true
-    trigger: 
-      platform: state
-      entity_id: sensor.0x00158d000359e754_click
-      to: 'quadruple'
+    trigger:
+      platform: event
+      event_type: deconz_event
+      event_data:
+        id: iluminacao_exterior
+        event: 1006
     action:
       service_template: >
        {% if is_state('group.estores_casa_do_pai', 'closed') %}

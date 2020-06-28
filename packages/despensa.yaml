@@ -21,11 +21,11 @@ homeassistant:
 #                           L U Z E S                                         #
 #                                                                             #
 ###############################################################################  
-yeelight:
-  devices:
-    !secret yeelight_despensa:
-      name: yeelight_color1_7811dcaa58c8
-      model: color1
+#yeelight:
+#  devices:
+#    !secret yeelight_despensa:
+#      name: yeelight_color1_7811dcaa58c8
+#      model: color1
 ###############################################################################
 #                                                                             #
 #                           A U T O M A Ç Õ E S                               #
@@ -39,7 +39,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.0x00158d0002f8d190_occupancy
+      entity_id: binary_sensor.presence_6
       from: 'off'
       to: 'on'
     condition:
@@ -47,11 +47,11 @@ automation:
       after: '00:00:00'
       before: '06:00:00'
     - condition: numeric_state
-      entity_id: sensor.0x00158d0002f8d190_illuminance
+      entity_id: sensor.lightlevel_5
       below: 60
     action:
       - service: light.turn_on
-        entity_id: light.0x680ae2fffec92973_light
+        entity_id: light.aplique_despensa
         data:
           brightness: 80
 
@@ -59,7 +59,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.0x00158d0002f8d190_occupancy
+      entity_id: binary_sensor.presence_6
       from: 'off'
       to: 'on'
     condition:
@@ -67,11 +67,11 @@ automation:
       after: '06:00:00'
       before: '00:00:00'
     - condition: numeric_state
-      entity_id: sensor.0x00158d0002f8d190_illuminance
+      entity_id: sensor.lightlevel_5
       below: 60
     action:
       - service: light.turn_on
-        entity_id: light.0x680ae2fffec92973_light
+        entity_id: light.aplique_despensa
         data:
           brightness: 255
 
@@ -79,11 +79,11 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.0x00158d0002f8d190_occupancy
+      entity_id: binary_sensor.presence_6
       from: 'on'
       to: 'off'
       for:
         minutes: 2
     action:
       - service: light.turn_off
-        entity_id: light.0x680ae2fffec92973_light
+        entity_id: light.aplique_despensa

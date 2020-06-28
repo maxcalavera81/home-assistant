@@ -22,10 +22,10 @@ homeassistant:
       icon: mdi:lightbulb-on
     light.leds_armario:
       icon: mdi:lightbulb-on
-    binary_sensor.motion_sensor_158d00029be9c3:
+    binary_sensor.movimento_cozinha:
       friendly_name: Sensor de Movimento Cozinha
       icon: mdi:run
-    sensor.illumination_158d00029be9c3:
+    sensor.lightlevel_15:
       friendly_name: Sensor LX
       icon: mdi:brightness-4
     switch.tomada_fervedor:
@@ -72,16 +72,6 @@ switch:
     payload_on: "ON"
     payload_off: "OFF"
 
-  - platform: mqtt
-    name: "Tomada Fervedor"
-    state_topic: "stat/fervedor/POWER"
-    command_topic: "cmnd/fervedor/power"
-    availability_topic: "tele/fervedor/LWT"
-    payload_available: "Online"
-    payload_not_available: "Offline"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
 ###############################################################################
 #                                                                             #
 #                                L I G H T S                                  #
@@ -153,7 +143,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d00029be9c3
+      entity_id: binary_sensor.movimento_cozinha
       from: 'off'
       to: 'on'
     condition:
@@ -161,7 +151,7 @@ automation:
       after: '06:30:00'
       before: '22:00:00'
     - condition: numeric_state
-      entity_id: sensor.illumination_158d00029be9c3
+      entity_id: sensor.lightlevel_15
       below: 60
     action:
       - service: xiaomi_miio.light_set_scene
@@ -176,7 +166,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d00029be9c3
+      entity_id: binary_sensor.movimento_cozinha
       from: 'off'
       to: 'on'
     condition:
@@ -184,7 +174,7 @@ automation:
       after: '22:00:00'
       before: '02:00:00'
     - condition: numeric_state
-      entity_id: sensor.illumination_158d00029be9c3
+      entity_id: sensor.lightlevel_15
       below: 60
     action:
       - service: xiaomi_miio.light_set_scene
@@ -202,7 +192,7 @@ automation:
 #    initial_state: true
 #    trigger:
 #      platform: state
-#      entity_id: binary_sensor.motion_sensor_158d00029be9c3
+#      entity_id: binary_sensor.movimento_cozinha
 #      from: 'off'
 #      to: 'on'
 #    condition:
@@ -210,7 +200,7 @@ automation:
 #      after: '22:00:00'
 #      before: '02:00:00'
 #    - condition: numeric_state
-#      entity_id: sensor.illumination_158d00029be9c3
+#      entity_id: sensor.lightlevel_15
 #      below: 60
 #    action:
 #      - delay:
@@ -237,7 +227,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d00029be9c3
+      entity_id: binary_sensor.movimento_cozinha
       from: 'off'
       to: 'on'
     condition:
@@ -245,7 +235,7 @@ automation:
       after: '02:00:00'
       before: '06:30:00'
     - condition: numeric_state
-      entity_id: sensor.illumination_158d00029be9c3
+      entity_id: sensor.lightlevel_15
       below: 60
     action:
       - service: xiaomi_miio.light_set_scene
@@ -261,7 +251,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d00029be9c3
+      entity_id: binary_sensor.movimento_cozinha
       from: 'on'
       to: 'off'
       for:
@@ -281,7 +271,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d00029be9c3
+      entity_id: binary_sensor.movimento_cozinha
       from: 'on'
       to: 'off'
       for:
@@ -301,7 +291,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d00029be9c3
+      entity_id: binary_sensor.movimento_cozinha
       from: 'on'
       to: 'off'
       for:
@@ -321,7 +311,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d00029be9c3
+      entity_id: binary_sensor.movimento_cozinha
       from: 'on'
       to: 'off'
       for:
@@ -337,49 +327,49 @@ automation:
           - light.xiaomi_philips_zhirui_1
           - light.xiaomi_philips_zhirui_2
 
-  - alias: Desligar Downlights a Cima dos 61 lx
-    initial_state: false
-    trigger:
-      platform: state
-      entity_id: binary_sensor.motion_sensor_158d0001f9d417
-      to: 'off'
-      for: 
-        seconds: 15
-    condition:
-    - condition: time
-      after: '06:00:00'
-      before: '23:00:00'
-    - condition: numeric_state
-      entity_id: sensor.illumination_158d00029be9c3
-      above: 61
-    action:
-      - service: light.turn_off
-        entity_id: 
-          - light.xiaomi_philips_zhirui
-          - light.xiaomi_philips_zhirui_1
-          - light.xiaomi_philips_zhirui_2
+#  - alias: Desligar Downlights a Cima dos 61 lx
+#    initial_state: false
+#    trigger:
+#      platform: state
+#      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+#      to: 'off'
+#      for: 
+#        seconds: 15
+#    condition:
+#    - condition: time
+#      after: '06:00:00'
+#      before: '23:00:00'
+#    - condition: numeric_state
+#      entity_id: sensor.lightlevel_15
+#      above: 61
+#    action:
+#      - service: light.turn_off
+#        entity_id: 
+#          - light.xiaomi_philips_zhirui
+#          - light.xiaomi_philips_zhirui_1
+#          - light.xiaomi_philips_zhirui_2
 
-  - alias: Desligar Downlights a Cima dos 61 lx 2
-    initial_state: false
-    trigger:
-      platform: state
-      entity_id: binary_sensor.motion_sensor_158d0001f9d417
-      to: 'off'
-      for: 
-        seconds: 15
-    condition:
-    - condition: time
-      after: '23:00:00'
-      before: '06:00:00'
-    - condition: numeric_state
-      entity_id: sensor.illumination_158d00029be9c3
-      above: 61
-    action:
-      - service: light.turn_off
-        entity_id: 
-          - light.xiaomi_philips_zhirui
-          - light.xiaomi_philips_zhirui_1
-          - light.xiaomi_philips_zhirui_2
+#  - alias: Desligar Downlights a Cima dos 61 lx 2
+#    initial_state: false
+#    trigger:
+#      platform: state
+#      entity_id: binary_sensor.motion_sensor_158d0001f9d417
+#      to: 'off'
+#      for: 
+#        seconds: 15
+#    condition:
+#    - condition: time
+#      after: '23:00:00'
+#      before: '06:00:00'
+#    - condition: numeric_state
+#      entity_id: sensor.lightlevel_15
+#      above: 61
+#    action:
+#      - service: light.turn_off
+#        entity_id: 
+#          - light.xiaomi_philips_zhirui
+#          - light.xiaomi_philips_zhirui_1
+#          - light.xiaomi_philips_zhirui_2
 
 ###############################################################################
 #                                                                             #
@@ -391,5 +381,5 @@ group:
   Sensores Despensa:
     name: Sensores Despensa
     entities:
-      - binary_sensor.door_window_sensor_158d0002bfae0f
-      - binary_sensor.door_window_sensor_158d0002bf9d6d
+      - binary_sensor.openclose_22
+      - binary_sensor.porta_2_despensa

@@ -58,7 +58,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.door_window_sensor_158d00024e0c7b
+      entity_id: binary_sensor.openclose_7
       to: 'on'
     condition:
       condition: or
@@ -78,7 +78,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.door_window_sensor_158d00024e0c7b
+      entity_id: binary_sensor.openclose_7
       to: 'off'
       for:
         minutes: 1
@@ -99,42 +99,42 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.door_window_sensor_158d00024e0c7b
+      entity_id: binary_sensor.openclose_7
       from: 'off'
       to: 'on'
     action:
       service: notify.telegram
       data:
         title: "Porta do Escritório"
-        message: "Está Aberta"
+        message: "Está Aberta. Bateria: {{ states('sensor.openclose_7_battery_level') }}%."
 
   - alias: Porta Escritório Fechada
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.door_window_sensor_158d00024e0c7b
+      entity_id: binary_sensor.openclose_7
       from: 'on'
       to: 'off'
     action:
       service: notify.telegram
       data:
         title: "Porta do Escritório"
-        message: "Está fechada"
+        message: "Está fechada. Bateria: {{ states('sensor.openclose_7_battery_level') }}%."
 
-  - alias: Porta do escritório aberta á 10 mim
-    initial_state: false
-    trigger:
-      platform: state
-      entity_id: binary_sensor.door_window_sensor_158d00024e0c7b
-      from: 'off'
-      to: 'on'
-      for:
-        minutes: 10
-    action:
-      service: notify.telegram
-      data:
-        title: "Porta do Escritório"
-        message: "Está aberta á 10 mim"
+#  - alias: Porta do escritório aberta á 10 mim
+#    initial_state: false
+#    trigger:
+#      platform: state
+#      entity_id: binary_sensor.door_window_sensor_158d00024e0c7b
+#      from: 'off'
+#      to: 'on'
+#      for:
+#        minutes: 10
+#    action:
+#      service: notify.telegram
+#      data:
+#        title: "Porta do Escritório"
+#        message: "Está aberta á 10 mim"
 
   - alias: Porta escritorio continua aberta
     initial_state: true
@@ -143,8 +143,11 @@ automation:
       minutes: '/10'
     condition:
       - condition: state
-        entity_id: binary_sensor.door_window_sensor_158d00024e0c7b
+        entity_id: binary_sensor.openclose_7
         state: 'on'
+      - condition: state
+        entity_id: person.bruno
+        state: not_home
     action:
       service: notify.telegram
       data:

@@ -128,14 +128,40 @@ automation:
             - light.iluminacao_lateral
             - light.iluminacao_coberto
 
-#botao zigbee para iluminacao do jardim
+#conbee para iluminacao do jardim
 
   - alias: Ligar iluminacao do jardim e coberto
     initial_state: true
-    trigger: 
-      platform: state
-      entity_id: sensor.0x00158d000359e754_click
-      to: 'triple'
+    trigger:
+      platform: event
+      event_type: deconz_event
+      event_data:
+        id: iluminacao_exterior
+        event: 1005
+    condition:
+      condition: or
+      conditions:
+      - condition: sun
+        after: sunset
+      - condition: sun
+        before: sunrise
+    action:
+      service_template: >
+       {% if is_state('group.iluminacao_do_jardim', 'off') %}
+       light.turn_on  
+       {%- elif is_state('group.iluminacao_do_jardim', 'on') -%}
+       light.turn_off
+       {% endif %}
+      entity_id: group.iluminacao_do_jardim
+
+  - alias: Ligar iluminacao do jardim e coberto Bruno
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: deconz_event
+      event_data:
+        id: portao_e_iluminacao
+        event: 1010
     condition:
       condition: or
       conditions:

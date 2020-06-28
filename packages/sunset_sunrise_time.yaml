@@ -28,3 +28,25 @@ sensor:
       sunrise_time:
         value_template: '{{ as_timestamp(states.sun.sun.attributes.next_rising) | timestamp_custom("%H:%M") }}'
         friendly_name: "Sunrise"
+
+
+automation:
+  - alias: 'Send notification when sun rises'
+    trigger:
+      platform: sun
+      event: sunrise
+      offset: '+00:00:00'
+    action:
+      service: notify.telegram
+      data:
+        message: 'The sun is up.'
+
+  - alias: 'Send notification when sun sets'
+    trigger:
+      platform: sun
+      event: sunset
+      offset: '+00:00:00'
+    action:
+      service: notify.telegram
+      data:
+        message: 'The sun is down.'

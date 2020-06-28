@@ -1,0 +1,558 @@
+homeassistant:
+
+###############################################################################
+#                                                                             #
+#                           C U S T O M I Z E                                 #
+#                                                                             #
+###############################################################################   
+  customize:
+
+    sensor.geeetech_a10_current_state:
+      friendly_name: Estado da energia
+      icon: mdi:printer-3d
+    binary_sensor.geeetech_a10_printing:
+      friendly_name: Estado da Geeetech A10
+    binary_sensor.geeetech_a10_printing_error:
+      friendly_name: Erros Geeetech A10
+    sensor.geeetech_a10_actual_bed_temp:
+      friendly_name: Temperatura Actual da cama
+      icon: mdi:printer-3d
+    sensor.geeetech_a10_actual_tool0_temp:
+      friendly_name: Temperatura Actual do Extursor
+      icon: mdi:printer-3d
+    sensor.geeetech_a10_job_percentage:
+      friendly_name: Evolução da impressão
+      icon: mdi:printer-3d
+    sensor.geeetech_a10_target_bed_temp:
+      friendly_name: Temperatura desejada da cama
+      icon: mdi:printer-3d
+    sensor.geeetech_a10_target_tool0_temp:
+      friendly_name: Temperatura desejada do Extursor
+      icon: mdi:printer-3d
+    sensor.octo_time_elapsed:
+      friendly_name: Tempo consumido
+      icon: mdi:printer-3d
+    sensor.octo_time_remaining:
+      friendly_name: Tempo Restante
+      icon: mdi:printer-3d
+
+###############################################################################
+#                                                                             #
+#                           S E N S O R S                                     #
+#                                                                             #
+###############################################################################  
+sensor:
+
+  - platform: octoprint
+    name: OctoPrint
+    monitored_conditions:
+      - Current State
+      - Temperatures
+      - Job Percentage  
+      - Time Remaining
+      - Time Elapsed    
+
+  - platform: template
+    sensors:
+      estadocurrente:
+        friendly_name: 'Estado da Impressora'
+        value_template: >
+          {%- if is_state('sensor.geeetech_a10_current_state', 'unknown') -%}
+            Desligada
+          {%- elif is_state('sensor.geeetech_a10_current_state', 'Operational') -%}
+            Pronta para Imprimir
+          {%- elif is_state('sensor.geeetech_a10_current_state', 'Printing') -%}
+            A imprimir do Octoprint
+          {%- elif is_state('sensor.geeetech_a10_current_state', 'Printing from SD') -%}
+            A imprimir do SD
+          {%- elif is_state('sensor.geeetech_a10_current_state', 'Sending file to SD') -%}
+            A enviar ficheiro para o SD
+          {%- elif is_state('sensor.geeetech_a10_current_state', 'Finishing') -%}
+            Trocar Filamento
+          {%- endif -%}
+
+  - platform: template
+    sensors:
+      geeetecha10_error:
+        friendly_name: 'Erros da Impressora'
+        value_template: >
+          {%- if is_state('binary_sensor.geeetech_a10_printing_error', 'off') -%}
+            Sem erros
+          {%- elif is_state('binary_sensor.geeetech_a10_printing_error', 'on') -%}
+            Falta de filamento
+          {%- endif -%}
+
+  - platform: template
+    sensors:
+      octo_time_remaining:
+        value_template: >-
+          {%- macro parse_time(sec) -%}
+            {%- set w = sec // 604800 -%}
+            {%- set d = sec % 604800 // 86400 -%}
+            {%- set h = sec % 604800 % 86400 // 3600 -%}
+            {%- set m = sec % 604800 % 86400 % 3600 // 60 -%}
+            {%- set s = sec % 604800 % 86400 % 3600 % 60 -%}
+            {%- set comma = joiner(', ') -%}
+            {{- comma() ~ w ~ ' week' ~ ('s' if w != 1) if w -}}
+            {{- comma() ~ d ~ ' day' ~ ('s' if d != 1) if d -}}
+            {{- comma() ~ h ~ ' hour' ~ ('s' if h != 1) if h -}}
+            {{- comma() ~ m ~ ' minute' ~ ('s' if m != 1) if m -}}
+            {{- comma() ~ s ~ ' second' ~ ('s' if s != 1) if s -}}
+          {%- endmacro -%}
+          {{ parse_time(states('sensor.geeetech_a10_time_remaining')|int) }}
+
+  - platform: template
+    sensors:
+      octo_time_elapsed:
+        value_template: >-
+          {%- macro parse_time(sec) -%}
+            {%- set w = sec // 604800 -%}
+            {%- set d = sec % 604800 // 86400 -%}
+            {%- set h = sec % 604800 % 86400 // 3600 -%}
+            {%- set m = sec % 604800 % 86400 % 3600 // 60 -%}
+            {%- set s = sec % 604800 % 86400 % 3600 % 60 -%}
+            {%- set comma = joiner(', ') -%}
+            {{- comma() ~ w ~ ' week' ~ ('s' if w != 1) if w -}}
+            {{- comma() ~ d ~ ' day' ~ ('s' if d != 1) if d -}}
+            {{- comma() ~ h ~ ' hour' ~ ('s' if h != 1) if h -}}
+            {{- comma() ~ m ~ ' minute' ~ ('s' if m != 1) if m -}}
+            {{- comma() ~ s ~ ' second' ~ ('s' if s != 1) if s -}}
+          {%- endmacro -%}
+          {{ parse_time(states('sensor.geeetech_a10_time_elapsed')|int) }}
+
+  - platform: mqtt
+    state_topic: "shellies/shelly1pm-geeetech/temperature"
+    unit_of_measurement: "°C"
+    name: "Shelly Geeetech Temperatura"
+
+  - platform: mqtt
+    name: "Geeetech A10 Watts"
+    state_topic: "shellies/shelly1pm-geeetech/relay/0/power"    
+    unit_of_measurement: "Watts"
+    
+  - platform: mqtt
+    name: "Geeetech A10 Kwh"
+    state_topic: "shellies/shelly1pm-geeetech/relay/0/energy"    
+    unit_of_measurement: "Kwh"
+
+  - platform: integration
+    name: "Energia Rede"
+    source: sensor.geeetech_a10_watts
+    unit_prefix: k
+    round: 2
+
+  - platform: template
+    sensors:
+      fatura_energia:
+        friendly_name: "Fatura Energia bi-horário"
+        value_template: >-
+          {{ ((float(states.sensor.monthly_energy_vazio.state) * 0.11  + float(states.sensor.monthly_energy_fora_de_vazio.state) * 0.187 + now().day * 0.3832 + 2.85 ) * 1.23 ) | round(2) }}
+        unit_of_measurement: "€"
+      fatura_energia_simples:
+        friendly_name: "Fatura Energia simples"
+        value_template: >-
+          {{ ((float(states.sensor.monthly_energy_vazio.state) * 0.1546  + float(states.sensor.monthly_energy_fora_de_vazio.state) * 0.1546 + now().day * 0.3283 + 0.00 ) * 1.23 ) | round(2) }}
+        unit_of_measurement: "€"
+
+  - platform: template
+    sensors:
+      preco_impressao:
+        friendly_name: "Preço da impressão"
+        value_template: >-
+          {{ ((float(states.input_number.consumo_final.state) * 0.1515 + now().day * 0.0 + 0 ) * 1.0 ) | round(2) }}
+        unit_of_measurement: "€"
+###############################################################################
+#                                                                             #
+#                         B I N A R Y _  S E N S O R S                        #
+#                                                                             #
+###############################################################################  
+binary_sensor:
+  - platform: octoprint
+    monitored_conditions:
+      - Printing
+      - Printing Error
+
+###############################################################################
+#                                                                             #
+#                         I N P U T   B O O L E A N S                         #
+#                                                                             #
+###############################################################################      
+input_boolean:
+  impressora3d:
+    name: Impressora 3D
+    icon: mdi:printer-3d
+    initial: off
+
+###############################################################################
+#                                                                             #
+#                           I N P U T   N U M B E R S                         #
+#                                                                             #
+###############################################################################
+input_number:
+  consumo_ultima_impressao:
+    name: Consumo última impressão
+    mode: box
+    min: 0
+    max: 999
+ 
+  consumo_impressao:
+    name: Consumo final da impressão
+    mode: box
+    min: 0
+    max: 999
+ 
+  consumo_final:
+    name: consumo da impressão
+    mode: box
+    min: 0
+    max: 999
+###############################################################################
+#                                                                             #
+#                         A U T O M A T I O N S                               #
+#                                                                             #
+###############################################################################    
+automation:
+
+#informa o utilizador de que a impressão foi iniciada
+  - alias: Informa inicio da impressao
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: sensor.geeetech_a10_current_state
+      from: 'Operational'
+      to: 'Printing'
+    action:
+      - delay:
+          minutes: 2
+      - service: notify.telegram
+        data:
+          title: "Geeetech A10"
+          message: "Impressão inicializada pelo octoprint. A previsão da impressão é de {{ states('sensor.octo_time_remaining') }} e a temperatura da stuva é de {{ states('sensor.0x00158d00044b86f8_temperature') }} e a humidade é de {{ states('sensor.0x00158d00044b86f8_humidity') }}. A impressão é a várias cores?" 
+          data:
+            inline_keyboard:
+              - "SIM:/sim2cores"
+              - "NÃO:/nao"
+
+  - alias: Informa inicio da impressao do sd
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: sensor.geeetech_a10_current_state
+      from: 'Operational'
+      to: 'Printing from SD'
+    action:
+      - delay:
+          minutes: 2
+      - service: notify.telegram
+        data:
+          title: "Geeetech A10"
+          message: "Impressão inicializada pelo SD. A previsão da impressão é de {{ states('sensor.octo_time_remaining') }} e a temperatura da stuva é de {{ states('sensor.0x00158d00044b86f8_temperature') }} e a humidade é de {{ states('sensor.0x00158d00044b86f8_humidity') }}. A impressão é a várias cores?"
+          data:
+            inline_keyboard:
+              - "SIM:/sim2cores"
+              - "NÃO:/nao"
+
+#resposta a sim da automacao de cima
+  - alias: 'Resposta a sim' 
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/sim2cores'            
+    action:
+      - service: automation.turn_off
+        data:
+          entity_id: 
+            - automation.desligar_impressora_pelo_sd
+            - automation.desligar_impressora
+
+  - alias: 'Resposta a não' 
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: telegram_callback
+      event_data:
+        data: '/nao'            
+    action:
+      - service: automation.turn_on
+        data:
+          entity_id: 
+            - automation.desligar_impressora_pelo_sd
+            - automation.desligar_impressora
+
+#Informa o utilizador enviando uma notificação com foto das percentagens de impressão.                
+  - alias: Informa estado 20
+    initial_state: true
+    trigger:
+      platform: numeric_state
+      entity_id: sensor.geeetech_a10_job_percentage
+      above: 20
+    action:
+      service: notify.telegram
+      data:
+        title: "Geeetech A10"
+        message: "Impressão atingiu os 20%."
+        data:
+          photo:
+            url: http://192.168.1.193/webcam/?action=snapshot
+            caption: "Impressão atingiu os 20%, a impressão já decorre á {{ states('sensor.octo_time_elapsed') }} e ainda demora {{ states('sensor.octo_time_remaining') }} e a temperatura da stuva é de {{ states('sensor.0x00158d00044b86f8_temperature') }} e a humidade é de {{ states('sensor.0x00158d00044b86f8_humidity') }}."
+
+  - alias: Informa estado 40
+    initial_state: true
+    trigger:
+      platform: numeric_state
+      entity_id: sensor.geeetech_a10_job_percentage
+      above: 40
+    action:
+      service: notify.telegram
+      data:
+        title: "Geeetech A10"
+        message: "Impressão atingiu os 40%."
+        data:
+          photo:
+            url: http://192.168.1.193/webcam/?action=snapshot
+            caption: "Impressão atingiu os 40%, a impressão já decorre á {{ states('sensor.octo_time_elapsed') }} e ainda demora {{ states('sensor.octo_time_remaining') }} e a temperatura da stuva é de {{ states('sensor.0x00158d00044b86f8_temperature') }} e a humidade é de {{ states('sensor.0x00158d00044b86f8_humidity') }}."
+
+  - alias: Informa estado 60
+    initial_state: true
+    trigger:
+      platform: numeric_state
+      entity_id: sensor.geeetech_a10_job_percentage
+      above: 60
+    action:
+      service: notify.telegram
+      data:
+        title: "Geeetech A10"
+        message: "Impressão atingiu os 60%."
+        data:
+          photo:
+            url: http://192.168.1.193/webcam/?action=snapshot
+            caption: "Impressão atingiu os 60%, a impressão já decorre á {{ states('sensor.octo_time_elapsed') }} e ainda demora {{ states('sensor.octo_time_remaining') }} e a temperatura da stuva é de {{ states('sensor.0x00158d00044b86f8_temperature') }} e a humidade é de {{ states('sensor.0x00158d00044b86f8_humidity') }}."
+
+  - alias: Informa estado 80
+    initial_state: true
+    trigger:
+      platform: numeric_state
+      entity_id: sensor.geeetech_a10_job_percentage
+      above: 80
+    action:
+      service: notify.telegram
+      data:
+        title: "Geeetech A10"
+        message: "Impressão atingiu os 80%."
+        data:
+          photo:
+            url: http://192.168.1.193/webcam/?action=snapshot
+            caption: "Impressão atingiu os 80%, a impressão já decorre á {{ states('sensor.octo_time_elapsed') }} e ainda demora {{ states('sensor.octo_time_remaining') }} e a temperatura da stuva é de {{ states('sensor.0x00158d00044b86f8_temperature') }} e a humidade é de {{ states('sensor.0x00158d00044b86f8_humidity') }}."
+
+#Informa o utilizador enviando uma notificação com foto que a impressão chegou ao fim
+  - alias: Informa fim da impressao
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: sensor.geeetech_a10_current_state
+      from: 'Printing'
+      to: 'Operational'
+    action:
+      - service: notify.telegram
+        data:
+          title: "Geeetech A10"
+          message: "Impressão finalizada."
+          data:
+            photo:
+              url: http://192.168.1.193/webcam/?action=snapshot
+              caption: "Impressão finalizada, demorou cerca de {{ states('sensor.octo_time_elapsed') }} e a temperatura da stuva é de {{ states('sensor.0x00158d00044b86f8_temperature') }} e a humidade é de {{ states('sensor.0x00158d00044b86f8_humidity') }}."
+
+  - alias: Informa fim da impressao pelo sd
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: sensor.geeetech_a10_current_state
+      from: 'Printing from SD'
+      to: 'Operational'
+    action:
+      - service: notify.telegram
+        data:
+          title: "Geeetech A10"
+          message: "Impressão finalizada."
+          data:
+            photo:
+              url: http://192.168.1.193/webcam/?action=snapshot
+              caption: "Impressão finalizada pelo SD, demorou cerca de {{ states('sensor.octo_time_elapsed') }} e a temperatura da stuva é de {{ states('sensor.0x00158d00044b86f8_temperature') }} e a humidade é de {{ states('sensor.0x00158d00044b86f8_humidity') }}."
+
+  - alias: Avisa troca de filamento
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: sensor.geeetech_a10_current_state
+      from: 'Printing'
+      to: 'Finishing'
+    action:
+      - service: notify.telegram
+        data:
+          title: "Geeetech A10"
+          message: "Troca de Filamento."
+          data:
+            photo:
+              url: http://192.168.1.193/webcam/?action=snapshot
+              caption: "Trocar filamento"
+
+  - alias: Desligar impressora pelo sd
+    initial_state: false
+    trigger:
+      platform: state
+      entity_id: sensor.geeetech_a10_current_state
+      from: 'Printing from SD'
+      to: 'Operational'
+    action:
+      - delay:
+          minutes: 5
+      - service: switch.turn_off
+        data:
+          entity_id: switch.geeetech_a10
+
+  - alias: Desligar impressora
+    initial_state: false
+    trigger:
+      platform: state
+      entity_id: sensor.geeetech_a10_current_state
+      from: 'Printing'
+      to: 'Operational'
+    action:
+      - delay:
+          minutes: 5
+      - service: switch.turn_off
+        data:
+          entity_id: switch.geeetech_a10
+
+  - alias: tariff change
+    trigger:
+      - platform: state
+        entity_id: electricity.edp
+    action:
+      - service: utility_meter.select_tariff
+        entity_id: utility_meter.daily_energy
+        data_template:
+          tariff: "{{ trigger.to_state.state }}"
+      - service: utility_meter.select_tariff
+        entity_id: utility_meter.monthly_energy
+        data_template:
+          tariff: "{{ trigger.to_state.state }}"
+
+#  - alias: Reset contagem Geeetech A10
+#    initial_state: true
+#    trigger:
+#      - platform: state
+#        entity_id: switch.geeetech_a10
+#        to: 'on'
+#    action:
+#      - service: utility_meter.reset
+#        entity_id: 
+#          - utility_meter.daily_energy
+#          - utility_meter.monthly_energy
+
+#conbee botao ligar desligar
+
+  - alias: Ligar Impressora 3D
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: deconz_event
+      event_data:
+        id: tradfri_on_off_switch
+        event: 1002
+    action:
+      - service: switch.turn_on
+        data:
+          entity_id: switch.geeetech_a10
+      - service: automation.turn_on
+        data:
+          entity_id: 
+            - automation.desligar_impressora_pelo_sd
+            - automation.desligar_impressora
+
+  - alias: Desligar Impressora 3D
+    trigger:
+      platform: event
+      event_type: deconz_event
+      event_data:
+        id: tradfri_on_off_switch
+        event: 2002
+    condition:
+      - condition: state
+        entity_id: 'sensor.geeetech_a10_current_state'
+        state: 'Operational'
+    action:
+      - service: switch.turn_off
+        data:
+          entity_id: switch.geeetech_a10
+
+
+
+#teste preço de impressão
+  - alias: Consumo antes
+    trigger:
+      - platform: state
+        entity_id: switch.geeetech_a10
+        to: 'on'
+    action:
+      - service: input_number.set_value
+        data_template:
+          entity_id: input_number.consumo_ultima_impressao
+          value: "{{ states('sensor.energia_rede') }}"
+ 
+  - alias: Consumo depois
+    trigger:
+      - platform: state
+        entity_id: switch.geeetech_a10
+        to: 'off'
+    action:
+      - service: input_number.set_value
+        data_template:
+          entity_id: input_number.consumo_impressao
+          value: "{{ states('sensor.energia_rede') }}"
+ 
+  - alias: Calculo do preço da impressão
+    trigger:
+      - platform: state
+        entity_id: switch.geeetech_a10
+        to: 'off'
+    action:
+      - delay: 5
+      - service: input_number.set_value
+        data_template:
+          entity_id: input_number.consumo_final
+          value: "{{ ((float(states.input_number.consumo_impressao.state) - float(states.input_number.consumo_ultima_impressao.state)))}}"
+###############################################################################
+#                                                                             #
+#                           switch                                            #
+#                                                                             #
+###############################################################################
+switch:
+
+  - platform: mqtt
+    name: "Geeetech A10"
+    state_topic: "shellies/shelly1pm-geeetech/relay/0"
+    command_topic: "shellies/shelly1pm-geeetech/relay/0/command"
+    payload_on: "on"
+    payload_off: "off"
+
+#######################################################################
+#                                                                     #
+#                     U T I L I T Y  M E T E R                        #
+#                                                                     #
+#######################################################################
+utility_meter:
+  daily_energy:
+    source: sensor.energia_rede
+    cycle: daily
+    tariffs:
+      - Fora de Vazio
+      - Vazio
+  monthly_energy:
+    source: sensor.energia_rede
+    cycle: monthly
+    tariffs:
+      - Fora de Vazio
+      - Vazio

@@ -9,10 +9,10 @@ homeassistant:
     light.yeelight_color1_7811dce0fe41:
       friendly_name: Candeeiro
       icon: mdi:lightbulb-on
-    binary_sensor.motion_sensor_158d000272b7c0:
+    binary_sensor.presence_19:
       friendly_name: Sensor de Movimento Mafalda
       icon: mdi:run
-    sensor.illumination_158d000272b7c0:
+    sensor.movimento_q_mafalda:
       friendly_name: Sensor LX Mafalda
       icon: mdi:brightness-4
     light.Teto_quarto_mafalda:
@@ -105,7 +105,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d000272b7c0
+      entity_id: binary_sensor.presence_19
       from: 'off'
       to: 'on'
     condition:
@@ -116,7 +116,7 @@ automation:
       after: '17:00:00'
       before: '20:00:00'
     - condition: numeric_state
-      entity_id: sensor.illumination_158d000272b7c0
+      entity_id: sensor.movimento_q_mafalda
       below: 20
     action:
       - service: light.turn_on
@@ -129,7 +129,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d000272b7c0
+      entity_id: binary_sensor.presence_19
       from: 'off'
       to: 'on'
     condition:
@@ -140,7 +140,7 @@ automation:
       after: '20:00:00'
       before: '22:00:00'
     - condition: numeric_state
-      entity_id: sensor.illumination_158d000272b7c0
+      entity_id: sensor.movimento_q_mafalda
       below: 20
     action:
       - service: light.turn_on
@@ -153,7 +153,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d000272b7c0
+      entity_id: binary_sensor.presence_19
       from: 'on'
       to: 'off'
       for:
@@ -176,7 +176,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d000272b7c0
+      entity_id: binary_sensor.presence_19
       from: 'off'
       to: 'on'
     condition:
@@ -187,7 +187,7 @@ automation:
       after: '22:00:00'
       before: '07:00:00'
     - condition: numeric_state
-      entity_id: sensor.illumination_158d000272b7c0
+      entity_id: sensor.movimento_q_mafalda
       below: 20
     action:
       - service: light.turn_on
@@ -200,7 +200,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d000272b7c0
+      entity_id: binary_sensor.presence_19
       from: 'off'
       to: 'on'
     condition:
@@ -211,7 +211,7 @@ automation:
       after: '07:00:00'
       before: '08:00:00'
     - condition: numeric_state
-      entity_id: sensor.illumination_158d000272b7c0
+      entity_id: sensor.movimento_q_mafalda
       below: 20
     action:
       - service: light.turn_on
@@ -224,7 +224,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d000272b7c0
+      entity_id: binary_sensor.presence_19
       from: 'on'
       to: 'off'
       for:
@@ -246,7 +246,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d000272b7c0
+      entity_id: binary_sensor.presence_19
       from: 'off'
       to: 'on'
     condition:
@@ -257,7 +257,7 @@ automation:
       after: '17:00:00'
       before: '22:00:00'
     - condition: numeric_state
-      entity_id: sensor.illumination_158d000272b7c0
+      entity_id: sensor.movimento_q_mafalda
       below: 40
     action:
       - service: light.turn_on
@@ -270,7 +270,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d000272b7c0
+      entity_id: binary_sensor.presence_19
       from: 'off'
       to: 'on'
     condition:
@@ -281,7 +281,7 @@ automation:
       after: '22:00:00'
       before: '09:00:00'
     - condition: numeric_state
-      entity_id: sensor.illumination_158d000272b7c0
+      entity_id: sensor.movimento_q_mafalda
       below: 20
     action:
       - service: light.turn_on
@@ -294,7 +294,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d000272b7c0
+      entity_id: binary_sensor.presence_19
       from: 'on'
       to: 'off'
       for:
@@ -314,7 +314,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_sensor_158d000272b7c0
+      entity_id: binary_sensor.presence_19
       from: 'on'
       to: 'off'
       for:
@@ -332,12 +332,56 @@ automation:
 
 #Zigbee
 
+#  - alias: Ligar luz
+#    initial_state: true
+#    trigger: 
+#      platform: state
+#      entity_id: sensor.botao_leds_click
+#      to: 'on'
+#    action:
+#      - service: light.turn_on
+#        entity_id: light.yeelight_color1_7811dce0fe41
+#        data:
+#          brightness: 10
+#          color_name: orangered
+
+#  - alias: Desligar luz
+#    initial_state: true
+#    trigger: 
+#      platform: state
+#      entity_id: sensor.botao_leds_click
+#      to: 'off'
+#    action:
+#      - service: light.turn_off
+#        entity_id: light.yeelight_color1_7811dce0fe41
+
+#  - alias: Desligar luzes da sala e cozinha
+#    initial_state: true
+#    trigger: 
+#      platform: state
+#      entity_id: sensor.botao_leds_click
+#      to: 'brightness_down'
+#    action:
+#      - service: light.turn_off
+#        entity_id: 
+#          - light.yeelight_color1_7811dc6b98cb
+#          - light.yeelight_color1_7811dc6b9b10
+#          - light.xiaomi_philips_zhirui
+#          - light.xiaomi_philips_zhirui_1
+#          - light.xiaomi_philips_zhirui_2
+#          - light.leds_armario_sala
+
+#conbee
+
+
   - alias: Ligar luz
     initial_state: true
-    trigger: 
-      platform: state
-      entity_id: sensor.botao_leds_click
-      to: 'on'
+    trigger:
+      platform: event
+      event_type: deconz_event
+      event_data:
+        id: botao_quarto_mafalda
+        event: 1002
     action:
       - service: light.turn_on
         entity_id: light.yeelight_color1_7811dce0fe41
@@ -347,20 +391,24 @@ automation:
 
   - alias: Desligar luz
     initial_state: true
-    trigger: 
-      platform: state
-      entity_id: sensor.botao_leds_click
-      to: 'off'
+    trigger:
+      platform: event
+      event_type: deconz_event
+      event_data:
+        id: botao_quarto_mafalda
+        event: 2002
     action:
       - service: light.turn_off
         entity_id: light.yeelight_color1_7811dce0fe41
 
   - alias: Desligar luzes da sala e cozinha
     initial_state: true
-    trigger: 
-      platform: state
-      entity_id: sensor.botao_leds_click
-      to: 'brightness_down'
+    trigger:
+      platform: event
+      event_type: deconz_event
+      event_data:
+        id: botao_quarto_mafalda
+        event: 2001
     action:
       - service: light.turn_off
         entity_id: 

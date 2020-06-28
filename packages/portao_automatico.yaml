@@ -130,11 +130,11 @@ automation:
   - alias: Interruptor para abrir portao pequeno single
     initial_state: true
     trigger:
-      - platform: event
-        event_type: xiaomi_aqara.click
-        event_data:
-          entity_id: binary_sensor.switch_158d00015aa37d
-          click_type: single
+      platform: event
+      event_type: deconz_event
+      event_data:
+        id: portao_e_iluminacao
+        event: 1000
     action:
       - service: switch.toggle
         data:
@@ -144,11 +144,11 @@ automation:
   - alias: Interruptor para abrir portao grande double
     initial_state: true
     trigger:
-      - platform: event
-        event_type: xiaomi_aqara.click
-        event_data:
-          entity_id: binary_sensor.switch_158d00015aa37d
-          click_type: double
+      platform: event
+      event_type: deconz_event
+      event_data:
+        id: portao_e_iluminacao
+        event: 1004
     action:
       - service: switch.toggle
         data:
@@ -157,15 +157,17 @@ automation:
   - alias: Interruptor para abrir portão sair a pé
     initial_state: true
     trigger:
-      - platform: event
-        event_type: xiaomi_aqara.click
-        event_data:
-          entity_id: binary_sensor.switch_158d00015aa37d
-          click_type: long_click_press
+      platform: event
+      event_type: deconz_event
+      event_data:
+        id: portao_e_iluminacao
+        event: 1001
     action:
       - service: script.turn_on
         data:
           entity_id: script.portao_30
+
+
 
 #automation ilumination garage
 
@@ -390,7 +392,6 @@ automation:
 #consultar telegram
 
   - alias: callback Portão
-    hide_entity: true
     trigger:
       platform: event
       event_type: telegram_command
@@ -456,3 +457,33 @@ automation:
       - service: switch.turn_on
         data:
           entity_id: switch.abrir_portao_pequeno
+
+
+#conbee portão casa pai
+
+  - alias: Interruptor para abrir portao pequeno 5 toques
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: deconz_event
+      event_data:
+        id: iluminacao_exterior
+        event: 1010
+    action:
+      - service: switch.toggle
+        data:
+          entity_id: switch.abrir_portao_pequeno
+
+
+  - alias: Interruptor para abrir portao grande long press
+    initial_state: true
+    trigger:
+      platform: event
+      event_type: deconz_event
+      event_data:
+        id: iluminacao_exterior
+        event: 1001
+    action:
+      - service: switch.toggle
+        data:
+          entity_id: switch.abrir_portao_grande

@@ -224,6 +224,56 @@ sensor:
     vacuum_ultima_limpeza:
         friendly_name: Última Limpeza
         value_template: 'Última Limpeza'
+
+#novos cards
+
+    # Used for the Filter maintenance card
+    roborock_s4_filter_remaining:
+      friendly_name: '% lavagem do filtro'
+      unit_of_measurement: '%'
+      value_template: "{{((state_attr('vacuum.xiaomi_vacuum_cleaner', 'filter_left') / 150) * 100) | round | int}}"
+
+    # Used for the Filter maintenance card
+    roborock_s4_filter_hrs_remaining:
+      friendly_name: 'Horas para lavagem do filtro'
+      unit_of_measurement: 'hrs'
+      value_template: "{{state_attr('vacuum.xiaomi_vacuum_cleaner', 'filter_left')}}"
+
+    # Used for the Side Brush maintenance card
+    roborock_s4_side_brush_remaining:
+      friendly_name: '% para Substituir escova lateral'
+      unit_of_measurement: '%'
+      value_template: "{{((state_attr('vacuum.xiaomi_vacuum_cleaner', 'side_brush_left') / 200) * 100) | round | int}}"
+
+    # Used for the Side Brush maintenance card
+    roborock_s4_side_brush_hrs_remaining:
+      friendly_name: 'Horas para Substituir escova lateral'
+      unit_of_measurement: 'hrs'
+      value_template: "{{state_attr('vacuum.xiaomi_vacuum_cleaner', 'side_brush_left')}}"
+
+    # Used for the Main Brush maintenance card
+    roborock_s4_main_brush_remaining:
+      friendly_name: '% para Substituir escova central'
+      unit_of_measurement: '%'
+      value_template: "{{((state_attr('vacuum.xiaomi_vacuum_cleaner', 'main_brush_left') / 300) * 100) | round | int}}"
+
+    # Used for the Main Brush maintenance card
+    roborock_s4_main_brush_hrs_remaining:
+      friendly_name: 'Horas para Substituir escova central'
+      unit_of_measurement: 'hrs'
+      value_template: "{{state_attr('vacuum.xiaomi_vacuum_cleaner', 'main_brush_left')}}"
+
+    # Used for the Sensors maintenance card
+    roborock_s4_sensors_remaining:
+      friendly_name: '% para limpeza dos sensores'
+      unit_of_measurement: '%'
+      value_template: "{{((state_attr('vacuum.xiaomi_vacuum_cleaner', 'sensor_dirty_left') / 30) * 100) | round | int}}"
+
+    # Used for the Sensors maintenance card
+    roborock_s4_sensors_hrs_remaining:
+      friendly_name: 'Horas para limpeza dos sensores'
+      unit_of_measurement: 'hrs'
+      value_template: "{{state_attr('vacuum.xiaomi_vacuum_cleaner', 'sensor_dirty_left')}}"
 ###############################################################################
 #                                                                             #
 #                         I N P U T    S E L E C T                            #
@@ -489,7 +539,7 @@ script:
       data:
         entity_id: vacuum.xiaomi_vacuum_cleaner
         command: app_zoned_clean
-        params: [[29239,19355,30689,23405,1],[25110,23348,28260,25198,2],[31780,23366,34430,28516,1],[28330,23366,31680,28516,1],[25148,25287,28298,28487,1]]
+        params: [[25148,25287,28298,28487,1],[28330,23366,31680,28516,1],[31780,23366,34430,28516,1],[29239,19355,30689,23405,1],[25110,23348,28260,25198,2]]
     - service: script.aspirador_alerta_iniciando
 #    - service: tts.google_say
 #      entity_id: "media_player.sala"
@@ -624,7 +674,7 @@ script:
       data:
         entity_id: vacuum.xiaomi_vacuum_cleaner
         command: app_zoned_clean
-        params: [[29239,19355,30689,23405,1],[25110,23348,28260,25198,2],[31780,23366,34430,28516,1],[28330,23366,31680,28516,1],[25148,25287,28298,28487,1]]
+        params: [[25148,25287,28298,28487,1],[28330,23366,31680,28516,1],[31780,23366,34430,28516,1],[29239,19355,30689,23405,1],[25110,23348,28260,25198,2]]
     - service: script.aspirar_alerta_casa_toda
 
   aspirar_sala:

@@ -35,7 +35,18 @@ light:
     payload_on: "on"
     payload_off: "off"
     retain: false
-
+  
+  - platform: mqtt
+    name: "Leds Armário sala"
+    state_topic: "stat/leds_sala/POWER"
+    command_topic: "cmnd/leds_sala/power"
+    availability_topic: "tele/leds_sala/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
 yeelight:
   devices: 
     !secret yeelight_sala_direito:
@@ -593,7 +604,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.movimento_sala
+      entity_id: binary_sensor.presence_12
       from: 'off'
       to: 'on'
     condition:
@@ -604,7 +615,7 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'off'
     - condition: numeric_state
-      entity_id: sensor.lx_sala
+      entity_id: sensor.lightlevel_11
       below: 20
     action:
       - service: light.turn_on
@@ -619,7 +630,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.movimento_sala
+      entity_id: binary_sensor.presence_12
       from: 'on'
       to: 'off'
       for:
@@ -644,7 +655,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.movimento_sala
+      entity_id: binary_sensor.presence_12
       from: 'off'
       to: 'on'
     condition:
@@ -655,7 +666,7 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'off'
     - condition: numeric_state
-      entity_id: sensor.lx_sala
+      entity_id: sensor.lightlevel_11
       below: 8
     action:
       - service: light.turn_on
@@ -670,7 +681,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.movimento_sala
+      entity_id: binary_sensor.presence_12
       from: 'on'
       to: 'off'
       for:
@@ -692,7 +703,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.movimento_sala
+      entity_id: binary_sensor.presence_12
       from: 'off'
       to: 'on'
     condition:
@@ -703,7 +714,7 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'off'
     - condition: numeric_state
-      entity_id: sensor.lx_sala
+      entity_id: sensor.lightlevel_11
       below: 20
     action:
       - service: light.turn_on
@@ -718,7 +729,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.movimento_sala
+      entity_id: binary_sensor.presence_12
       from: 'on'
       to: 'off'
       for:
@@ -734,7 +745,7 @@ automation:
       entity_id: 'media_player.samsung_ue40d6500'
       state: 'off'
     - condition: numeric_state
-      entity_id: sensor.lx_sala
+      entity_id: sensor.lightlevel_11
       below: 8
     action:
       - service: light.turn_off
@@ -746,7 +757,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.movimento_sala
+      entity_id: binary_sensor.presence_12
       from: 'off'
       to: 'on'
     condition:
@@ -757,7 +768,7 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'off'
     - condition: numeric_state
-      entity_id: sensor.lx_sala
+      entity_id: sensor.lightlevel_11
       below: 20
     action:
       - service: light.turn_on
@@ -772,7 +783,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.movimento_sala
+      entity_id: binary_sensor.presence_12
       from: 'on'
       to: 'off'
       for:
@@ -799,7 +810,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.movimento_sala
+      entity_id: binary_sensor.presence_12
       from: 'off'
       to: 'on'
     condition:
@@ -810,7 +821,7 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'on'
     - condition: numeric_state
-      entity_id: sensor.lx_sala
+      entity_id: sensor.lightlevel_11
       below: 20
     action:
       - service: light.turn_on
@@ -825,7 +836,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.movimento_sala
+      entity_id: binary_sensor.presence_12
       from: 'on'
       to: 'off'
       for:
@@ -869,7 +880,7 @@ automation:
 #    initial_state: true
 #    trigger:
 #      platform: state
-#      entity_id: binary_sensor.movimento_sala
+#      entity_id: binary_sensor.presence_12
 #      from: 'off'
 #      to: 'on'
 #    condition:
@@ -880,7 +891,7 @@ automation:
 #      entity_id: 'binary_sensor.workday_sensor'
 #      state: 'on'
 #    - condition: numeric_state
-#      entity_id: sensor.lx_sala
+#      entity_id: sensor.lightlevel_11
 #      below: 20
 #    action:
 #      - service: light.turn_on
@@ -895,7 +906,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.movimento_sala
+      entity_id: binary_sensor.presence_12
       from: 'off'
       to: 'on'
     condition:
@@ -906,7 +917,7 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'on'
     - condition: numeric_state
-      entity_id: sensor.lx_sala
+      entity_id: sensor.lightlevel_11
       below: 20
     action:
       - service: light.turn_on
@@ -921,7 +932,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.movimento_sala
+      entity_id: binary_sensor.presence_12
       from: 'on'
       to: 'off'
       for:
@@ -943,7 +954,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.movimento_sala
+      entity_id: binary_sensor.presence_12
       from: 'off'
       to: 'on'
     condition:
@@ -954,7 +965,7 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'on'
     - condition: numeric_state
-      entity_id: sensor.lx_sala
+      entity_id: sensor.lightlevel_11
       below: 20
     action:
       - service: light.turn_on
@@ -969,7 +980,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.movimento_sala
+      entity_id: binary_sensor.presence_12
       from: 'on'
       to: 'off'
       for:
@@ -994,7 +1005,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.movimento_sala
+      entity_id: binary_sensor.presence_12
       from: 'off'
       to: 'on'
     condition:
@@ -1005,7 +1016,7 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'on'
     - condition: numeric_state
-      entity_id: sensor.lx_sala
+      entity_id: sensor.lightlevel_11
       below: 20
     action:
       - service: light.turn_on
@@ -1020,7 +1031,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.movimento_sala
+      entity_id: binary_sensor.presence_12
       from: 'on'
       to: 'off'
       for:
@@ -1045,7 +1056,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.movimento_sala
+      entity_id: binary_sensor.presence_12
       from: 'off'
       to: 'on'
     condition:
@@ -1056,7 +1067,7 @@ automation:
       entity_id: 'binary_sensor.workday_sensor'
       state: 'on'
     - condition: numeric_state
-      entity_id: sensor.lx_sala
+      entity_id: sensor.lightlevel_11
       below: 20
     action:
       - service: light.turn_on
@@ -1071,7 +1082,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.movimento_sala
+      entity_id: binary_sensor.presence_12
       from: 'on'
       to: 'off'
       for:
@@ -1092,43 +1103,121 @@ automation:
           - light.yeelight_color1_7811dc6b98cb
           - light.yeelight_color1_7811dc6b9b10
 
-  - alias: Desligar Candeeiros a Cima dos 21 lx
-    initial_state: false
+
+  - alias: Ligar leds movel tv depois do por do sol
+    initial_state: true
+    trigger:
+      platform: sun
+      event: sunset
+      offset: "+00:30:00"
+    condition:
+      condition: and
+      conditions:
+      - condition: sun
+        after: sunset
+        after_offset: "+00:30:00"
+      - condition: sun
+        before: sunrise
+      - condition: state
+        entity_id: media_player.samsung_ue40d6500
+        state: 'on'
+      - condition: state
+        entity_id: light.teto_da_sala
+        state: 'off'
+    action:
+      - service: light.turn_on
+        entity_id: light.leds_armario_sala
+
+  - alias: Ligar leds movel tv depois do por do sol e desligar teto
+    initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.movimento_sala
+      entity_id: light.teto_da_sala
       to: 'off'
-      for: 
-        seconds: 15
     condition:
-    - condition: time
-      after: '17:00:00'
-      before: '06:50:00'
-    - condition: state
-      entity_id: 'binary_sensor.workday_sensor'
-      state: 'on'
-    - condition: numeric_state
-      entity_id: sensor.lx_sala
-      above: 21
+      condition: or
+      conditions:
+      - condition: sun
+        after: sunset
+        after_offset: "+00:30:00"
+      - condition: sun
+        before: sunrise
+      - condition: state
+        entity_id: media_player.samsung_ue40d6500
+        state: 'on'
+    action:
+      - service: light.turn_on
+        entity_id: light.leds_armario_sala
+
+  - alias: Desligar leds movel tv ao ligar teto
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: light.teto_da_sala
+      to: 'on'
+    condition:
+      condition: or
+      conditions:
+      - condition: sun
+        after: sunset
+        after_offset: "+00:30:00"
+      - condition: sun
+        before: sunrise
+      - condition: state
+        entity_id: media_player.samsung_ue40d6500
+        state: 'on'
     action:
       - service: light.turn_off
-        entity_id:
-          - light.yeelight_color1_7811dc6b98cb
-          - light.yeelight_color1_7811dc6b9b10
+        entity_id: light.leds_armario_sala
+
+  - alias: Desligar leds movel tv
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: media_player.samsung_ue40d6500
+      to: 'off'
+    action:
+      - service: light.turn_off
+        entity_id: light.leds_armario_sala
+
+
+#  - alias: Desligar Candeeiros a Cima dos 21 lx
+#    initial_state: false
+#    trigger:
+#      platform: state
+#      entity_id: binary_sensor.presence_12
+#      to: 'off'
+#      for: 
+#        seconds: 15
+#    condition:
+#    - condition: time
+#      after: '17:00:00'
+#      before: '06:50:00'
+#    - condition: state
+#      entity_id: 'binary_sensor.workday_sensor'
+#      state: 'on'
+#    - condition: numeric_state
+#      entity_id: sensor.lightlevel_11
+#      above: 21
+#    action:
+#      - service: light.turn_off
+#        entity_id:
+#          - light.yeelight_color1_7811dc6b98cb
+#          - light.yeelight_color1_7811dc6b9b10
 
 #Automações para notificações
 
-  - alias: Sensor movimento
-    initial_state: false
-    trigger:
-      platform: state
-      entity_id: binary_sensor.movimento_sala
-      from: 'off'
-      to: 'on'
-    action:
-      service: notify.telegram
-      data:
-        message: 'Movimento detectado'
+#  - alias: Sensor movimento
+#    initial_state: false
+#    trigger:
+#      platform: state
+#      entity_id: binary_sensor.presence_12
+#      from: 'off'
+#      to: 'on'
+#    action:
+#      service: notify.telegram
+#      data:
+#        message: 'Movimento detectado'
 
 ###############################################################################
 #                                                                             #

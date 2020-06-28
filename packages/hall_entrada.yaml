@@ -12,7 +12,7 @@ homeassistant:
     light.gateway_light_7811dcb38555:
       friendly_name: Led do Gateway
       icon: mdi:lightbulb-on
-    binary_sensor.door_window_sensor_158d00022b3ad2:
+    binary_sensor.porta_de_entrada:
       friendly_name: Porta de Entrada
     binary_sensor.switch_158d00015aa37d:
       friendly_name: Interruptor Portão
@@ -29,13 +29,13 @@ sensor:
       porta_rua:
         friendly_name: "Porta da Rua"
         value_template: >-
-          {% if is_state('binary_sensor.door_window_sensor_158d00022b3ad2', 'on') %}
+          {% if is_state('binary_sensor.porta_de_entrada', 'on') %}
             Aberta
           {% else %}
             Fechada
           {% endif %}
         icon_template: >-
-          {% if is_state('binary_sensor.door_window_sensor_158d00022b3ad2', 'on') %}
+          {% if is_state('binary_sensor.porta_de_entrada', 'on') %}
             mdi:door-open
           {% else %}
             mdi:door-closed
@@ -63,7 +63,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
+      entity_id: binary_sensor.porta_de_entrada
       to: 'on'
     condition:
       condition: or
@@ -84,7 +84,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
+      entity_id: binary_sensor.porta_de_entrada
       to: 'off'
       for:
         minutes: 2
@@ -99,7 +99,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
+      entity_id: binary_sensor.porta_de_entrada
       to: 'on'
     condition:
       condition: or
@@ -120,7 +120,7 @@ automation:
     initial_state: true
     trigger:
       platform: state
-      entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
+      entity_id: binary_sensor.porta_de_entrada
       to: 'off'
       for:
         minutes: 4
@@ -131,46 +131,46 @@ automation:
 
 #notificações
 
-  - alias: Porta Aberta
-    initial_state: false
-    trigger:
-      platform: state
-      entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
-      from: 'off'
-      to: 'on'
-    action:
-      service: notify.telegram
-      data:
-        title: "Porta de entrada "
-        message: "está aberta"
+#  - alias: Porta Aberta
+#    initial_state: false
+#    trigger:
+#      platform: state
+#      entity_id: binary_sensor.porta_de_entrada
+#      from: 'off'
+#      to: 'on'
+#    action:
+#      service: notify.telegram
+#      data:
+#        title: "Porta de entrada "
+#        message: "está aberta"
 
-  - alias: Porta Fechada
-    initial_state: false
-    trigger:
-      platform: state
-      entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
-      from: 'on'
-      to: 'off'
-    action:
-      service: notify.telegram
-      data:
-        title: "Porta de entrada "
-        message: "está fechada"
+#  - alias: Porta Fechada
+#    initial_state: false
+#    trigger:
+#      platform: state
+#      entity_id: binary_sensor.porta_de_entrada
+#      from: 'on'
+#      to: 'off'
+#    action:
+#      service: notify.telegram
+#      data:
+#        title: "Porta de entrada "
+#        message: "está fechada"
 
-  - alias: Porta de entrada aberta á 10 mim
-    initial_state: false
-    trigger:
-      platform: state
-      entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
-      from: 'off'
-      to: 'on'
-      for:
-        minutes: 10
-    action:
-      service: notify.telegram
-      data:
-        title: "Porta de entrada "
-        message: "está aberta á 10 mim"
+#  - alias: Porta de entrada aberta á 10 mim
+#    initial_state: false
+#    trigger:
+#      platform: state
+#      entity_id: binary_sensor.porta_de_entrada
+#      from: 'off'
+#      to: 'on'
+#      for:
+#        minutes: 10
+#    action:
+#      service: notify.telegram
+#      data:
+#        title: "Porta de entrada "
+#        message: "está aberta á 10 mim"
 
   - alias: Porta continua aberta
     initial_state: true
@@ -179,7 +179,7 @@ automation:
       minutes: '/10'
     condition:
       - condition: state
-        entity_id: binary_sensor.door_window_sensor_158d00022b3ad2
+        entity_id: binary_sensor.porta_de_entrada
         state: 'on'
     action:
       service: notify.telegram

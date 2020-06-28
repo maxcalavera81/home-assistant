@@ -9,7 +9,7 @@ script:
     sequence:
       - service: notify.tv_sala
         data_template:
-          message: A temperatura da sala é de {{ states('sensor.temperatura_sala') }} °C e a húmidade é de {{ states('sensor.humidade_sala') }} %, a temperatura do quarto é de {{ states('sensor.temperatura_quarto') }} °C e a húmidade é de {{ states('sensor.humidade_quarto') }} % e a temperatura do escritório é de {{ states('sensor.temperature_158d00023203e4') }} °C e a húmidade é de {{ states('sensor.humidity_158d00023203e4') }} %.
+          message: A temperatura da sala é de {{ states('sensor.temperatura_sala') }} °C e a húmidade é de {{ states('sensor.humidade_sala') }} %, a temperatura do quarto é de {{ states('sensor.temperatura_quarto') }} °C e a húmidade é de {{ states('sensor.humidade_quarto') }} % e a temperatura do escritório é de {{ states('sensor.temperatura_escritorio') }} °C e a húmidade é de {{ states('sensor.temperatura_escritorio_2') }} %.
 
   message_temperature_mi_box_s:
     sequence:
@@ -24,7 +24,7 @@ script:
       entity_id: media_player.sala
       data_template:
         message: >-
-          A temperatura da sala é de {{ states('sensor.temperatura_sala') }} °C e a húmidade é de {{ states('sensor.humidade_sala') }} %, a temperatura do quarto é de {{ states('sensor.temperatura_quarto') }} °C e a húmidade é de {{ states('sensor.humidade_quarto') }} % e a temperatura do escritório é de {{ states('sensor.temperature_158d00023203e4') }} °C e a húmidade é de {{ states('sensor.humidity_158d00023203e4') }} %.
+          A temperatura da sala é de {{ states('sensor.temperatura_sala') }} °C e a húmidade é de {{ states('sensor.humidade_sala') }} %, a temperatura do quarto é de {{ states('sensor.temperatura_quarto') }} °C e a húmidade é de {{ states('sensor.humidade_quarto') }} % e a temperatura do escritório é de {{ states('sensor.temperatura_escritorio') }} °C e a húmidade é de {{ states('sensor.temperatura_escritorio_2') }} %.
 
 ###############################################################################
 #                                                                             #
@@ -72,4 +72,4 @@ automation:
       - service: notify.telegram
         data:
           title: "Temperatura da sala é de "
-          message: "{{ states('sensor.temperatura_sala') }} °C e a húmidade é de {{ states('sensor.humidade_sala') }} %. A temperatura no quarto é de {{ states('sensor.temperatura_quarto') }} °C e a húmidade é de {{ states('sensor.humidade_quarto') }} % e a temperatura do escritório é de {{ states('sensor.temperature_158d00023203e4') }} °C e a húmidade é de {{ states('sensor.humidity_158d00023203e4') }} %."
+          message: "{{ states('sensor.temperatura_sala') }} °C e a húmidade é de {{ states('sensor.humidade_sala') }} %. A temperatura no quarto é de {{ states('sensor.temperatura_quarto') }} °C e a húmidade é de {{ states('sensor.humidade_quarto') }} % e a temperatura do escritório é de {{ states('sensor.temperatura_escritorio') }} °C e a húmidade é de {{ states('sensor.temperatura_escritorio_2') }} %."

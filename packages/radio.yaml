@@ -258,6 +258,7 @@ sensor:
           {% endif %}
         friendly_name: Receiver Volume Level
         icon_template: mdi:volume-medium
+
 ###############################################################################
 #                                                                             #
 #                           A U T O M A Ç Õ E S                               #
@@ -309,54 +310,54 @@ automation:
 
 #zigbee botao ikea controlo volume
 
-  - alias: Diminuir som sala
-    initial_state: true
-    trigger: 
-      platform: state
-      entity_id: sensor.0x000d6ffffebcd992_click
-      to: 'off'
-    action:
-      - service: media_player.volume_set
-        entity_id: media_player.sala
-        data_template:
-          volume_level: '{{ states.media_player.sala.attributes.volume_level - 0.06 }}'
+#  - alias: Diminuir som sala
+#    initial_state: true
+#    trigger: 
+#      platform: state
+#      entity_id: sensor.0x000d6ffffebcd992_click
+#      to: 'off'
+#    action:
+#      - service: media_player.volume_set
+#        entity_id: media_player.sala
+#        data_template:
+#          volume_level: '{{ states.media_player.sala.attributes.volume_level - 0.06 }}'
 
-  - alias: Aumentar som sala
-    initial_state: true
-    trigger: 
-      platform: state
-      entity_id: sensor.0x000d6ffffebcd992_click
-      to: 'on'
-    action:
-      - service: media_player.volume_set
-        entity_id: media_player.sala
-        data_template:
-          volume_level: '{{ states.media_player.sala.attributes.volume_level + 0.06 }}'
+#  - alias: Aumentar som sala
+#    initial_state: true
+#    trigger: 
+#      platform: state
+#      entity_id: sensor.0x000d6ffffebcd992_click
+#      to: 'on'
+#    action:
+#      - service: media_player.volume_set
+#        entity_id: media_player.sala
+#        data_template:
+#          volume_level: '{{ states.media_player.sala.attributes.volume_level + 0.06 }}'
 
 
-  - alias: Diminuir som cozinha
-    initial_state: true
-    trigger: 
-      platform: state
-      entity_id: sensor.0x000d6ffffebcd992_click
-      to: 'off'
-    action:
-      - service: media_player.volume_set
-        entity_id: media_player.cozinha
-        data_template:
-          volume_level: '{{ states.media_player.cozinha.attributes.volume_level - 0.06 }}'
+#  - alias: Diminuir som cozinha
+#    initial_state: true
+#    trigger: 
+#      platform: state
+#      entity_id: sensor.0x000d6ffffebcd992_click
+#      to: 'off'
+#    action:
+#      - service: media_player.volume_set
+#        entity_id: media_player.cozinha
+#        data_template:
+#          volume_level: '{{ states.media_player.cozinha.attributes.volume_level - 0.06 }}'
 
-  - alias: Aumentar som cozinha
-    initial_state: true
-    trigger: 
-      platform: state
-      entity_id: sensor.0x000d6ffffebcd992_click
-      to: 'on'
-    action:
-      - service: media_player.volume_set
-        entity_id: media_player.cozinha
-        data_template:
-          volume_level: '{{ states.media_player.cozinha.attributes.volume_level + 0.06 }}'
+#  - alias: Aumentar som cozinha
+#    initial_state: true
+#    trigger: 
+#      platform: state
+#      entity_id: sensor.0x000d6ffffebcd992_click
+#      to: 'on'
+#    action:
+#      - service: media_player.volume_set
+#        entity_id: media_player.cozinha
+#        data_template:
+#          volume_level: '{{ states.media_player.cozinha.attributes.volume_level + 0.06 }}'
 
 #  - alias: Ligar radio de manha
 #    initial_state: true
@@ -471,18 +472,19 @@ automation:
         data_template:
           entity_id: input_number.ambiente_volume
           value: '{{ trigger.to_state.state }}'
+
 ###############################################################################
 #                                                                             #
 #                         G R O U P S                                         #
 #                                                                             #
 ###############################################################################      
-group:
+#group:
 
-  som_ambiente:
-    name: som Ambiente
-    entities:
-      - media_player.cozinha
-      - media_player.sala
+#  som_ambiente:
+#    name: som Ambiente
+#    entities:
+#      - media_player.cozinha
+#      - media_player.sala
 
 
 
