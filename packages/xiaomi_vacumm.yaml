@@ -79,10 +79,10 @@ sensor:
           Silencioso
         {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.fan_speed == "Standard" %}
           Balanceado
-        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.fan_speed == "75" %}
+        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.fan_speed == "Medium" %}
+          Médio
+        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.fan_speed == "Turbo" %}
           Turbo
-        {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.fan_speed == "100" %}
-          Turbo Maximo
         {% elif states.vacuum.xiaomi_vacuum_cleaner.attributes.fan_speed == "Gentle" %}
           Modo Mopa
         {% else %}
@@ -301,7 +301,6 @@ input_select:
       - Cozinha
       - Quarto da Mafalda
       - Casa de Banho
-
 ###############################################################################
 #                                                                             #
 #                         A U T O M A T I O N S                               #
@@ -310,7 +309,7 @@ input_select:
 automation:
 
   - alias: Aspirador - Modo de aspiração
-    initial_state: 'on'
+    initial_state: true
     trigger:
       platform: state
       entity_id: input_select.estados_de_succao
@@ -331,7 +330,7 @@ automation:
 #Escolher a zona a aspirar
 
   - alias: Aspirador Escolher a zona para aspirar
-    initial_state: 'on'
+    initial_state: true
     trigger:
       platform: state
       entity_id: input_select.zonas_de_aspiracao
@@ -538,8 +537,8 @@ script:
     - service: vacuum.send_command
       data:
         entity_id: vacuum.xiaomi_vacuum_cleaner
-        command: app_zoned_clean
-        params: [[25148,25287,28298,28487,1],[28330,23366,31680,28516,1],[31780,23366,34430,28516,1],[29239,19355,30689,23405,1],[25110,23348,28260,25198,2]]
+        command: app_segment_clean
+        params: [1,2,3,16,17]
     - service: script.aspirador_alerta_iniciando
 #    - service: tts.google_say
 #      entity_id: "media_player.sala"
@@ -551,8 +550,8 @@ script:
     - service: vacuum.send_command
       data:
         entity_id: vacuum.xiaomi_vacuum_cleaner
-        command: app_zoned_clean
-        params: [[28330,23366,31680,28516,1]]
+        command: app_segment_clean
+        params: 17
     - service: script.aspirador_alerta_iniciando
 
   aspirador_zona_hall:
@@ -560,8 +559,8 @@ script:
     - service: vacuum.send_command
       data:
         entity_id: vacuum.xiaomi_vacuum_cleaner
-        command: app_zoned_clean
-        params: [[29239,19355,30689,23405,1]]
+        command: app_segment_clean
+        params: 16
     - service: script.aspirador_alerta_iniciando
 
   aspirador_zona_cozinha:
@@ -569,8 +568,8 @@ script:
     - service: vacuum.send_command
       data:
         entity_id: vacuum.xiaomi_vacuum_cleaner
-        command: app_zoned_clean
-        params: [[31780,23366,34430,28516,1]]
+        command: app_segment_clean
+        params: 2
     - service: script.aspirador_alerta_iniciando
 
 #  aspirador_zona_quarto:
@@ -591,8 +590,8 @@ script:
     - service: vacuum.send_command
       data:
         entity_id: vacuum.xiaomi_vacuum_cleaner
-        command: app_zoned_clean
-        params: [[25148,25287,28298,28487,1]]
+        command: app_segment_clean
+        params: 3
     - service: script.aspirador_alerta_iniciando
 
   aspirador_zona_casa_de_banho:
@@ -600,8 +599,8 @@ script:
     - service: vacuum.send_command
       data:
         entity_id: vacuum.xiaomi_vacuum_cleaner
-        command: app_zoned_clean
-        params: [[25110,23348,28260,25198,2]]
+        command: app_segment_clean
+        params: 1
     - service: script.aspirador_alerta_iniciando
 
   aspirador_voltar_dock:
@@ -673,8 +672,8 @@ script:
     - service: vacuum.send_command
       data:
         entity_id: vacuum.xiaomi_vacuum_cleaner
-        command: app_zoned_clean
-        params: [[25148,25287,28298,28487,1],[28330,23366,31680,28516,1],[31780,23366,34430,28516,1],[29239,19355,30689,23405,1],[25110,23348,28260,25198,2]]
+        command: app_segment_clean
+        params: [1,2,3,16,17]
     - service: script.aspirar_alerta_casa_toda
 
   aspirar_sala:
@@ -682,8 +681,8 @@ script:
     - service: vacuum.send_command
       data:
         entity_id: vacuum.xiaomi_vacuum_cleaner
-        command: app_zoned_clean
-        params: [[28330,23366,31680,28516,1]]
+        command: app_segment_clean
+        params: 17
     - service: script.aspirar_alerta_sala
 
   aspirar_hall:
@@ -691,8 +690,8 @@ script:
     - service: vacuum.send_command
       data:
         entity_id: vacuum.xiaomi_vacuum_cleaner
-        command: app_zoned_clean
-        params: [[29239,19355,30689,23405,1]]
+        command: app_segment_clean
+        params: 16
     - service: script.aspirar_alerta_hall
 
   aspirar_cozinha:
@@ -700,8 +699,8 @@ script:
     - service: vacuum.send_command
       data:
         entity_id: vacuum.xiaomi_vacuum_cleaner
-        command: app_zoned_clean
-        params: [[31780,23366,34430,28516,1]]
+        command: app_segment_clean
+        params: 2
     - service: script.aspirar_alerta_cozinha
 
   aspirar_quarto_da_mafalda:
@@ -709,8 +708,8 @@ script:
     - service: vacuum.send_command
       data:
         entity_id: vacuum.xiaomi_vacuum_cleaner
-        command: app_zoned_clean
-        params: [[25148,25287,28298,28487,1]]
+        command: app_segment_clean
+        params: 3
     - service: script.aspirar_alerta_quarto_da_mafalda
 
   aspirar_casa_de_banho:
@@ -718,8 +717,8 @@ script:
     - service: vacuum.send_command
       data:
         entity_id: vacuum.xiaomi_vacuum_cleaner
-        command: app_zoned_clean
-        params: [[25110,23348,28260,25198,2]]
+        command: app_segment_clean
+        params: 1
     - service: script.aspirar_alerta_casa_de_banho
 
   aspirar_alerta_casa_toda:
