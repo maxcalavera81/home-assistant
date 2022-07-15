@@ -306,8 +306,6 @@ sensor:
           {% else %}
             mdi:weather-rainy
           {% endif %}
-  - platform: template
-    sensors:
 
       cycle1_next_run_time:
         friendly_name: "Próximo Agendamento"
@@ -317,6 +315,7 @@ sensor:
           {% else %}
             Sem Agenda
           {% endif %}
+      
       cycle2_next_run_time:
         friendly_name: "Próximo Agendamento"
         value_template: >
@@ -370,6 +369,7 @@ sensor:
           {% else %}
             mdi:pipe-disconnected
           {% endif %}     
+      
       zone2_status:
         friendly_name: "Eletróvalvula Zona 2"
         value_template: >
@@ -384,6 +384,7 @@ sensor:
           {% else %}
             mdi:pipe-disconnected
           {% endif %}     
+      
       zone3_status:
         friendly_name: "Eletróvalvula Zona 3"
         value_template: >
@@ -398,6 +399,7 @@ sensor:
           {% else %}
             mdi:pipe-disconnected
           {% endif %}     
+      
       zone4_status:
         friendly_name: "Eletróvalvula Zona 4"
         value_template: >
